@@ -1,0 +1,10 @@
+D:\VS\Google\Calendar\AGC\AGC.Installer.App\bin\Release\AGC.Installer.App.msi
+D:\VS\Google\Calendar\AGC\AGC.Installer.App\bin\Release\AGC.Installer.App.wixpdb
+D:\VS\Google\Calendar\AGC\Installer\AGC.Installer.App\bin\Release\AGC.msi
+D:\VS\Google\Calendar\AGC\Installer\AGC.Installer.App\bin\Release\AGC.wixpdb
+obj\Release\AGC.GUI.wixobj
+obj\Release\Product.wixobj
+obj\Release\Shortcut.wixobj
+obj\Release\AGC.Installer.App.wixproj.BindContentsFileListnull.txt
+obj\Release\AGC.Installer.App.wixproj.BindOutputsFileListnull.txt
+obj\Release\AGC.Installer.App.wixproj.BindBuiltOutputsFileListnull.txt

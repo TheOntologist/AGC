@@ -1,0 +1,17 @@
+﻿<Window x:Class="AGC.GUI.Views.DeleteEventView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:common="clr-namespace:AGC.GUI.Common"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        Title="Delete Event"
+        DataContext="{Binding DeleteEvent, Source={StaticResource Locator}}" Height="200" Width="200">
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Only this instance" Style="{StaticResource Button}" Command="{Binding DeleteOnlyInstanceCommand}" common:FocusExtension.IsFocused="true"/>
+            <Button Content="All events in the series" Style="{StaticResource Button}" Command="{Binding DeleteAllEventsCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="AGC.GUI.Views.EventsListView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:common="clr-namespace:AGC.GUI.Common"
+        xmlns:ignore="http://www.ignore.com"          
+        mc:Ignorable="d ignore"
+        DataContext="{Binding EventsList, Source={StaticResource Locator}}" Height="400" Width="700">
+
+    <Grid>
+        <ListView Height="151" Margin="10,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Events}" AutomationProperties.Name="Events list" common:FocusExtension.IsFocused="{Binding IsEventsListFocused}" SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding Path=Start, StringFormat='{}{0:ddd d MMM HH:mm}'}" />
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
+                    <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Content}" />
+                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location}" />
+                    <GridViewColumn Header="End" DisplayMemberBinding="{Binding Path=End, StringFormat='{}{0:ddd d MMM HH:mm}'}" />
+                </GridView>
+            </ListView.View>
+            <ListView.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding Path=DeleteEventCommand}" />
+            </ListView.InputBindings>
+        </ListView>
+        <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowDefaultControls, Converter={StaticResource BoolToVis}}">
+            <GroupBox Header="Select Views" Margin="10,0,10,0" VerticalAlignment="Top" Height="60">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Today" Style="{StaticResource Button}" Command="{Binding GetTodayEventsCommand}" common:FocusExtension.IsFocused="{Binding IsDefaultControlsFocused}"/>
+                    <Button Content="Tomorrow" Style="{StaticResource Button}" Command="{Binding GetTomorrowEventsCommand}"/>
+                    <Button Content="This Week" Style="{StaticResource Button}" Command="{Binding GetThisWeekEventsCommand}"/>
+                    <Button Content="Next Week" Style="{StaticResource Button}" Command="{Binding GetNextWeekEventsCommand}"/>
+                    <Button Content="This Month" Style="{StaticResource Button}" Command="{Binding GetThisMonthEventsCommand}"/>
+                    <Button Content="Next Month" Style="{StaticResource Button}" Command="{Binding GetNextMonthEventsCommand}"/>
+                    <Button Content="Choose Date" Style="{StaticResource Button}" Command="{Binding ShowChooseDateEventsControlsCommand}"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Select month period from current month" Margin="10,0,10,0" VerticalAlignment="Top" Height="60">
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox Style="{StaticResource NumberPicker}" AutomationProperties.Name="Number of Month to add" SelectedValue="{Binding NumberOfMonthToAdd}" ItemsSource="{Binding NumberOfMonthToAddRange}"/>
+                    <CheckBox Content="Select single month" VerticalAlignment="Center" Margin="10" IsChecked="{Binding SingleMonthPeriod}"/>
+                    <Button Content="Select Period" Style="{StaticResource Button}" Command="{Binding GetPeriodEventsCommand}"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Search Events" Margin="10,0,10,0" VerticalAlignment="Top" Height="60">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="400" Margin="50,5,50,5" AutomationProperties.Name="Insert text to search" Text="{Binding TextToSearch}"/>
+                    <Button Content="OK" Style="{StaticResource Button}" Command="{Binding SearchEventsCommand}"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">
+            <GroupBox Header="Choose Date" Height="90" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox Header="Start Date" Height="60">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox ItemsSource="{Binding YearList}" SelectedValue="{Binding SelectedStartYear}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Year" common:FocusExtension.IsFocused="{Binding IsChooseDateControlsFocused}"/>
+                            <ComboBox ItemsSource="{Binding MonthList}" SelectedIndex="{Binding SelectedStartMonth}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Month" />
+                            <ComboBox ItemsSource="{Binding StartDayList}" SelectedValue="{Binding SelectedStartDay}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Day" />
+                            <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding StartDayOfWeek}"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <CheckBox Content="Select End Date" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EndDateSpecified}"/>
+                    <GroupBox Header="End Date" Height="60" IsEnabled="{Binding EndDateSpecified}">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox ItemsSource="{Binding YearList}" SelectedValue="{Binding SelectedEndYear}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Year" />
+                            <ComboBox ItemsSource="{Binding MonthList}" SelectedIndex="{Binding SelectedEndMonth}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Month" />
+                            <ComboBox ItemsSource="{Binding EndDayList}" SelectedValue="{Binding SelectedEndDay}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Day" />
+                            <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding EndDayOfWeek}"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>              
+            </GroupBox>
+            <Button Content="OK" Width="80" Style="{StaticResource Button}" Command="{Binding GetChooseDateEventsCommand}"/>
+            <Button Content="Cancel" Width="80" Style="{StaticResource Button}" Command="{Binding HideChooseDateEventsControlsCommand}"/>
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

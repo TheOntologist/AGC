@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="AGC.GUI.Views.AddQuickEventView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        DataContext="{Binding AddQuickEvent, Source={StaticResource Locator}}" Height="400" Width="700">
+    <Grid>
+        <GroupBox Header="Add Quick Event"  VerticalAlignment="Top" Height="60">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Width="400" AutomationProperties.Name="Quick Event Text" Style="{StaticResource InputText}" Text="{Binding QuickEventText}"/>
+                <Button Content="Add" Style="{StaticResource Button}" Command="{Binding AddQuickEventCommand}"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

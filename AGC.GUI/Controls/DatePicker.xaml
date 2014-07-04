@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="AGC.GUI.Controls.DatePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="275">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <ComboBox Name="YearsList" Style="{StaticResource DatePicker}" SelectionChanged="YearsList_SelectionChanged" AutomationProperties.Name="Year" />
+            <ComboBox Name="MonthsList" Style="{StaticResource DatePicker}" SelectionChanged="MonthsList_SelectionChanged" AutomationProperties.Name="Month" />
+            <ComboBox Name="DaysList" Style="{StaticResource DatePicker}" SelectionChanged="DaysList_SelectionChanged" AutomationProperties.Name="Day" />
+            <TextBox Name="DayOfWeek" Style="{StaticResource ShortReadonly}" />
+        </StackPanel>
+    </Grid>
+</UserControl>
