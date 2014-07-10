@@ -90,6 +90,9 @@
     <Compile Include="Controls\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AddQuickEventViewModel.cs" />
     <Compile Include="ViewModel\DeleteEventViewModel.cs" />
     <Compile Include="ViewModel\EventsCreateViewModel.cs" />
@@ -109,6 +112,10 @@
       <DependentUpon>EventsListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DatePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

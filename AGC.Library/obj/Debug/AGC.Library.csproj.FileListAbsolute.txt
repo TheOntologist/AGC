@@ -77,6 +77,5 @@ D:\VS\Google\Calendar\AGC\AGC.Library\bin\Debug\System.Net.Http.Extensions.xml
 D:\VS\Google\Calendar\AGC\AGC.Library\bin\Debug\System.Net.Http.Primitives.xml
 D:\VS\Google\Calendar\AGC\AGC.Library\bin\Debug\Zlib.Portable.pdb
 D:\VS\Google\Calendar\AGC\AGC.Library\obj\Debug\AGC.Library.csproj.App.config
-D:\VS\Google\Calendar\AGC\AGC.Library\obj\Debug\AGC.Library.csprojResolveAssemblyReference.cache
 D:\VS\Google\Calendar\AGC\AGC.Library\obj\Debug\AGC.Library.dll
 D:\VS\Google\Calendar\AGC\AGC.Library\obj\Debug\AGC.Library.pdb

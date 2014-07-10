@@ -164,462 +164,140 @@ namespace AGC.GUI.ViewModel
             }
         }
 
-        #region Common Date Properties
-
-        public const string YearListPropertyName = "YearList";
-        private List<int> _yearList = GetYearsList();
-        public List<int> YearList
-        {
-            get
-            {
-                return _yearList;
-            }
-
-            set
-            {
-                if (_yearList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(YearListPropertyName);
-                _yearList = value;
-                RaisePropertyChanged(YearListPropertyName);
-            }
-        }
-
-        public const string MonthListPropertyName = "MonthList";
-        private string[] _monthList = GetMonthNames();
-        public string[] MonthList
-        {
-            get
-            {
-                return _monthList;
-            }
-
-            set
-            {
-                if (_monthList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(MonthListPropertyName);
-                _monthList = value;
-                RaisePropertyChanged(MonthListPropertyName);
-            }
-        }
-
-        #endregion
-
         public const string StartDatePropertyName = "StartDate";
-        private DateTime _myProperty = DateTime.Today;
+        private DateTime _startDate = DateTime.Today;
         public DateTime StartDate
         {
             get
             {
-                return _myProperty;
+                return _startDate;
             }
 
             set
             {
-                if (_myProperty == value)
+                if (_startDate == value)
                 {
                     return;
                 }
 
                 RaisePropertyChanging(StartDatePropertyName);
-                _myProperty = value;
+                _startDate = value;
                 RaisePropertyChanged(StartDatePropertyName);
-            }
-        }
-
-        #region Start Date
-
-        public const string StartDayListPropertyName = "StartDayList";
-        private List<int> _startDayList = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).ToList();
-        public List<int> StartDayList
-        {
-            get
-            {
-                return _startDayList;
-            }
-
-            set
-            {
-                if (_startDayList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(StartDayListPropertyName);
-                _startDayList = value;
-                RaisePropertyChanged(StartDayListPropertyName);
-            }
-        }
-
-        public const string StartDayOfWeekPropertyName = "StartDayOfWeek";
-        private string _startDayOfWeek = String.Format("{0:ddd}", DateTime.Today);
-        public string StartDayOfWeek
-        {
-            get
-            {
-                return _startDayOfWeek;
-            }
-
-            set
-            {
-                if (_startDayOfWeek == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(StartDayOfWeekPropertyName);
-                _startDayOfWeek = value;
-                RaisePropertyChanged(StartDayOfWeekPropertyName);
-            }
-        }
-
-        public const string SelectedStartYearPropertyName = "SelectedStartYear";
-        private int _selectedStartYear = DateTime.Today.Year;
-        public int SelectedStartYear
-        {
-            get
-            {
-                return _selectedStartYear;
-            }
-
-            set
-            {
-                if (_selectedStartYear == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedStartYearPropertyName);
-                _selectedStartYear = value;
-                RaisePropertyChanged(SelectedStartYearPropertyName);
-                SetStartDaysList();
-                SetStartDayOfWeek();
                 CalculateEndDateTimeFromStartDateTime();
             }
         }
 
-        public const string SelectedStartMonthPropertyName = "SelectedStartMonth";
-        private int _selectedStartMonth = DateTime.Today.Month - 1;
-        public int SelectedStartMonth
+        public const string EndDatePropertyName = "EndDate";
+        private DateTime _endDate = DateTime.Today;
+        public DateTime EndDate
         {
             get
             {
-                return _selectedStartMonth;
+                return _endDate;
             }
 
             set
             {
-                if (_selectedStartMonth == value)
+                if (_endDate == value)
                 {
                     return;
                 }
 
-                RaisePropertyChanging(SelectedStartMonthPropertyName);
-                _selectedStartMonth = value;
-                RaisePropertyChanged(SelectedStartMonthPropertyName);
-                SetStartDaysList();
-                SetStartDayOfWeek();
+                RaisePropertyChanging(EndDatePropertyName);
+                _endDate = value;
+                RaisePropertyChanged(EndDatePropertyName);
+            }
+        }
+
+        public const string StartTimeHoursPropertyName = "StartTimeHours";
+        private int _startTimeHours = DateTime.Now.Hour;
+        public int StartTimeHours
+        {
+            get
+            {
+                return _startTimeHours;
+            }
+
+            set
+            {
+                if (_startTimeHours == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(StartTimeHoursPropertyName);
+                _startTimeHours = value;
+                RaisePropertyChanged(StartTimeHoursPropertyName);
                 CalculateEndDateTimeFromStartDateTime();
             }
         }
 
-        public const string SelectedStartDayPropertyName = "SelectedStartDay";
-        private int _selectedStartDay = DateTime.Today.Day;
-        public int SelectedStartDay
+        public const string StartTimeMinutesPropertyName = "StartTimeMinutes";
+        private int _startTimeMinutes = DateTime.Now.Minute;
+        public int StartTimeMinutes
         {
             get
             {
-                return _selectedStartDay;
+                return _startTimeMinutes;
             }
 
             set
             {
-                if (_selectedStartDay == value)
+                if (_startTimeMinutes == value)
                 {
                     return;
                 }
 
-                RaisePropertyChanging(SelectedStartDayPropertyName);
-                _selectedStartDay = value;
-                RaisePropertyChanged(SelectedStartDayPropertyName);
-                SetStartDayOfWeek();
+                RaisePropertyChanging(StartTimeMinutesPropertyName);
+                _startTimeMinutes = value;
+                RaisePropertyChanged(StartTimeMinutesPropertyName);
                 CalculateEndDateTimeFromStartDateTime();
             }
         }
 
-        #endregion
-
-        #region End Date
-
-        public const string EndDayListPropertyName = "EndDayList";
-        private List<int> _endDayList = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).ToList();
-        public List<int> EndDayList
+        public const string EndTimeHoursPropertyName = "EndTimeHours";
+        private int _endTimeHours = DateTime.Now.Hour + DEFAULT_EVENT_LENGTH_IN_HOURS;
+        public int EndTimeHours
         {
             get
             {
-                return _endDayList;
+                return _endTimeHours;
             }
 
             set
             {
-                if (_endDayList == value)
+                if (_endTimeHours == value)
                 {
                     return;
                 }
 
-                RaisePropertyChanging(EndDayListPropertyName);
-                _endDayList = value;
-                RaisePropertyChanged(EndDayListPropertyName);
+                RaisePropertyChanging(EndTimeHoursPropertyName);
+                _endTimeHours = value;
+                RaisePropertyChanged(EndTimeHoursPropertyName);
             }
         }
 
-        public const string EndDayOfWeekPropertyName = "EndDayOfWeek";
-        private string _endDayOfWeek = String.Format("{0:ddd}", DateTime.Today);
-        public string EndDayOfWeek
+        public const string EndTimeMinutesPropertyName = "EndTimeMinutes";
+        private int _endTimeMinutes = DateTime.Now.Minute;
+        public int EndTimeMinutes
         {
             get
             {
-                return _endDayOfWeek;
+                return _endTimeMinutes;
             }
 
             set
             {
-                if (_endDayOfWeek == value)
+                if (_endTimeMinutes == value)
                 {
                     return;
                 }
 
-                RaisePropertyChanging(EndDayOfWeekPropertyName);
-                _endDayOfWeek = value;
-                RaisePropertyChanged(EndDayOfWeekPropertyName);
+                RaisePropertyChanging(EndTimeMinutesPropertyName);
+                _endTimeMinutes = value;
+                RaisePropertyChanged(EndTimeMinutesPropertyName);
             }
         }
-
-        public const string SelectedEndYearPropertyName = "SelectedEndYear";
-        private int _selectedEndYear = DateTime.Today.Year;
-        public int SelectedEndYear
-        {
-            get
-            {
-                return _selectedEndYear;
-            }
-
-            set
-            {
-                if (_selectedEndYear == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndYearPropertyName);
-                _selectedEndYear = value;
-                RaisePropertyChanged(SelectedEndYearPropertyName);
-                SetEndDaysList();
-                SetEndDayOfWeek();
-            }
-        }
-
-        public const string SelectedEndMonthPropertyName = "SelectedEndMonth";
-        private int _selectedEndMonth = DateTime.Today.Month - 1;
-        public int SelectedEndMonth
-        {
-            get
-            {
-                return _selectedEndMonth;
-            }
-
-            set
-            {
-                if (_selectedEndMonth == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndMonthPropertyName);
-                _selectedEndMonth = value;
-                RaisePropertyChanged(SelectedEndMonthPropertyName);
-                SetEndDaysList();
-                SetEndDayOfWeek();
-            }
-        }
-
-        public const string SelectedEndDayPropertyName = "SelectedEndDay";
-        private int _selectedEndDay = DateTime.Today.Day;
-        public int SelectedEndDay
-        {
-            get
-            {
-                return _selectedEndDay;
-            }
-
-            set
-            {
-                if (_selectedEndDay == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndDayPropertyName);
-                _selectedEndDay = value;
-                RaisePropertyChanged(SelectedEndDayPropertyName);
-                SetEndDayOfWeek();
-            }
-        }
-
-        #endregion
-
-        #region Common Time Properties
-
-        public const string HoursListPropertyName = "HoursList";
-        private List<int> _hoursList = GetHoursList();
-        public List<int> HoursList
-        {
-            get
-            {
-                return _hoursList;
-            }
-
-            set
-            {
-                if (_hoursList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(HoursListPropertyName);
-                _hoursList = value;
-                RaisePropertyChanged(HoursListPropertyName);
-            }
-        }
- 
-        public const string MinutesListPropertyName = "MinutesList";
-        private List<int> _minutesList = GetMinutesList();
-        public List<int> MinutesList
-        {
-            get
-            {
-                return _minutesList;
-            }
-
-            set
-            {
-                if (_minutesList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(MinutesListPropertyName);
-                _minutesList = value;
-                RaisePropertyChanged(MinutesListPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Start Time
-
-        public const string SelectedStartHoursPropertyName = "SelectedStartHours";
-        private int _selectedStartHours = DateTime.Now.Hour;
-        public int SelectedStartHours
-        {
-            get
-            {
-                return _selectedStartHours;
-            }
-
-            set
-            {
-                if (_selectedStartHours == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedStartHoursPropertyName);
-                _selectedStartHours = value;
-                RaisePropertyChanged(SelectedStartHoursPropertyName);
-                CalculateEndDateTimeFromStartDateTime();
-            }
-        }
-
-        public const string SelectedStartMinutesPropertyName = "SelectedStartMinutes";
-        private int _selectedStartMinutes = DateTime.Now.Minute;
-        public int SelectedStartMinutes
-        {
-            get
-            {
-                return _selectedStartMinutes;
-            }
-
-            set
-            {
-                if (_selectedStartMinutes == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedStartMinutesPropertyName);
-                _selectedStartMinutes = value;
-                RaisePropertyChanged(SelectedStartMinutesPropertyName);
-                CalculateEndDateTimeFromStartDateTime();
-            }
-        }
-
-        #endregion
-
-        #region End Time
-
-        public const string SelectedEndHoursPropertyName = "SelectedEndHours";
-        private int _selectedEndHours = DateTime.Now.Hour;
-        public int SelectedEndHours
-        {
-            get
-            {
-                return _selectedEndHours;
-            }
-
-            set
-            {
-                if (_selectedEndHours == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndHoursPropertyName);
-                _selectedEndHours = value;
-                RaisePropertyChanged(SelectedEndHoursPropertyName);
-            }
-        }
-
-        public const string SelectedEndMinutesPropertyName = "SelectedEndMinutes";
-        private int _selectedEndMinutes = DateTime.Now.Minute;
-        public int SelectedEndMinutes
-        {
-            get
-            {
-                return _selectedEndMinutes;
-            }
-
-            set
-            {
-                if (_selectedEndMinutes == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndMinutesPropertyName);
-                _selectedEndMinutes = value;
-                RaisePropertyChanged(SelectedEndMinutesPropertyName);
-            }
-        }
-
-        #endregion
 
         #region Recurrence Settings
 
@@ -1093,6 +771,28 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public const string RecurrenceEndDatePropertyName = "RecurrenceEndDate";
+        private DateTime _recurrenceEndDate = DateTime.Today.AddDays(7);
+        public DateTime RecurrenceEndDate
+        {
+            get
+            {
+                return _recurrenceEndDate;
+            }
+
+            set
+            {
+                if (_recurrenceEndDate == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(RecurrenceEndDatePropertyName);
+                _recurrenceEndDate = value;
+                RaisePropertyChanged(RecurrenceEndDatePropertyName);
+            }
+        }
+
         public const string RecurrenceEventsCountPropertyName = "RecurrenceEventsCount";
         private int _recurrenceEventsCount = 1;
         public int RecurrenceEventsCount
@@ -1114,128 +814,6 @@ namespace AGC.GUI.ViewModel
                 RaisePropertyChanged(RecurrenceEventsCountPropertyName);
             }
         }
-
-        #region Recurrence End Date
-
-        public const string RecurrenceEndDayListPropertyName = "RecurrenceEndDayList";
-        private List<int> _recurrenceEndDayList = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).ToList();
-        public List<int> RecurrenceEndDayList
-        {
-            get
-            {
-                return _recurrenceEndDayList;
-            }
-
-            set
-            {
-                if (_recurrenceEndDayList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(RecurrenceEndDayListPropertyName);
-                _recurrenceEndDayList = value;
-                RaisePropertyChanged(RecurrenceEndDayListPropertyName);
-            }
-        }
-
-        public const string RecurrenceEndDayOfWeekPropertyName = "RecurrenceEndDayOfWeek";
-        private string _recurrenceEndDayOfWeek = String.Format("{0:ddd}", DateTime.Today);
-        public string RecurrenceEndDayOfWeek
-        {
-            get
-            {
-                return _recurrenceEndDayOfWeek;
-            }
-
-            set
-            {
-                if (_recurrenceEndDayOfWeek == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(RecurrenceEndDayOfWeekPropertyName);
-                _recurrenceEndDayOfWeek = value;
-                RaisePropertyChanged(RecurrenceEndDayOfWeekPropertyName);
-            }
-        }
-
-        public const string SelectedRecurrenceEndYearPropertyName = "SelectedRecurrenceEndYear";
-        private int _selectedRecurrenceEndYear = DateTime.Today.Year;
-        public int SelectedRecurrenceEndYear
-        {
-            get
-            {
-                return _selectedRecurrenceEndYear;
-            }
-
-            set
-            {
-                if (_selectedRecurrenceEndYear == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedRecurrenceEndYearPropertyName);
-                _selectedRecurrenceEndYear = value;
-                RaisePropertyChanged(SelectedRecurrenceEndYearPropertyName);
-
-                SetRecurrenceEndDaysList();
-                SetRecurrenceEndDayOfWeek();
-            }
-        }
-
-        public const string SelectedRecurrenceEndMonthPropertyName = "SelectedRecurrenceEndMonth";
-        private int _selectedRecurrenceEndMonth = DateTime.Today.Month - 1;
-        public int SelectedRecurrenceEndMonth
-        {
-            get
-            {
-                return _selectedRecurrenceEndMonth;
-            }
-
-            set
-            {
-                if (_selectedRecurrenceEndMonth == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedRecurrenceEndMonthPropertyName);
-                _selectedRecurrenceEndMonth = value;
-                RaisePropertyChanged(SelectedRecurrenceEndMonthPropertyName);
-
-                SetRecurrenceEndDaysList();
-                SetRecurrenceEndDayOfWeek();
-            }
-        }
-
-        public const string SelectedRecurrenceEndDayPropertyName = "SelectedRecurrenceEndDay";
-        private int _selectedRecurrenceEndDay = DateTime.Today.Day;
-        public int SelectedRecurrenceEndDay
-        {
-            get
-            {
-                return _selectedRecurrenceEndDay;
-            }
-
-            set
-            {
-                if (_selectedRecurrenceEndDay == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedRecurrenceEndDayPropertyName);
-                _selectedRecurrenceEndDay = value;
-                RaisePropertyChanged(SelectedRecurrenceEndDayPropertyName);
-
-                SetRecurrenceEndDayOfWeek();
-            }
-        }
-
-        #endregion
 
         #endregion
 
@@ -1341,74 +919,7 @@ namespace AGC.GUI.ViewModel
                 MessageBox.Show(Application.Current.MainWindow, "Failed to create event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
-
-        private static string[] GetMonthNames()
-        {
-            string[] monthNames = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
-            Array.Resize(ref monthNames, 12);
-            return monthNames;
-        }
-
-        private static List<int> GetYearsList()
-        {
-            List<int> years = Enumerable.Range(DateTime.Now.Year - 10, 20).ToList();
-            years.Reverse();
-            return years;
-        }
-
-        private static List<int> GetHoursList()
-        {
-            List<int> hours = Enumerable.Range(0, 24).ToList();
-            hours.Reverse();
-            return hours;
-        }
-
-        private static List<int> GetMinutesList()
-        {
-            List<int> minutes = Enumerable.Range(0, 60).ToList();
-            minutes.Reverse();
-            return minutes;
-        }
-
-        private void SetStartDaysList()
-        {
-            List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(SelectedStartYear, SelectedStartMonth + 1)).ToList();
-            days.Reverse();
-            StartDayList = days;
-            SelectedStartDay = SelectedStartDay > days.Count ? days.Count : SelectedStartDay;
-        }
-
-        private void SetEndDaysList()
-        {
-            List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(SelectedEndYear, SelectedEndMonth + 1)).ToList();
-            days.Reverse();
-            EndDayList = days;
-            SelectedEndDay = SelectedEndDay > days.Count ? days.Count : SelectedEndDay;
-        }
-
-        private void SetRecurrenceEndDaysList()
-        {
-            List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(SelectedRecurrenceEndYear, SelectedRecurrenceEndMonth + 1)).ToList();
-            days.Reverse();
-            RecurrenceEndDayList = days;
-            SelectedRecurrenceEndDay = SelectedRecurrenceEndDay > days.Count ? days.Count : SelectedRecurrenceEndDay;
-        }
        
-        private void SetStartDayOfWeek()
-        {
-            StartDayOfWeek = String.Format("{0:ddd}", new DateTime(SelectedStartYear, SelectedStartMonth + 1, SelectedStartDay));
-        }
-
-        private void SetEndDayOfWeek()
-        {
-            EndDayOfWeek = String.Format("{0:ddd}", new DateTime(SelectedEndYear, SelectedEndMonth + 1, SelectedEndDay));
-        }
-
-        private void SetRecurrenceEndDayOfWeek()
-        {
-            RecurrenceEndDayOfWeek = String.Format("{0:ddd}", new DateTime(SelectedRecurrenceEndYear, SelectedRecurrenceEndMonth + 1, SelectedRecurrenceEndDay));
-        }
-
         private void SetRecurrenceTypeControls(string recurrenceType)
         {
             switch (recurrenceType)
@@ -1478,7 +989,7 @@ namespace AGC.GUI.ViewModel
 
         private void GetRecurrenceStartSettings()
         {
-            recurrence.StartsOn(new DateTime(SelectedStartYear, SelectedStartMonth + 1, SelectedStartDay, SelectedStartHours, SelectedStartMinutes, 0));
+            recurrence.StartsOn(new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTimeHours, StartTimeMinutes, 0));
         }
 
         private void GetRecurrenceFrequencySettings()
@@ -1545,7 +1056,7 @@ namespace AGC.GUI.ViewModel
             }                
             else if (EndsOn)
             {
-                recurrence.EndsOn(new DateTime(SelectedRecurrenceEndYear, SelectedRecurrenceEndMonth + 1, SelectedRecurrenceEndDay));
+                recurrence.EndsOn(RecurrenceEndDate);
             }
         }
 
@@ -1569,12 +1080,12 @@ namespace AGC.GUI.ViewModel
 
         private DateTime GetStartDateTime()
         {
-            return new DateTime(SelectedStartYear, SelectedStartMonth + 1, SelectedStartDay, SelectedStartHours, SelectedStartMinutes, 0);
+            return new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTimeHours, StartTimeMinutes, 0);
         }
 
         private DateTime GetEndDateTime()
         {
-            return new DateTime(SelectedEndYear, SelectedEndMonth + 1, SelectedEndDay, SelectedEndHours, SelectedEndMinutes, 0);
+            return new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndTimeHours, EndTimeMinutes, 0);
         }
 
         private int CalculateReminderMinutes()
@@ -1596,15 +1107,13 @@ namespace AGC.GUI.ViewModel
         {
             if (!IsFullDayEvent)
             {
-                DateTime start = new DateTime(SelectedStartYear, SelectedStartMonth, SelectedStartDay, SelectedStartHours, SelectedStartMinutes, 0);
+                DateTime start = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTimeHours, StartTimeMinutes, 0);
                 DateTime end = start.AddHours(DEFAULT_EVENT_LENGTH_IN_HOURS);
 
-                SelectedEndYear = end.Year;
-                SelectedEndMonth = end.Month;
-                SelectedEndDay = end.Day;
+                EndDate = new DateTime(end.Year, end.Month, end.Day);
 
-                SelectedEndHours = end.Hour;
-                SelectedEndMinutes = end.Minute;
+                EndTimeHours = end.Hour;
+                EndTimeMinutes = end.Minute;
             }
         }
 

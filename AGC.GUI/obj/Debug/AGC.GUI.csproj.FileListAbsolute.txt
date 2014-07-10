@@ -52,6 +52,7 @@ D:\VS\Google\Calendar\AGC\AGC.GUI\bin\Debug\Microsoft.Threading.Tasks.Extensions
 D:\VS\Google\Calendar\AGC\AGC.GUI\bin\Debug\System.Net.Http.Primitives.xml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\AGC.GUI.csprojResolveAssemblyReference.cache
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Controls\DatePicker.baml
+D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Controls\TimePicker.baml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Design\Styles\Buttons.baml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Design\Styles\CheckBoxes.baml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Design\Styles\ComboBoxes.baml
@@ -60,6 +61,7 @@ D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Design\Styles\RadioButtons.baml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Design\Styles\TextBoxes.baml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Views\AddQuickEventView.baml
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Controls\DatePicker.g.cs
+D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Controls\TimePicker.g.cs
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\MainWindow.g.cs
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Views\AddQuickEventView.g.cs
 D:\VS\Google\Calendar\AGC\AGC.GUI\obj\Debug\Views\DeleteEventView.g.cs

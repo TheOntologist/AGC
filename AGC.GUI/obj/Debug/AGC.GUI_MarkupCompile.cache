@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\VS\Google\Calendar\AGC\AGC.GUI\App.xaml
-121534554466
+13-1621386257
 
-21-1309977492
+22165760995
 71-1454427174
-Controls\DatePicker.xaml;Design\Styles\Buttons.xaml;Design\Styles\CheckBoxes.xaml;Design\Styles\ComboBoxes.xaml;Design\Styles\Labels.xaml;Design\Styles\RadioButtons.xaml;Design\Styles\TextBoxes.xaml;MainWindow.xaml;Views\AddQuickEventView.xaml;Views\DeleteEventView.xaml;Views\EventsCreateView.xaml;Views\EventsListView.xaml;
+Controls\DatePicker.xaml;Controls\TimePicker.xaml;Design\Styles\Buttons.xaml;Design\Styles\CheckBoxes.xaml;Design\Styles\ComboBoxes.xaml;Design\Styles\Labels.xaml;Design\Styles\RadioButtons.xaml;Design\Styles\TextBoxes.xaml;MainWindow.xaml;Views\AddQuickEventView.xaml;Views\DeleteEventView.xaml;Views\EventsCreateView.xaml;Views\EventsListView.xaml;
 
 False
 

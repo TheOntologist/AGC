@@ -18,8 +18,7 @@ namespace AGC.Library
 
         private DateTime start;
         private DateTime end;
-        private static DateTime BaseDate = DateTime.Today;
-        private static bool TodayIsSunday = (int)BaseDate.DayOfWeek == 0;
+        private static bool TodayIsSunday = (int)DateTime.Today.DayOfWeek == 0;
         
         #endregion
 
@@ -44,15 +43,15 @@ namespace AGC.Library
 
         public TimeIntervals Today()
         {
-            start = BaseDate;
-            end = BaseDate.AddDays(1).AddSeconds(-1);
+            start = DateTime.Today;
+            end = DateTime.Today.AddDays(1).AddSeconds(-1);
             return this;
         }
 
         public TimeIntervals Tomorrow()
         {
-            start = BaseDate.AddDays(1);
-            end = BaseDate.AddDays(2).AddSeconds(-1);
+            start = DateTime.Today.AddDays(1);
+            end = DateTime.Today.AddDays(2).AddSeconds(-1);
             return this;
         }
 
@@ -60,11 +59,11 @@ namespace AGC.Library
         {
             if (FirstDayOfWeekIsMonday && TodayIsSunday)
             {
-                start = BaseDate.AddDays(-6);
+                start = DateTime.Today.AddDays(-6);
             }
             else
             {
-                start = BaseDate.AddDays(-(int)BaseDate.DayOfWeek);
+                start = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
             }
             
             end = start.AddDays(7).AddSeconds(-1);
@@ -75,11 +74,11 @@ namespace AGC.Library
         {
             if (FirstDayOfWeekIsMonday && TodayIsSunday)
             {
-                start = BaseDate.AddDays(1);
+                start = DateTime.Today.AddDays(1);
             }
             else
             {
-                start = BaseDate.AddDays(-(int)BaseDate.DayOfWeek).AddDays(7);
+                start = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7);
             }
 
             end = start.AddDays(7).AddSeconds(-1);
@@ -102,7 +101,7 @@ namespace AGC.Library
         {
             numberOfMonth++;
 
-            start = BaseDate.AddDays(1 - BaseDate.Day);
+            start = DateTime.Today.AddDays(1 - DateTime.Today.Day);
             end = start.AddMonths(numberOfMonth);
 
             if (getSingleMonth)

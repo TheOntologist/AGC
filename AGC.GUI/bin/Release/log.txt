@@ -1,0 +1,132 @@
+2014-07-07 16:35:59,725 [9] DEBUG AGC.GUI.MainWindow - Start AGC
+2014-07-07 16:35:59,742 [9] DEBUG AGC.GUI.MainWindow - Loading MainWindow view...
+2014-07-07 16:35:59,744 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Creating ViewModelLocator...
+2014-07-07 16:35:59,752 [9] DEBUG AGC.GUI.Common.Bootstrapper - Creating Bootstrapper...
+2014-07-07 16:35:59,824 [9] DEBUG AGC.GUI.Common.Bootstrapper - Configuring container...
+2014-07-07 16:35:59,826 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of RecurrenceSettings
+2014-07-07 16:35:59,827 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of CalendarEventService
+2014-07-07 16:35:59,827 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of TimeIntervals
+2014-07-07 16:35:59,850 [9] DEBUG AGC.Library.GoogleCalendar - Start Authorization
+2014-07-07 16:36:00,107 [9] DEBUG AGC.Library.GoogleCalendar - Finish Authorization
+2014-07-07 16:36:00,107 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of GoogleCalendar
+2014-07-07 16:36:00,107 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of Repository
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of MainViewModel
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of EventsListViewModel
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of AddQuickEventViewModel
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of DeleteEventViewModel
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.Common.Bootstrapper - Container was successfully configured
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.Common.Bootstrapper - Bootstrapper was successfully created
+2014-07-07 16:36:00,109 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - ViewModelLocator was successfully created
+2014-07-07 16:36:00,121 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get MainViewModel from ViewModelLocator
+2014-07-07 16:36:00,173 [9] DEBUG AGC.Library.GoogleCalendar - Start Authorization
+2014-07-07 16:36:00,174 [9] DEBUG AGC.Library.GoogleCalendar - Finish Authorization
+2014-07-07 16:36:00,175 [9] DEBUG AGC.GUI.ViewModel.MainViewModel - Loading MainWindow view model...
+2014-07-07 16:36:00,175 [9] DEBUG AGC.GUI.ViewModel.MainViewModel - MainWindow view model was succssfully loaded
+2014-07-07 16:36:00,183 [9] DEBUG AGC.GUI.Views.EventsListView - Loading EventsList view...
+2014-07-07 16:36:00,184 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get EventsListViewModel from ViewModelLocator
+2014-07-07 16:36:00,194 [9] DEBUG AGC.GUI.ViewModel.EventsListViewModel - Loading EventsList view model...
+2014-07-07 16:36:00,196 [9] DEBUG AGC.Library.GoogleCalendar - Try to get all events from Google Calendar
+2014-07-07 16:36:00,650 [9] DEBUG AGC.Library.GoogleCalendar - Successfully got all events from Google Calendar
+2014-07-07 16:36:00,652 [9] DEBUG AGC.Library.CalendarEventService - Select events, period=7/7/2014 12:00:00 AM - 7/7/2014 11:59:59 PM
+2014-07-07 16:36:00,652 [9] DEBUG AGC.Library.CalendarEventService - Successfully selected events for a specified period
+2014-07-07 16:36:00,655 [9] DEBUG AGC.GUI.ViewModel.EventsListViewModel - EventsList view model was succssfully loaded
+2014-07-07 16:36:00,693 [9] DEBUG AGC.GUI.Views.EventsListView - EventsList view was succssfully loaded
+2014-07-07 16:36:00,695 [9] DEBUG AGC.GUI.Views.EventsCreateView - Loading EventsCreate view...
+2014-07-07 16:36:00,696 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get EventsCreateViewModel from ViewModelLocator
+2014-07-07 16:36:00,700 [9] DEBUG AGC.GUI.ViewModel.EventsCreateViewModel - Loading EventsCreate view model...
+2014-07-07 16:36:00,700 [9] DEBUG AGC.GUI.ViewModel.EventsCreateViewModel - EventsCreate view model was succssfully loaded
+2014-07-07 16:36:00,722 [9] DEBUG AGC.GUI.Views.EventsCreateView - EventsCreate view was succssfully loaded
+2014-07-07 16:36:00,724 [9] DEBUG AGC.GUI.Views.AddQuickEventView - Loading AddQuickEvent view...
+2014-07-07 16:36:00,724 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get AddQuickEventViewModel from ViewModelLocator
+2014-07-07 16:36:00,726 [9] DEBUG AGC.GUI.ViewModel.AddQuickEventViewModel - Loading AddQuickEvent view model...
+2014-07-07 16:36:00,726 [9] DEBUG AGC.GUI.ViewModel.AddQuickEventViewModel - AddQuickEvent view model was succssfully loaded
+2014-07-07 16:36:00,727 [9] DEBUG AGC.GUI.Views.AddQuickEventView - AddQuickEvent view was succssfully loaded
+2014-07-07 16:36:00,728 [9] DEBUG AGC.GUI.MainWindow - MainWindow view was succssfully loaded
+2014-07-07 16:37:12,343 [9] DEBUG AGC.GUI.MainWindow - Start AGC
+2014-07-07 16:37:12,363 [9] DEBUG AGC.GUI.MainWindow - Loading MainWindow view...
+2014-07-07 16:37:12,368 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Creating ViewModelLocator...
+2014-07-07 16:37:12,379 [9] DEBUG AGC.GUI.Common.Bootstrapper - Creating Bootstrapper...
+2014-07-07 16:37:12,441 [9] DEBUG AGC.GUI.Common.Bootstrapper - Configuring container...
+2014-07-07 16:37:12,443 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of RecurrenceSettings
+2014-07-07 16:37:12,443 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of CalendarEventService
+2014-07-07 16:37:12,444 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of TimeIntervals
+2014-07-07 16:37:12,467 [9] DEBUG AGC.Library.GoogleCalendar - Start Authorization
+2014-07-07 16:37:12,705 [9] DEBUG AGC.Library.GoogleCalendar - Finish Authorization
+2014-07-07 16:37:12,705 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of GoogleCalendar
+2014-07-07 16:37:12,705 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of Repository
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of MainViewModel
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of EventsListViewModel
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of AddQuickEventViewModel
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of DeleteEventViewModel
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.Common.Bootstrapper - Container was successfully configured
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.Common.Bootstrapper - Bootstrapper was successfully created
+2014-07-07 16:37:12,707 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - ViewModelLocator was successfully created
+2014-07-07 16:37:12,718 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get MainViewModel from ViewModelLocator
+2014-07-07 16:37:12,771 [9] DEBUG AGC.Library.GoogleCalendar - Start Authorization
+2014-07-07 16:37:12,772 [9] DEBUG AGC.Library.GoogleCalendar - Finish Authorization
+2014-07-07 16:37:12,773 [9] DEBUG AGC.GUI.ViewModel.MainViewModel - Loading MainWindow view model...
+2014-07-07 16:37:12,773 [9] DEBUG AGC.GUI.ViewModel.MainViewModel - MainWindow view model was succssfully loaded
+2014-07-07 16:37:12,781 [9] DEBUG AGC.GUI.Views.EventsListView - Loading EventsList view...
+2014-07-07 16:37:12,782 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get EventsListViewModel from ViewModelLocator
+2014-07-07 16:37:12,792 [9] DEBUG AGC.GUI.ViewModel.EventsListViewModel - Loading EventsList view model...
+2014-07-07 16:37:12,794 [9] DEBUG AGC.Library.GoogleCalendar - Try to get all events from Google Calendar
+2014-07-07 16:37:13,105 [9] DEBUG AGC.Library.GoogleCalendar - Successfully got all events from Google Calendar
+2014-07-07 16:37:13,106 [9] DEBUG AGC.Library.CalendarEventService - Select events, period=7/7/2014 12:00:00 AM - 7/7/2014 11:59:59 PM
+2014-07-07 16:37:13,107 [9] DEBUG AGC.Library.CalendarEventService - Successfully selected events for a specified period
+2014-07-07 16:37:13,109 [9] DEBUG AGC.GUI.ViewModel.EventsListViewModel - EventsList view model was succssfully loaded
+2014-07-07 16:37:13,148 [9] DEBUG AGC.GUI.Views.EventsListView - EventsList view was succssfully loaded
+2014-07-07 16:37:13,150 [9] DEBUG AGC.GUI.Views.EventsCreateView - Loading EventsCreate view...
+2014-07-07 16:37:13,151 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get EventsCreateViewModel from ViewModelLocator
+2014-07-07 16:37:13,155 [9] DEBUG AGC.GUI.ViewModel.EventsCreateViewModel - Loading EventsCreate view model...
+2014-07-07 16:37:13,155 [9] DEBUG AGC.GUI.ViewModel.EventsCreateViewModel - EventsCreate view model was succssfully loaded
+2014-07-07 16:37:13,177 [9] DEBUG AGC.GUI.Views.EventsCreateView - EventsCreate view was succssfully loaded
+2014-07-07 16:37:13,179 [9] DEBUG AGC.GUI.Views.AddQuickEventView - Loading AddQuickEvent view...
+2014-07-07 16:37:13,180 [9] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get AddQuickEventViewModel from ViewModelLocator
+2014-07-07 16:37:13,181 [9] DEBUG AGC.GUI.ViewModel.AddQuickEventViewModel - Loading AddQuickEvent view model...
+2014-07-07 16:37:13,181 [9] DEBUG AGC.GUI.ViewModel.AddQuickEventViewModel - AddQuickEvent view model was succssfully loaded
+2014-07-07 16:37:13,182 [9] DEBUG AGC.GUI.Views.AddQuickEventView - AddQuickEvent view was succssfully loaded
+2014-07-07 16:37:13,183 [9] DEBUG AGC.GUI.MainWindow - MainWindow view was succssfully loaded
+2014-07-07 16:38:21,150 [10] DEBUG AGC.GUI.MainWindow - Start AGC
+2014-07-07 16:38:21,167 [10] DEBUG AGC.GUI.MainWindow - Loading MainWindow view...
+2014-07-07 16:38:21,171 [10] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Creating ViewModelLocator...
+2014-07-07 16:38:21,180 [10] DEBUG AGC.GUI.Common.Bootstrapper - Creating Bootstrapper...
+2014-07-07 16:38:21,256 [10] DEBUG AGC.GUI.Common.Bootstrapper - Configuring container...
+2014-07-07 16:38:21,258 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of RecurrenceSettings
+2014-07-07 16:38:21,258 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of CalendarEventService
+2014-07-07 16:38:21,258 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of TimeIntervals
+2014-07-07 16:38:21,276 [10] DEBUG AGC.Library.GoogleCalendar - Start Authorization
+2014-07-07 16:38:21,538 [10] DEBUG AGC.Library.GoogleCalendar - Finish Authorization
+2014-07-07 16:38:21,538 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of GoogleCalendar
+2014-07-07 16:38:21,538 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered instance of Repository
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of MainViewModel
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of EventsListViewModel
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of AddQuickEventViewModel
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.Common.Bootstrapper - Registered type of DeleteEventViewModel
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.Common.Bootstrapper - Container was successfully configured
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.Common.Bootstrapper - Bootstrapper was successfully created
+2014-07-07 16:38:21,540 [10] DEBUG AGC.GUI.ViewModel.ViewModelLocator - ViewModelLocator was successfully created
+2014-07-07 16:38:21,551 [10] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get MainViewModel from ViewModelLocator
+2014-07-07 16:38:21,603 [10] DEBUG AGC.Library.GoogleCalendar - Start Authorization
+2014-07-07 16:38:21,603 [10] DEBUG AGC.Library.GoogleCalendar - Finish Authorization
+2014-07-07 16:38:21,605 [10] DEBUG AGC.GUI.ViewModel.MainViewModel - Loading MainWindow view model...
+2014-07-07 16:38:21,605 [10] DEBUG AGC.GUI.ViewModel.MainViewModel - MainWindow view model was succssfully loaded
+2014-07-07 16:38:21,613 [10] DEBUG AGC.GUI.Views.EventsListView - Loading EventsList view...
+2014-07-07 16:38:21,614 [10] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get EventsListViewModel from ViewModelLocator
+2014-07-07 16:38:21,624 [10] DEBUG AGC.GUI.ViewModel.EventsListViewModel - Loading EventsList view model...
+2014-07-07 16:38:21,626 [10] DEBUG AGC.Library.GoogleCalendar - Try to get all events from Google Calendar
+2014-07-07 16:38:22,018 [10] DEBUG AGC.Library.GoogleCalendar - Successfully got all events from Google Calendar
+2014-07-07 16:38:22,019 [10] DEBUG AGC.Library.CalendarEventService - Select events, period=7/7/2014 12:00:00 AM - 7/7/2014 11:59:59 PM
+2014-07-07 16:38:22,020 [10] DEBUG AGC.Library.CalendarEventService - Successfully selected events for a specified period
+2014-07-07 16:38:22,022 [10] DEBUG AGC.GUI.ViewModel.EventsListViewModel - EventsList view model was succssfully loaded
+2014-07-07 16:38:22,060 [10] DEBUG AGC.GUI.Views.EventsListView - EventsList view was succssfully loaded
+2014-07-07 16:38:22,062 [10] DEBUG AGC.GUI.Views.EventsCreateView - Loading EventsCreate view...
+2014-07-07 16:38:22,063 [10] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get EventsCreateViewModel from ViewModelLocator
+2014-07-07 16:38:22,067 [10] DEBUG AGC.GUI.ViewModel.EventsCreateViewModel - Loading EventsCreate view model...
+2014-07-07 16:38:22,067 [10] DEBUG AGC.GUI.ViewModel.EventsCreateViewModel - EventsCreate view model was succssfully loaded
+2014-07-07 16:38:22,091 [10] DEBUG AGC.GUI.Views.EventsCreateView - EventsCreate view was succssfully loaded
+2014-07-07 16:38:22,092 [10] DEBUG AGC.GUI.Views.AddQuickEventView - Loading AddQuickEvent view...
+2014-07-07 16:38:22,093 [10] DEBUG AGC.GUI.ViewModel.ViewModelLocator - Get AddQuickEventViewModel from ViewModelLocator
+2014-07-07 16:38:22,094 [10] DEBUG AGC.GUI.ViewModel.AddQuickEventViewModel - Loading AddQuickEvent view model...
+2014-07-07 16:38:22,094 [10] DEBUG AGC.GUI.ViewModel.AddQuickEventViewModel - AddQuickEvent view model was succssfully loaded
+2014-07-07 16:38:22,095 [10] DEBUG AGC.GUI.Views.AddQuickEventView - AddQuickEvent view was succssfully loaded
+2014-07-07 16:38:22,096 [10] DEBUG AGC.GUI.MainWindow - MainWindow view was succssfully loaded

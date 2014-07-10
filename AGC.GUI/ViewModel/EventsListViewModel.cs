@@ -293,8 +293,6 @@ namespace AGC.GUI.ViewModel
             }
         }
 
-        #region Choose Date
-
         public const string ShowChooseDateControlsPropertyName = "ShowChooseDateControls";
         private bool _showChooseDateControls = false;
         public bool ShowChooseDateControls
@@ -316,7 +314,6 @@ namespace AGC.GUI.ViewModel
                 RaisePropertyChanged(ShowChooseDateControlsPropertyName);
             }
         }
-
 
         public const string ShowDefaultControlsPropertyName = "ShowDefaultControls";
         private bool _showDefaultControls = true;
@@ -362,293 +359,49 @@ namespace AGC.GUI.ViewModel
             }
         }
 
-        #region Common Date Properties
-
-        public const string YearListPropertyName = "YearList";
-        private List<int> _yearList = GetYearsList();
-        public List<int> YearList
+        public const string StartDatePropertyName = "StartDate";
+        private DateTime _startDate = DateTime.Today;
+        public DateTime StartDate
         {
             get
             {
-                return _yearList;
+                return _startDate;
             }
 
             set
             {
-                if (_yearList == value)
+                if (_startDate == value)
                 {
                     return;
                 }
 
-                RaisePropertyChanging(YearListPropertyName);
-                _yearList = value;
-                RaisePropertyChanged(YearListPropertyName);
+                RaisePropertyChanging(StartDatePropertyName);
+                _startDate = value;
+                RaisePropertyChanged(StartDatePropertyName);
             }
         }
 
-        public const string MonthListPropertyName = "MonthList";
-        private string[] _monthList = GetMonthNames();
-        public string[] MonthList
+        public const string EndDatePropertyName = "EndDate";
+        private DateTime _endDate = DateTime.Today;
+        public DateTime EndDate
         {
             get
             {
-                return _monthList;
+                return _endDate;
             }
 
             set
             {
-                if (_monthList == value)
+                if (_endDate == value)
                 {
                     return;
                 }
 
-                RaisePropertyChanging(MonthListPropertyName);
-                _monthList = value;
-                RaisePropertyChanged(MonthListPropertyName);
+                RaisePropertyChanging(EndDatePropertyName);
+                _endDate = value;
+                RaisePropertyChanged(EndDatePropertyName);
             }
         }
-
-        #endregion
-
-        #region Start Date
-
-        public const string StartDayListPropertyName = "StartDayList";
-        private List<int> _startDayList = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).ToList();
-        public List<int> StartDayList
-        {
-            get
-            {
-                return _startDayList;
-            }
-
-            set
-            {
-                if (_startDayList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(StartDayListPropertyName);
-                _startDayList = value;
-                RaisePropertyChanged(StartDayListPropertyName);
-            }
-        }
-
-        public const string StartDayOfWeekPropertyName = "StartDayOfWeek";
-        private string _startDayOfWeek = String.Format("{0:ddd}", DateTime.Today);
-        public string StartDayOfWeek
-        {
-            get
-            {
-                return _startDayOfWeek;
-            }
-
-            set
-            {
-                if (_startDayOfWeek == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(StartDayOfWeekPropertyName);
-                _startDayOfWeek = value;
-                RaisePropertyChanged(StartDayOfWeekPropertyName);
-            }
-        }
-
-        public const string SelectedStartYearPropertyName = "SelectedStartYear";
-        private int _selectedStartYear = DateTime.Today.Year;
-        public int SelectedStartYear
-        {
-            get
-            {
-                return _selectedStartYear;
-            }
-
-            set
-            {
-                if (_selectedStartYear == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedStartYearPropertyName);
-                _selectedStartYear = value;
-                RaisePropertyChanged(SelectedStartYearPropertyName);
-                SetStartDaysList();
-                SetStartDayOfWeek();
-            }
-        }
-
-        public const string SelectedStartMonthPropertyName = "SelectedStartMonth";
-        private int _selectedStartMonth = DateTime.Today.Month - 1;
-        public int SelectedStartMonth
-        {
-            get
-            {
-                return _selectedStartMonth;
-            }
-
-            set
-            {
-                if (_selectedStartMonth == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedStartMonthPropertyName);
-                _selectedStartMonth = value;
-                RaisePropertyChanged(SelectedStartMonthPropertyName);
-                SetStartDaysList();
-                SetStartDayOfWeek();
-            }
-        }
-
-        public const string SelectedStartDayPropertyName = "SelectedStartDay";
-        private int _selectedStartDay = DateTime.Today.Day;
-        public int SelectedStartDay
-        {
-            get
-            {
-                return _selectedStartDay;
-            }
-
-            set
-            {
-                if (_selectedStartDay == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedStartDayPropertyName);
-                _selectedStartDay = value;
-                RaisePropertyChanged(SelectedStartDayPropertyName);
-                SetStartDayOfWeek();
-            }
-        }
-
-        #endregion
-
-        #region End Date
-
-        public const string EndDayListPropertyName = "EndDayList";
-        private List<int> _endDayList = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).ToList();
-        public List<int> EndDayList
-        {
-            get
-            {
-                return _endDayList;
-            }
-
-            set
-            {
-                if (_endDayList == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(EndDayListPropertyName);
-                _endDayList = value;
-                RaisePropertyChanged(EndDayListPropertyName);
-            }
-        }
-
-        public const string EndDayOfWeekPropertyName = "EndDayOfWeek";
-        private string _endDayOfWeek = String.Format("{0:ddd}", DateTime.Today);
-        public string EndDayOfWeek
-        {
-            get
-            {
-                return _endDayOfWeek;
-            }
-
-            set
-            {
-                if (_endDayOfWeek == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(EndDayOfWeekPropertyName);
-                _endDayOfWeek = value;
-                RaisePropertyChanged(EndDayOfWeekPropertyName);
-            }
-        }
-
-        public const string SelectedEndYearPropertyName = "SelectedEndYear";
-        private int _selectedEndYear = DateTime.Today.Year;
-        public int SelectedEndYear
-        {
-            get
-            {
-                return _selectedEndYear;
-            }
-
-            set
-            {
-                if (_selectedEndYear == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndYearPropertyName);
-                _selectedEndYear = value;
-                RaisePropertyChanged(SelectedEndYearPropertyName);
-                SetEndDaysList();
-                SetEndDayOfWeek();
-            }
-        }
-
-        public const string SelectedEndMonthPropertyName = "SelectedEndMonth";
-        private int _selectedEndMonth = DateTime.Today.Month - 1;
-        public int SelectedEndMonth
-        {
-            get
-            {
-                return _selectedEndMonth;
-            }
-
-            set
-            {
-                if (_selectedEndMonth == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndMonthPropertyName);
-                _selectedEndMonth = value;
-                RaisePropertyChanged(SelectedEndMonthPropertyName);
-                SetEndDaysList();
-                SetEndDayOfWeek();
-            }
-        }
-
-        public const string SelectedEndDayPropertyName = "SelectedEndDay";
-        private int _selectedEndDay = DateTime.Today.Day;
-        public int SelectedEndDay
-        {
-            get
-            {
-                return _selectedEndDay;
-            }
-
-            set
-            {
-                if (_selectedEndDay == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(SelectedEndDayPropertyName);
-                _selectedEndDay = value;
-                RaisePropertyChanged(SelectedEndDayPropertyName);
-                SetEndDayOfWeek();
-            }
-        }
-
-        #endregion
-
-        #endregion
 
         #endregion
 
@@ -769,11 +522,10 @@ namespace AGC.GUI.ViewModel
 
         private void GetChooseDateEvents()
         {
-            Events = service.GetEvents(calendar.GetAllEvents(), GetChooseDateStart(), GetChooseDateEnd());
+            Events = service.GetEvents(calendar.GetAllEvents(), StartDate, EndDate.AddHours(23).AddMinutes(59).AddSeconds(59));
             eventListType = EventsListType.ThisMonth;
             ShowResults();
         }
-
 
         private void ShowResults()
         {
@@ -833,61 +585,6 @@ namespace AGC.GUI.ViewModel
                     }
             }
         }
-
-        private DateTime GetChooseDateStart()
-        {
-            return new DateTime(SelectedStartYear, SelectedStartMonth + 1, SelectedStartDay);
-        }
-
-        private DateTime GetChooseDateEnd()
-        {
-            DateTime end = new DateTime(SelectedEndYear, SelectedEndMonth + 1, SelectedEndDay, 23, 59, 59);
-            return EndDateSpecified ? end : end.AddYears(100);
-        }
-
-        #region Date Pickers 
-
-        private static string[] GetMonthNames()
-        {
-            string[] monthNames = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
-            Array.Resize(ref monthNames, 12);
-            return monthNames;
-        }
-
-        private static List<int> GetYearsList()
-        {
-            List<int> years = Enumerable.Range(DateTime.Now.Year - 10, 20).ToList();
-            years.Reverse();
-            return years;
-        }
-
-        private void SetStartDaysList()
-        {
-            List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(SelectedStartYear, SelectedStartMonth + 1)).ToList();
-            days.Reverse();
-            StartDayList = days;
-            SelectedStartDay = SelectedStartDay > days.Count ? days.Count : SelectedStartDay;
-        }
-
-        private void SetEndDaysList()
-        {
-            List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(SelectedEndYear, SelectedEndMonth + 1)).ToList();
-            days.Reverse();
-            EndDayList = days;
-            SelectedEndDay = SelectedEndDay > days.Count ? days.Count : SelectedEndDay;
-        }
-
-        private void SetStartDayOfWeek()
-        {
-            StartDayOfWeek = String.Format("{0:ddd}", new DateTime(SelectedStartYear, SelectedStartMonth + 1, SelectedStartDay));
-        }
-
-        private void SetEndDayOfWeek()
-        {
-            EndDayOfWeek = String.Format("{0:ddd}", new DateTime(SelectedEndYear, SelectedEndMonth + 1, SelectedEndDay));
-        }
-
-        #endregion
 
         #endregion
     }

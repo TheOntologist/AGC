@@ -42,33 +42,16 @@
             </StackPanel>
 
             <GroupBox Header="Start Date" Grid.ColumnSpan="2" Grid.Row="4">
-                <!--<controls:DatePicker Date="{Binding StartDate}" />-->
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox ItemsSource="{Binding YearList}" SelectedValue="{Binding SelectedStartYear}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Year" />
-                    <ComboBox ItemsSource="{Binding MonthList}" SelectedIndex="{Binding SelectedStartMonth}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Month" />
-                    <ComboBox ItemsSource="{Binding StartDayList}" SelectedValue="{Binding SelectedStartDay}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Day" />
-                    <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding StartDayOfWeek}"/>
-                </StackPanel>
+                <controls:DatePicker Date="{Binding StartDate}" />
             </GroupBox>
             <GroupBox Header="Start Time" Grid.ColumnSpan="2" Grid.Row="5" IsEnabled="{Binding IsFullDayEvent, Converter={StaticResource oppositeConverter}}">
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox ItemsSource="{Binding HoursList}" SelectedValue="{Binding SelectedStartHours}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Hours" />
-                    <ComboBox ItemsSource="{Binding MinutesList}" SelectedValue="{Binding SelectedStartMinutes}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Minutes" />
-                </StackPanel>
+                <controls:TimePicker Hours="{Binding StartTimeHours}" Minutes="{Binding StartTimeMinutes}" />
             </GroupBox>
             <GroupBox Header="End Date" Grid.ColumnSpan="2" Grid.Row="6" IsEnabled="{Binding IsFullDayEvent, Converter={StaticResource oppositeConverter}}">
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox ItemsSource="{Binding YearList}" SelectedValue="{Binding SelectedEndYear}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Year" />
-                    <ComboBox ItemsSource="{Binding MonthList}" SelectedIndex="{Binding SelectedEndMonth}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Month" />
-                    <ComboBox ItemsSource="{Binding EndDayList}" SelectedValue="{Binding SelectedEndDay}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Day" />
-                    <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding EndDayOfWeek}"/>
-                </StackPanel>
+                <controls:DatePicker Date="{Binding EndDate}" />
             </GroupBox>
             <GroupBox Header="End Time" Grid.ColumnSpan="2" Grid.Row="7" IsEnabled="{Binding IsFullDayEvent, Converter={StaticResource oppositeConverter}}">
-                <StackPanel Orientation="Horizontal">
-                    <ComboBox IsEditable="True" ItemsSource="{Binding HoursList}" SelectedValue="{Binding SelectedEndHours}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Hours" />
-                    <ComboBox ItemsSource="{Binding MinutesList}" SelectedValue="{Binding SelectedEndMinutes}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Minutes" />
-                </StackPanel>
+                <controls:TimePicker Hours="{Binding EndTimeHours}" Minutes="{Binding EndTimeMinutes}" />
             </GroupBox>
         </Grid>
         <Grid Height="400" Grid.Column="1">
@@ -136,12 +119,7 @@
                         
                         <RadioButton Grid.Column="0" Grid.Row="2" Content="On" Style="{StaticResource RadioButton}" IsChecked="{Binding EndsOn}"/>                        
                         <GroupBox Header="Until Date" Grid.Column="1"  Grid.Row="2" Visibility="{Binding EndsOn, Converter={StaticResource BoolToVis}}">
-                            <StackPanel Orientation="Horizontal">
-                                <ComboBox ItemsSource="{Binding YearList}" SelectedValue="{Binding SelectedRecurrenceEndYear}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Year" />
-                                <ComboBox ItemsSource="{Binding MonthList}" SelectedIndex="{Binding SelectedRecurrenceEndMonth}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Month" />
-                                <ComboBox ItemsSource="{Binding RecurrenceEndDayList}" SelectedValue="{Binding SelectedRecurrenceEndDay}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Day" />
-                                <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding RecurrenceEndDayOfWeek}"/>
-                            </StackPanel>
+                            <controls:DatePicker Date="{Binding RecurrenceEndDate}" />
                         </GroupBox>
                     </Grid>
                 </GroupBox>

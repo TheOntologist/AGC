@@ -7,9 +7,9 @@
              d:DesignHeight="40" d:DesignWidth="275">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <ComboBox Name="YearsList" Style="{StaticResource DatePicker}" SelectionChanged="YearsList_SelectionChanged" AutomationProperties.Name="Year" />
-            <ComboBox Name="MonthsList" Style="{StaticResource DatePicker}" SelectionChanged="MonthsList_SelectionChanged" AutomationProperties.Name="Month" />
-            <ComboBox Name="DaysList" Style="{StaticResource DatePicker}" SelectionChanged="DaysList_SelectionChanged" AutomationProperties.Name="Day" />
+            <ComboBox Name="YearsList" Style="{StaticResource DatePicker}" SelectionChanged="YearsList_SelectionChanged" AutomationProperties.Name="Year" PreviewKeyUp="YearsList_PreviewKeyUp" />
+            <ComboBox Name="MonthsList" Style="{StaticResource DatePicker}" SelectionChanged="MonthsList_SelectionChanged" AutomationProperties.Name="Month" PreviewKeyUp="MonthsList_PreviewKeyUp" />
+            <ComboBox Name="DaysList" Style="{StaticResource DatePicker}" SelectionChanged="DaysList_SelectionChanged" AutomationProperties.Name="Day" PreviewKeyUp="DaysList_PreviewKeyUp" />
             <TextBox Name="DayOfWeek" Style="{StaticResource ShortReadonly}" />
         </StackPanel>
     </Grid>

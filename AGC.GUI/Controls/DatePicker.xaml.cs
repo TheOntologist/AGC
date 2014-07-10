@@ -36,36 +36,18 @@ namespace AGC.GUI.Controls
             set { SetValue(DateProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Date.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(DatePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)); //OnCurrentDatePropertyChanged, OnCoerceDateProperty FrameworkPropertyMetadataOptions.BindsTwoWayByDefault
+            DependencyProperty.Register("Date", typeof(DateTime), typeof(DatePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentDatePropertyChanged));
 
-        /*
-        public event PropertyChangedEventHandler PropertyChanged;
-        void SetValueDp(DependencyProperty property, object value,
-            [System.Runtime.CompilerServices.CallerMemberName] String p = null)
-        {
-            SetValue(property, value);
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
-        }
-        */
-
-        private static void OnCurrentDatePropertyChanged(DependencyObject source,
-        DependencyPropertyChangedEventArgs e)
+        private static void OnCurrentDatePropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             DatePicker control = source as DatePicker;
             DateTime date = (DateTime)e.NewValue;
-            // Put some update logic here...
-            
-        }
 
-        private static object OnCoerceDateProperty(DependencyObject sender, object data)
-        {
-
-            data = DateTime.Now;
-
-            return data;
+            control.YearsList.SelectedItem = date.Year;
+            control.MonthsList.SelectedIndex = GetMonthIntValue(date.Month - 1);
+            control.DaysList.SelectedItem = date.Day;
+            control.DayOfWeek.Text = String.Format(DAY_OF_WEEK_FORMAT, date);
         }
 
         private void LoadData()
@@ -73,16 +55,11 @@ namespace AGC.GUI.Controls
             YearsList.ItemsSource = GetYearsList();
             MonthsList.ItemsSource = GetMonthNames();
             DaysList.ItemsSource = GetDefaultDaysList();
-
-            YearsList.SelectedItem = Date.Year;
-            MonthsList.SelectedIndex = Date.Month - 1;
-            DaysList.SelectedItem = Date.Day;
-            SetDayOfWeek(Date);
         }
 
         private static List<int> GetYearsList()
         {
-            List<int> years = Enumerable.Range(DateTime.Now.Year - 10, 20).ToList();
+            List<int> years = Enumerable.Range(DateTime.Now.Year, 10).ToList();
             years.Reverse();
             return years;
         }
@@ -91,36 +68,147 @@ namespace AGC.GUI.Controls
         {
             string[] monthNames = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
             Array.Resize(ref monthNames, 12);
+            Array.Reverse(monthNames);
             return monthNames;
         }
 
         private static List<int> GetDefaultDaysList()
         {
             List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)).ToList();
+            days.Reverse();
             return days;
-        }
-
-        private void SetDayOfWeek(DateTime date)
-        {
-            DayOfWeek.Text = String.Format(DAY_OF_WEEK_FORMAT, date);
         }
 
         private void YearsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Date = new DateTime((int)YearsList.SelectedItem, Date.Month, Date.Day);
-            SetDayOfWeek(Date);
+            Date = new DateTime((int)YearsList.SelectedItem, Date.Month, Date.Day);      
         }
 
         private void MonthsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Date = new DateTime(Date.Year, MonthsList.SelectedIndex + 1, Date.Day);
-            SetDayOfWeek(Date);
+            List<int> days = Enumerable.Range(1, DateTime.DaysInMonth(Date.Year, GetMonthIntValue(MonthsList.SelectedIndex) + 1)).ToList();
+            days.Reverse();
+            if (Date.Day > days.Count)
+            {
+                Date = new DateTime(Date.Year, Date.Month, days.Count);
+            }
+            else
+            {
+                Date = new DateTime(Date.Year, GetMonthIntValue(MonthsList.SelectedIndex) + 1, Date.Day);
+            }
+            DaysList.ItemsSource = days;
         }
 
         private void DaysList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Date = new DateTime(Date.Year, Date.Month, (int)DaysList.SelectedItem);
-            SetDayOfWeek(Date);
+        }
+
+        private static int GetMonthIntValue(int i)
+        {
+            return 11 - i;
+        }
+
+        private bool nextTimeSwitchToMinYear = false;
+        private bool nextTimeSwitchToMaxYear = false;
+
+        private void YearsList_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down)
+            {
+                if (nextTimeSwitchToMaxYear)
+                {
+                    YearsList.SelectedIndex = 0;
+                    nextTimeSwitchToMaxYear = false;
+                }
+                else
+                {
+                    if (YearsList.SelectedIndex == YearsList.Items.Count - 1)
+                        nextTimeSwitchToMaxYear = true;
+                }
+            }
+
+            if (e.Key == Key.Up)
+            {
+                if (nextTimeSwitchToMinYear)
+                {
+                    YearsList.SelectedIndex = YearsList.Items.Count - 1;
+                    nextTimeSwitchToMinYear = false;
+                }
+                else
+                {
+                    if (YearsList.SelectedIndex == 0)
+                        nextTimeSwitchToMinYear = true;
+                }
+            }
+        }
+
+        private bool nextTimeSwitchToMinMonth = false;
+        private bool nextTimeSwitchToMaxMonth = false;
+
+        private void MonthsList_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down)
+            {
+                if (nextTimeSwitchToMaxMonth)
+                {
+                    MonthsList.SelectedIndex = 0;
+                    nextTimeSwitchToMaxMonth = false;
+                }
+                else
+                {
+                    if (MonthsList.SelectedIndex == MonthsList.Items.Count - 1)
+                        nextTimeSwitchToMaxMonth = true;
+                }
+            }
+
+            if (e.Key == Key.Up)
+            {
+                if (nextTimeSwitchToMinMonth)
+                {
+                    MonthsList.SelectedIndex = MonthsList.Items.Count - 1;
+                    nextTimeSwitchToMinMonth = false;
+                }
+                else
+                {
+                    if (MonthsList.SelectedIndex == 0)
+                        nextTimeSwitchToMinMonth = true;
+                }
+            }
+        }
+
+        private bool nextTimeSwitchToMinDay = false;
+        private bool nextTimeSwitchToMaxDay = false;
+
+        private void DaysList_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down)
+            {
+                if (nextTimeSwitchToMaxDay)
+                {
+                    DaysList.SelectedIndex = 0;
+                    nextTimeSwitchToMaxDay = false;
+                }
+                else
+                {
+                    if (DaysList.SelectedIndex == DaysList.Items.Count - 1)
+                        nextTimeSwitchToMaxDay = true;
+                }
+            }
+
+            if (e.Key == Key.Up)
+            {
+                if (nextTimeSwitchToMinDay)
+                {
+                    DaysList.SelectedIndex = DaysList.Items.Count - 1;
+                    nextTimeSwitchToMinDay = false;
+                }
+                else
+                {
+                    if (DaysList.SelectedIndex == 0)
+                        nextTimeSwitchToMinDay = true;
+                }
+            }
         }
     }
 }
