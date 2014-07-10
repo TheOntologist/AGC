@@ -1,2 +1,0 @@
-D:\VS\Google\Calendar\AGC\Installer\AGC.Installer.App\bin\Debug\AGC.msi
-D:\VS\Google\Calendar\AGC\Installer\AGC.Installer.App\bin\Debug\AGC.wixpdb

@@ -1,8 +1,0 @@
-D:\VS\Google\Calendar\AC\AC.Test\bin\Debug\AC.Test.exe.config
-D:\VS\Google\Calendar\AC\AC.Test\bin\Debug\AC.Test.exe
-D:\VS\Google\Calendar\AC\AC.Test\bin\Debug\AC.Test.pdb
-D:\VS\Google\Calendar\AC\AC.Test\bin\Debug\AC.Library.dll
-D:\VS\Google\Calendar\AC\AC.Test\bin\Debug\AC.Library.pdb
-D:\VS\Google\Calendar\AC\AC.Test\obj\Debug\AC.Test.csprojResolveAssemblyReference.cache
-D:\VS\Google\Calendar\AC\AC.Test\obj\Debug\AC.Test.exe
-D:\VS\Google\Calendar\AC\AC.Test\obj\Debug\AC.Test.pdb

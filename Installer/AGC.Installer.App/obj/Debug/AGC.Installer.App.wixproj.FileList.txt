@@ -1,8 +1,0 @@
-D:\VS\Google\Calendar\AGC\Installer\AGC.Installer.App\bin\Debug\AGC.msi
-D:\VS\Google\Calendar\AGC\Installer\AGC.Installer.App\bin\Debug\AGC.wixpdb
-obj\Debug\AGC.GUI.wixobj
-obj\Debug\Product.wixobj
-obj\Debug\Shortcut.wixobj
-obj\Debug\AGC.Installer.App.wixproj.BindContentsFileListnull.txt
-obj\Debug\AGC.Installer.App.wixproj.BindOutputsFileListnull.txt
-obj\Debug\AGC.Installer.App.wixproj.BindBuiltOutputsFileListnull.txt
