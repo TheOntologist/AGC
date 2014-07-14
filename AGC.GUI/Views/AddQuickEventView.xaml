@@ -9,7 +9,11 @@
     <Grid>
         <GroupBox Header="Add Quick Event"  VerticalAlignment="Top" Height="60">
             <StackPanel Orientation="Horizontal">
-                <TextBox Width="400" AutomationProperties.Name="Quick Event Text" Style="{StaticResource InputText}" Text="{Binding QuickEventText}"/>
+                <TextBox Width="400" AutomationProperties.Name="Quick Event Text, press return to create event" Style="{StaticResource InputText}" Text="{Binding QuickEventText}">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding Path=AddQuickEventCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
                 <Button Content="Add" Style="{StaticResource Button}" Command="{Binding AddQuickEventCommand}"/>
             </StackPanel>
         </GroupBox>
