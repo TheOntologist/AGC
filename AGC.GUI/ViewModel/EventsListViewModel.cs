@@ -12,6 +12,16 @@ namespace AGC.GUI.ViewModel
 {
     public class EventsListViewModel : ViewModelBase
     {
+        #region Constants
+
+        private const string SINGLE_MONTH = "Single month";
+        private const string ALL_MONTHS = "All months";
+        private const string INTERVENING_MONTHS = "Intervening months";
+
+        
+
+        #endregion
+
         #region Private Properties
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -32,6 +42,8 @@ namespace AGC.GUI.ViewModel
             Period,
             Search
         }
+
+        private static List<string> PERIOD_TYPE = new List<string>(new string[] { SINGLE_MONTH, ALL_MONTHS, INTERVENING_MONTHS });
 
         private EventsListType eventListType = EventsListType.Today;
 
@@ -403,6 +415,72 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public const string PeriodEndMonthPropertyName = "PeriodEndMonth";
+        private int _periodEndMonth = DateTime.Today.Month;
+        public int PeriodEndMonth
+        {
+            get
+            {
+                return _periodEndMonth;
+            }
+
+            set
+            {
+                if (_periodEndMonth == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(PeriodEndMonthPropertyName);
+                _periodEndMonth = value;
+                RaisePropertyChanged(PeriodEndMonthPropertyName);
+            }
+        }
+
+        public const string PeriodTypeListPropertyName = "PeriodTypeList";
+        private List<string> _periodTypeList = PERIOD_TYPE;
+        public List<string> PeriodTypeList
+        {
+            get
+            {
+                return _periodTypeList;
+            }
+
+            set
+            {
+                if (_periodTypeList == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(PeriodTypeListPropertyName);
+                _periodTypeList = value;
+                RaisePropertyChanged(PeriodTypeListPropertyName);
+            }
+        }
+
+        public const string SelectedPeriodTypePropertyName = "SelectedPeriodType";
+        private string _selectedPeriodType = SINGLE_MONTH;
+        public string SelectedPeriodType
+        {
+            get
+            {
+                return _selectedPeriodType;
+            }
+
+            set
+            {
+                if (_selectedPeriodType == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SelectedPeriodTypePropertyName);
+                _selectedPeriodType = value;
+                RaisePropertyChanged(SelectedPeriodTypePropertyName);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -472,7 +550,26 @@ namespace AGC.GUI.ViewModel
 
         private void GetPeriodEvents()
         {
-            Events = service.GetEvents(calendar.GetAllEvents(), period.NextNMonth(NumberOfMonthToAdd, SingleMonthPeriod));
+            //Events = service.GetEvents(calendar.GetAllEvents(), period.NextNMonth(NumberOfMonthToAdd, SingleMonthPeriod));
+            switch(SelectedPeriodType)
+            {
+                case SINGLE_MONTH:
+                    {
+                        Events = service.GetEvents(calendar.GetAllEvents(), period.MonthsPeriod(PeriodEndMonth, TimeIntervals.PeriodType.SingleMonth));
+                        break;
+                    }
+                case ALL_MONTHS:
+                    {
+                        Events = service.GetEvents(calendar.GetAllEvents(), period.MonthsPeriod(PeriodEndMonth, TimeIntervals.PeriodType.AllMonths));
+                        break;
+                    }
+                case INTERVENING_MONTHS:
+                    {
+                        Events = service.GetEvents(calendar.GetAllEvents(), period.MonthsPeriod(PeriodEndMonth, TimeIntervals.PeriodType.InterveningMonths));
+                        break;
+                    }
+            }
+            
             eventListType = EventsListType.Period;
             ShowResults();
         }

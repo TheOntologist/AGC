@@ -20,7 +20,7 @@ namespace AGC.Library
 
         TimeIntervals NextMonth();
 
-        TimeIntervals NextNMonth(int numberOfMonth, bool getSingleMonth);
+        TimeIntervals MonthsPeriod(int endMonth, TimeIntervals.PeriodType periodType);
 
         void WriteConsoleLog();
     }

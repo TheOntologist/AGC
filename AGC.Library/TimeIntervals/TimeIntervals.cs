@@ -28,6 +28,13 @@ namespace AGC.Library
 
         public DateTime End { get { return end; } }
 
+        public enum PeriodType
+        {
+            SingleMonth,
+            AllMonths,
+            InterveningMonths
+        }
+
         #endregion
 
         #region Constructor
@@ -87,28 +94,53 @@ namespace AGC.Library
 
         public TimeIntervals ThisMonth()
         {
-            NextNMonth(0, true);
+            MonthsPeriod(DateTime.Today.Month, PeriodType.SingleMonth);
             return this;
         }
 
         public TimeIntervals NextMonth()
         {
-            NextNMonth(1, true);
+            MonthsPeriod(DateTime.Today.AddMonths(1).Month, PeriodType.SingleMonth);
             return this;
         }
 
-        public TimeIntervals NextNMonth(int numberOfMonth, bool getSingleMonth)
+        public TimeIntervals MonthsPeriod(int endMonth, PeriodType periodType)
         {
-            numberOfMonth++;
+            // Add 1 Month, because month lists starts with 0, end month should be in range 1-12
+            endMonth++;
+
+            int currentMonth = DateTime.Today.Month;
+            int numberOfMonthToAdd = endMonth > currentMonth ? endMonth - currentMonth : (12 - currentMonth) + endMonth;
 
             start = DateTime.Today.AddDays(1 - DateTime.Today.Day);
-            end = start.AddMonths(numberOfMonth);
+            end = start.AddMonths(numberOfMonthToAdd);
 
-            if (getSingleMonth)
-                start = end.AddDays(1 - end.Day).AddMonths(-1);
+            switch (periodType)
+            {
+                case PeriodType.SingleMonth:
+                    {
+                        start = end.AddDays(1 - end.Day).AddMonths(-1);
+                        break;
+                    }
+                case PeriodType.AllMonths:
+                    {
+                        break;
+                    }
+                case PeriodType.InterveningMonths:
+                    {
+                        start = start.AddMonths(1);
+                        end = end.AddMonths(-1);
+                        break;
+                    }
+            }
+
+            if (start.Month == DateTime.Today.Month)
+            {
+                start = DateTime.Today;
+            }
 
             end = end.AddSeconds(-1);
-
+            
             return this;
         }
 
