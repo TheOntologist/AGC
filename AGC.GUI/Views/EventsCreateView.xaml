@@ -83,15 +83,15 @@
                     <ComboBox Style="{StaticResource IntPicker}" ItemsSource="{Binding IntervalList}" SelectedItem="{Binding Interval}" AutomationProperties.Name="Interval"/>
                     <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding IntervalType}"/>
                 </StackPanel>
-                <GroupBox Header="Weekdays" Grid.Column="1" Grid.Row="2" Visibility="{Binding RepeatWeekly, Converter={StaticResource BoolToVis}}">
-                    <StackPanel  HorizontalAlignment="Left" Orientation="Horizontal">
-                        <CheckBox Content="MO" IsChecked="{Binding Monday}"/>
+                <GroupBox Header="Weekdays" Grid.Column="1" Grid.Row="2" Visibility="{Binding RepeatWeekly, Converter={StaticResource BoolToVis}}" KeyboardNavigation.DirectionalNavigation="Cycle">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" PreviewKeyDown="Weekdays_PreviewKeyDown">
+                        <CheckBox Name="Monday" Content="MO" IsChecked="{Binding Monday}"/>
                         <CheckBox Content="TU" IsChecked="{Binding Tuesday}"/>
                         <CheckBox Content="WE" IsChecked="{Binding Wednesday}"/>
                         <CheckBox Content="TH" IsChecked="{Binding Thursday}"/>
                         <CheckBox Content="FR" IsChecked="{Binding Friday}"/>
                         <CheckBox Content="SA" IsChecked="{Binding Saturday}"/>
-                        <CheckBox Content="SU" IsChecked="{Binding Sunday}"/>
+                        <CheckBox Name="Sunday" Content="SU" IsChecked="{Binding Sunday}"/>
                     </StackPanel>
                 </GroupBox>
 
