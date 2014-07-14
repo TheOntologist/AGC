@@ -238,6 +238,30 @@ namespace AGC.Library
             }
         }
 
+        public RecurrenceSettings Clear()
+        {
+            startDate = DateTime.Today;
+
+            freq = DAILY;
+            interval = 1;
+
+            monday = false;
+            tuesday = false;
+            wednesday = false;
+            thursday = false;
+            friday = false;
+            saturday = false;
+            sunday = false;
+
+            byDayOfMonth = false;
+            byDayOfWeek = false;
+        
+            endDate = null;
+            occurrences = 0;
+            neverEnds = true;
+
+            return this;
+        }
         #endregion
 
         #region Private Methods

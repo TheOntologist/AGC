@@ -913,6 +913,7 @@ namespace AGC.GUI.ViewModel
             {
                 MessageBox.Show(Application.Current.MainWindow, "Created", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                 CleanInputText();
+                recurrence.Clear(); 
             }
             else
             {

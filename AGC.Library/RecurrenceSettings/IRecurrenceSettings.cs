@@ -63,5 +63,7 @@ namespace AGC.Library
         string ToString();
 
         string GetDayOfWeekFirstTwoLetters(DateTime time);
+
+        RecurrenceSettings Clear();
     }
 }
