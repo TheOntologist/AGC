@@ -85,6 +85,7 @@
     <Compile Include="Common\BoolToOppositeBoolConverter.cs" />
     <Compile Include="Common\Bootstrapper.cs" />
     <Compile Include="Common\FocusExtension.cs" />
+    <Compile Include="Common\InputBindingsManager.cs" />
     <Compile Include="Common\IRepository.cs" />
     <Compile Include="Common\Repository.cs" />
     <Compile Include="Controls\DatePicker.xaml.cs">

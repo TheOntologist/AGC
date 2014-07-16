@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:common="clr-namespace:AGC.GUI.Common"
         xmlns:ignore="http://www.ignore.com"
         mc:Ignorable="d ignore"
         DataContext="{Binding AddQuickEvent, Source={StaticResource Locator}}" Height="400" Width="700">
     <Grid>
         <GroupBox Header="Add Quick Event"  VerticalAlignment="Top" Height="60">
             <StackPanel Orientation="Horizontal">
-                <TextBox Width="400" AutomationProperties.Name="Quick Event Text, press return to create event" Style="{StaticResource InputText}" Text="{Binding QuickEventText}">
+                <TextBox Width="400" AutomationProperties.Name="Quick Event Text, press return to create event" Style="{StaticResource InputText}" Text="{Binding QuickEventText, UpdateSourceTrigger=PropertyChanged}" common:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text" >
                     <TextBox.InputBindings>
                         <KeyBinding Key="Return" Command="{Binding Path=AddQuickEventCommand}" />
                     </TextBox.InputBindings>
