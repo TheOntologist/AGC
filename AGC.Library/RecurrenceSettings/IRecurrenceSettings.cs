@@ -10,55 +10,50 @@ namespace AGC.Library
     {
         RecurrenceSettings StartsOn(DateTime start);
 
-        #region Frequency type
-
         RecurrenceSettings Daily();
-
         RecurrenceSettings Weekly();
-
         RecurrenceSettings Monthly();
-
         RecurrenceSettings Yearly();
-
-        #endregion
 
         RecurrenceSettings Interval(int number);
 
-        #region Weekly Optional Settings
-
         RecurrenceSettings Monday();
-
         RecurrenceSettings Tuesday();
-
         RecurrenceSettings Wednesday();
-
         RecurrenceSettings Thursday();
-
         RecurrenceSettings Friday();
-
         RecurrenceSettings Saturday();
-
         RecurrenceSettings Sunday();
 
-        #endregion
-
-        #region Month Optional Settings
-
         RecurrenceSettings ByDayOfMonth();
-
         RecurrenceSettings ByDayOfWeek();
 
-        #endregion
-
-        #region Exit Optional Settings
-
         RecurrenceSettings EndsOn(DateTime end);
-
         RecurrenceSettings EndsAfter(int numberOfOccurrences);
-
         RecurrenceSettings EndsNever();
 
-        #endregion
+        bool IsRepeatsDaily();
+        bool IsRepeatsWeeky();
+        bool IsRepeatsMonthly();
+        bool IsRepeatsYearly();
+
+        bool IsRepeatsOnMonday();
+        bool IsRepeatsOnTuesday();
+        bool IsRepeatsOnWednesday();
+        bool IsRepeatsOnThursday();
+        bool IsRepeatsOnFriday();
+        bool IsRepeatsOnSaturday();
+        bool IsRepeatsOnSunday();
+
+        bool IsRepeatsByDayOfMonth();
+        bool IsRepeatsByDayOfWeek();
+
+        bool IsEndsOnSpecifiedDate();
+        bool IsEndsAfterSpecifiedNumberOfOccurences();
+        bool IsEndsNever();
+
+        DateTime? EndDate();        
+        int Count();        
 
         string ToString();
 

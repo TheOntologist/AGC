@@ -24,6 +24,22 @@ namespace AGC.Library
         private const string MONTHLY = "MONTHLY";
         private const string YEARLY = "YEARLY";
 
+        private const string MO = "MO";
+        private const string TU = "TU";
+        private const string WE = "WE";
+        private const string TH = "TH";
+        private const string FR = "FR";
+        private const string SA = "SA";
+        private const string SU = "SU";
+
+        private const string RRULE_PART = "RRULE:";
+        private const string FREQ_PART = "FREQ=";
+        private const string INTERVAL_PART = "INTERVAL=";
+        private const string BYDAY_PART = "BYDAY=";
+        private const string BYMONTHDAY_PART = "BYMONTHDAY=";
+        private const string UNTIL_PART = "UNTIL=";
+        private const string COUNT_PART = "COUNT=";
+
         #endregion
 
         #region Private variables
@@ -60,6 +76,41 @@ namespace AGC.Library
         public RecurrenceSettings(DateTime start)
         {
             startDate = start;
+        }
+
+        public RecurrenceSettings(DateTime start, string rrule)
+        {
+            startDate = start;
+            rrule = rrule.Replace(RRULE_PART, "");
+            string[] parameters = rrule.Split(';');
+
+            foreach (string param in parameters)
+            {
+                if (param.Contains(FREQ_PART))
+                {
+                    SetFreqPart(param);
+                }
+                else if (param.Contains(INTERVAL_PART))
+                {
+                    SetIntervalPart(param);
+                }
+                else if (param.Contains(BYDAY_PART))
+                {
+                    SetByDayPart(param);
+                }
+                else if (param.Contains(BYMONTHDAY_PART))
+                {
+                    SetByMonthDayPart(param);
+                }
+                else if (param.Contains(COUNT_PART))
+                {
+                    SetCountPart(param);
+                }
+                else if (param.Contains(UNTIL_PART))
+                {
+                    SetUntilPart(param);
+                }
+            }
         }
 
         #endregion
@@ -198,6 +249,116 @@ namespace AGC.Library
 
         #endregion
 
+        #region Get Reccurence Info Methods
+
+        #region Frequency Settings info
+
+        public bool IsRepeatsDaily()
+        {
+            return freq == DAILY ? true : false;
+        }
+
+        public bool IsRepeatsWeeky()
+        {
+            return freq == WEEKLY ? true : false; 
+        }
+
+        public bool IsRepeatsMonthly()
+        {
+            return freq == MONTHLY ? true : false;
+        }
+
+        public bool IsRepeatsYearly()
+        {
+            return freq == YEARLY ? true : false;
+        }
+
+        #endregion
+
+        #region Weekdays Settings info
+
+        public bool IsRepeatsOnMonday()
+        {
+            return monday;
+        }
+
+        public bool IsRepeatsOnTuesday()
+        {
+            return tuesday;
+        }
+
+        public bool IsRepeatsOnWednesday()
+        {
+            return wednesday;
+        }
+
+        public bool IsRepeatsOnThursday()
+        {
+            return thursday;
+        }
+
+        public bool IsRepeatsOnFriday()
+        {
+            return friday;
+        }
+
+        public bool IsRepeatsOnSaturday()
+        {
+            return saturday;
+        }
+
+        public bool IsRepeatsOnSunday()
+        {
+            return sunday;
+        }
+
+        #endregion
+
+        #region Month Settings info
+
+        public bool IsRepeatsByDayOfMonth()
+        {
+            return freq == MONTHLY ? byDayOfMonth : false; 
+        }
+
+        public bool IsRepeatsByDayOfWeek()
+        {
+            return freq == MONTHLY ? byDayOfWeek : false; 
+        }
+
+        #endregion
+
+        #region Exit Settings info
+
+        public bool IsEndsOnSpecifiedDate()
+        {
+            return endDate != null ? true : false;
+        }
+
+        public DateTime? EndDate()
+        {
+            return endDate;
+        }
+
+        public bool IsEndsAfterSpecifiedNumberOfOccurences()
+        {
+            return occurrences > 0;
+        }
+
+        public int Count()
+        {
+            return occurrences;
+        }
+
+        public bool IsEndsNever()
+        {
+            return neverEnds;
+        }
+
+        #endregion
+
+        #endregion
+
         public override string ToString()
         {
             switch (freq)
@@ -262,6 +423,7 @@ namespace AGC.Library
 
             return this;
         }
+
         #endregion
 
         #region Private Methods
@@ -322,6 +484,69 @@ namespace AGC.Library
         private int GetWeekdayNumber(DateTime date)
         {
             return ((int)date.DayOfWeek == 0) ? 7 : (int)date.DayOfWeek;
+        }
+
+
+        private void SetFreqPart(string freqParam)
+        {
+            freq = freqParam.Replace(FREQ_PART, "");
+
+            // default value in case something goes wrong...
+            if (freq != DAILY && freq != WEEKLY && freq != MONTHLY && freq != YEARLY)
+            {
+                freq = DAILY;
+            }
+        }
+
+        private void SetIntervalPart(string intervalParam)
+        {
+            intervalParam = intervalParam.Replace(INTERVAL_PART, "");
+            int.TryParse(intervalParam, out interval);
+        }
+
+        private void SetByDayPart(string byDayParam)
+        {
+            if (freq == MONTHLY)
+            {
+                byDayOfWeek = true;
+            }
+
+            if (byDayParam.Contains(MO))
+                monday = true;
+            if (byDayParam.Contains(TU))
+                tuesday = true;
+            if (byDayParam.Contains(WE))
+                wednesday = true;
+            if (byDayParam.Contains(TH))
+                thursday = true;
+            if (byDayParam.Contains(FR))
+                friday = true;
+            if (byDayParam.Contains(SA))
+                saturday = true;
+            if (byDayParam.Contains(SU))
+                sunday = true;
+        }
+
+        private void SetByMonthDayPart(string byMonthDayParam)
+        {
+            if (freq == MONTHLY)
+            {
+                byDayOfMonth = true;
+            }
+        }
+
+        private void SetCountPart(string countParam)
+        {
+            neverEnds = false;
+            countParam = countParam.Replace(COUNT_PART, "");
+            int.TryParse(countParam, out occurrences);
+        }
+
+        private void SetUntilPart(string untilParam)
+        {
+            neverEnds = false;
+            untilParam = untilParam.Replace(UNTIL_PART, "");
+            endDate = DateTime.ParseExact(untilParam, DATETIME_FORMAT, CultureInfo.InvariantCulture);
         }
 
         #endregion
