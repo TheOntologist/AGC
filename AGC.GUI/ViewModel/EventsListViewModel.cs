@@ -18,8 +18,6 @@ namespace AGC.GUI.ViewModel
         private const string ALL_MONTHS = "All months";
         private const string INTERVENING_MONTHS = "Intervening months";
 
-        
-
         #endregion
 
         #region Private Properties
@@ -60,6 +58,7 @@ namespace AGC.GUI.ViewModel
         public RelayCommand GetPeriodEventsCommand { get; private set; }
         public RelayCommand SearchEventsCommand { get; private set; }
         public RelayCommand DeleteEventCommand { get; private set; }
+        public RelayCommand UpdateEventCommand { get; private set; }
         public RelayCommand ShowChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand HideChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand GetChooseDateEventsCommand { get; private set; }
@@ -89,6 +88,7 @@ namespace AGC.GUI.ViewModel
                 GetPeriodEventsCommand = new RelayCommand(GetPeriodEvents);
                 SearchEventsCommand = new RelayCommand(SearchEvents);
                 DeleteEventCommand = new RelayCommand(DeleteEvent);
+                UpdateEventCommand = new RelayCommand(UpdateEvent);
                 ShowChooseDateEventsControlsCommand = new RelayCommand(ShowChooseDateEventsControls);
                 HideChooseDateEventsControlsCommand = new RelayCommand(HideChooseDateEventsControls);
                 GetChooseDateEventsCommand = new RelayCommand(GetChooseDateEvents);
@@ -601,6 +601,29 @@ namespace AGC.GUI.ViewModel
                 }
             }
             RefreshEventsList();
+        }
+
+        private void UpdateEvent()
+        {
+            repository.SetCurrentEvent(SelectedEvent);
+
+            if (SelectedEvent.IsRecurrenceEvent)
+            {               
+                var updateEventOptionsWindow = new Views.UpdateEventOptionsView();
+                updateEventOptionsWindow.ShowDialog();
+            }
+            else
+            {
+                CalendarEventUpdater updateEvent = new CalendarEventUpdater(GoogleCalendar.ActionType.single, SelectedEvent);
+                repository.SetEventUpdater(updateEvent);
+            }
+
+            if (repository.GetEventUpdater().Type != GoogleCalendar.ActionType.none)
+            {
+                var updateEventWindow = new Views.UpdateEventView();
+                updateEventWindow.ShowDialog();
+                RefreshEventsList();
+            }           
         }
 
         private void ShowChooseDateEventsControls()

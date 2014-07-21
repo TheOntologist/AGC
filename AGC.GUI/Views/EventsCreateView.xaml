@@ -38,7 +38,7 @@
 
             <StackPanel Grid.ColumnSpan="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <CheckBox Content="All day" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding IsFullDayEvent}"/>
-                <CheckBox Content="Repeat" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding IsRecurringEvent}"/>
+                <CheckBox Content="Repeat" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding IsRecurringEvent}" IsEnabled="{Binding IsRecurrenceEnabled}"/>
             </StackPanel>
 
             <GroupBox Header="Start Date" Grid.ColumnSpan="2" Grid.Row="4">
@@ -130,7 +130,11 @@
                     <ComboBox ItemsSource="{Binding RepeatTypeList}" SelectedValue="{Binding SelectedRepeatType}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Type" />
                 </StackPanel>
             </GroupBox>
-            <Button Content="Save" Grid.Row="2"  Command="{Binding CreateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}"/>
+            <Button Content="Save" Grid.Row="2"  Command="{Binding CreateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}" Visibility="{Binding IsNewEvent, Converter={StaticResource BoolToVis}}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}">
+                <Button Content="Update" Grid.Row="2"  Command="{Binding UpdateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Update" Style="{StaticResource Button}"/>
+                <Button Content="Cancel" Grid.Row="2"  Command="{Binding CancelUpdateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Cancel" Style="{StaticResource Button}"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

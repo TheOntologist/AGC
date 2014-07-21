@@ -102,6 +102,10 @@
     <Compile Include="ViewModel\EventsCreateViewModel.cs" />
     <Compile Include="ViewModel\EventsListViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\UpdateEventOptionsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\UpdateEventViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\AddQuickEventView.xaml.cs">
       <DependentUpon>AddQuickEventView.xaml</DependentUpon>
@@ -114,6 +118,13 @@
     </Compile>
     <Compile Include="Views\EventsListView.xaml.cs">
       <DependentUpon>EventsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpdateEventOptionsView.xaml.cs">
+      <DependentUpon>UpdateEventOptionsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\UpdateEventView.xaml.cs">
+      <DependentUpon>UpdateEventView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DatePicker.xaml">
       <SubType>Designer</SubType>
@@ -176,6 +187,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EventsListView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpdateEventOptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpdateEventView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

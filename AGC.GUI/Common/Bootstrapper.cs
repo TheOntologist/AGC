@@ -66,6 +66,9 @@ namespace AGC.GUI.Common
             Container.RegisterType<DeleteEventViewModel>();
             log.Debug("Registered type of DeleteEventViewModel");
 
+            Container.RegisterType<UpdateEventOptionsViewModel>();
+            log.Debug("Registered type of UpdateEventOptionsViewModel");
+
             log.Debug("Container was successfully configured");
         }
     }

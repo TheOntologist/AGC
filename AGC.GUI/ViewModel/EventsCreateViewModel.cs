@@ -39,7 +39,9 @@ namespace AGC.GUI.ViewModel
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IGoogleCalendar calendar;
+        private readonly IRepository repository;
         private IRecurrenceSettings recurrence;
+        private CalendarEventUpdater eventUpdater;
 
         private static List<string> RECURRENCE_TYPE = new List<string>(new string[] { DAILY, WEEKLY_WORKDAYS, WEEKLY_MON_WED_FRI, WEEKLY_TUESD_THURS, WEEKLY, MONTHLY, YEARLY });
         private static List<string> REMINDER_TYPE = new List<string>(new string[] { MINUTES, HOURS, DAYS });
@@ -48,21 +50,34 @@ namespace AGC.GUI.ViewModel
         #region Commands
 
         public RelayCommand CreateEventCommand { get; private set; }
+        public RelayCommand UpdateEventCommand { get; private set; }
+        public RelayCommand CancelUpdateEventCommand { get; private set; }
 
         #endregion
 
         #region Constructor
 
-        public EventsCreateViewModel(IGoogleCalendar googleCalendar, IRecurrenceSettings recurrenceSettings)
+        public EventsCreateViewModel(IGoogleCalendar googleCalendar, IRecurrenceSettings recurrenceSettings, IRepository commonRepository)
         {
             try
             {
                 log.Debug("Loading EventsCreate view model...");
 
                 calendar = googleCalendar;
+                repository = commonRepository;
                 recurrence = recurrenceSettings;
 
                 CreateEventCommand = new RelayCommand(CreateEvent);
+                UpdateEventCommand = new RelayCommand(UpdateEvent);
+                CancelUpdateEventCommand = new RelayCommand(CancelUpdateEvent);
+
+                // For Update Events
+                eventUpdater = repository.GetEventUpdater();
+                if (eventUpdater.Type != GoogleCalendar.ActionType.none)
+                {
+                    IsUpdate = true;
+                    SetUpdateEventSettings(eventUpdater);
+                }
 
                 log.Debug("EventsCreate view model was succssfully loaded");
             }
@@ -75,6 +90,60 @@ namespace AGC.GUI.ViewModel
         #endregion
 
         #region Public Properties
+
+        public const string IsNewEventPropertyName = "IsNewEvent";
+        private bool _isNewEvent = true;
+        public bool IsNewEvent
+        {
+            get
+            {
+                return _isNewEvent;
+            }
+
+            set
+            {
+                if (_isNewEvent == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(IsNewEventPropertyName);
+                _isNewEvent = value;
+                RaisePropertyChanged(IsNewEventPropertyName);
+
+                if (value)
+                {
+                    IsUpdate = false;
+                }            
+            }
+        }
+
+        public const string IsUpdatePropertyName = "IsUpdate";
+        private bool _isUpdate = false;
+        public bool IsUpdate
+        {
+            get
+            {
+                return _isUpdate;
+            }
+
+            set
+            {
+                if (_isUpdate == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(IsUpdatePropertyName);
+                _isUpdate = value;
+                RaisePropertyChanged(IsUpdatePropertyName);
+
+                if (value)
+                {
+                    IsNewEvent = false;
+                }            
+            }
+        }
 
         public const string TitlePropertyName = "Title";
         private string _title = String.Empty;
@@ -300,6 +369,28 @@ namespace AGC.GUI.ViewModel
         }
 
         #region Recurrence Settings
+
+        public const string IsRecurrenceEnabledPropertyName = "IsRecurrenceEnabled";
+        private bool _isRecurrenceEnabled = true;
+        public bool IsRecurrenceEnabled
+        {
+            get
+            {
+                return _isRecurrenceEnabled;
+            }
+
+            set
+            {
+                if (_isRecurrenceEnabled == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(IsRecurrenceEnabledPropertyName);
+                _isRecurrenceEnabled = value;
+                RaisePropertyChanged(IsRecurrenceEnabledPropertyName);
+            }
+        }
 
         public const string IsRecurringEventPropertyName = "IsRecurringEvent";
         private bool _isRecurringEvent = false;
@@ -895,6 +986,45 @@ namespace AGC.GUI.ViewModel
 
         private void CreateEvent()
         {
+            CalendarEvent ev = GetCalendarEvent();
+
+            if (calendar.CreateEvent(ev))
+            {
+                MessageBox.Show(Application.Current.MainWindow, "Created", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                CleanInputText();
+                recurrence.Clear(); 
+            }
+            else
+            {
+                MessageBox.Show(Application.Current.MainWindow, "Failed to create event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
+        }
+
+        private void UpdateEvent()
+        {
+            CalendarEvent ev = GetCalendarEvent();
+            ev.Id = eventUpdater.CalendarEvent.Id;
+            eventUpdater.Type = IsRecurringEvent ? GoogleCalendar.ActionType.all : eventUpdater.Type;
+
+            if (calendar.UpdateEvent(ev, eventUpdater.Type))
+            {
+                MessageBox.Show(Application.Current.MainWindow, "Updated", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            }
+            else
+            {
+                MessageBox.Show(Application.Current.MainWindow, "Failed to update event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
+
+            CloseUpdateWindow();
+        }
+
+        private void CancelUpdateEvent()
+        {
+            CloseUpdateWindow();
+        }
+       
+        private CalendarEvent GetCalendarEvent()
+        {
             CalendarEvent ev = new CalendarEvent(Title, Content, Location, GetStartDateTime(), GetEndDateTime());
 
             if (IsRecurringEvent)
@@ -909,18 +1039,10 @@ namespace AGC.GUI.ViewModel
             }
 
             ev.Reminder = CalculateReminderMinutes();
-            if (calendar.CreateEvent(ev))
-            {
-                MessageBox.Show(Application.Current.MainWindow, "Created", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-                CleanInputText();
-                recurrence.Clear(); 
-            }
-            else
-            {
-                MessageBox.Show(Application.Current.MainWindow, "Failed to create event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-            }
+
+            return ev;
         }
-       
+
         private void SetRecurrenceTypeControls(string recurrenceType)
         {
             switch (recurrenceType)
@@ -1123,6 +1245,119 @@ namespace AGC.GUI.ViewModel
             Title = String.Empty;
             Content = String.Empty;
             Location = String.Empty;
+        }
+
+        private void SetUpdateEventSettings(CalendarEventUpdater eventUpdater)
+        {
+            CalendarEvent ev = eventUpdater.CalendarEvent;
+            recurrence = eventUpdater.Recurrence == null ? recurrence : eventUpdater.Recurrence;
+
+            // Set general events settings
+            Title = ev.Title;
+            Content = ev.Content;
+            Location = ev.Location;
+
+            IsFullDayEvent = ev.IsFullDateEvent;
+            IsRecurringEvent = ev.IsRecurrenceEvent;
+
+            StartDate = ev.Start;
+            StartTimeHours = ev.Start.Hour;
+            StartTimeMinutes = ev.Start.Minute;
+
+            DateTime end = ev.End ?? ev.Start;
+            EndDate = end;
+            EndTimeHours = end.Hour;
+            EndTimeMinutes = end.Minute;
+                        
+            // Disable recurrence settings if update single instace option was selected
+            if (eventUpdater.Type == GoogleCalendar.ActionType.single && IsRecurringEvent)
+            {
+                IsRecurringEvent = false;
+                IsRecurrenceEnabled = false;
+                return;
+            }
+
+            SetUpdateEventRecurrenceSettings();
+        }
+
+        private void SetUpdateEventRecurrenceSettings()
+        {
+           // Set Recurrence Type
+            if (recurrence.IsRepeatsDaily())
+            {
+                SelectedRecurrenceType = DAILY;
+            }
+            else if (recurrence.IsRepeatsWeeky())
+            {
+                if(recurrence.IsRepeatsOnMonday() && recurrence.IsRepeatsOnTuesday() && recurrence.IsRepeatsOnWednesday()
+                    && recurrence.IsRepeatsOnThursday() && recurrence.IsRepeatsOnFriday()
+                    && !recurrence.IsRepeatsOnSaturday() && !recurrence.IsRepeatsOnSunday())
+                {
+                    SelectedRecurrenceType = WEEKLY_WORKDAYS;
+                }
+                else if (recurrence.IsRepeatsOnMonday() && !recurrence.IsRepeatsOnTuesday() && recurrence.IsRepeatsOnWednesday()
+                    && !recurrence.IsRepeatsOnThursday() && recurrence.IsRepeatsOnFriday()
+                    && !recurrence.IsRepeatsOnSaturday() && !recurrence.IsRepeatsOnSunday())
+                {
+                    SelectedRecurrenceType = WEEKLY_MON_WED_FRI;
+                }
+                else if (!recurrence.IsRepeatsOnMonday() && recurrence.IsRepeatsOnTuesday() && !recurrence.IsRepeatsOnWednesday()
+                    && recurrence.IsRepeatsOnThursday() && !recurrence.IsRepeatsOnFriday()
+                    && !recurrence.IsRepeatsOnSaturday() && !recurrence.IsRepeatsOnSunday())
+                {
+                    SelectedRecurrenceType = WEEKLY_TUESD_THURS;
+                }
+                else
+                {
+                    SelectedRecurrenceType = WEEKLY;
+
+                    Monday = recurrence.IsRepeatsOnMonday();
+                    Tuesday = recurrence.IsRepeatsOnTuesday();
+                    Wednesday = recurrence.IsRepeatsOnWednesday();
+                    Thursday = recurrence.IsRepeatsOnThursday();
+                    Friday = recurrence.IsRepeatsOnFriday();
+                    Saturday = recurrence.IsRepeatsOnSaturday();
+                    Sunday = recurrence.IsRepeatsOnSunday();
+                }
+            }
+            else if (recurrence.IsRepeatsMonthly())
+            {
+                SelectedRecurrenceType = MONTHLY;
+                ByDayOfTheMonth = recurrence.IsRepeatsByDayOfMonth();
+                ByDayOfTheWeek = recurrence.IsRepeatsByDayOfWeek();
+            }
+            else if (recurrence.IsRepeatsYearly())
+            {
+                SelectedRecurrenceType = YEARLY;
+            }
+
+            // Set interval
+            Interval = recurrence.GetInterval();
+
+            // Set Exit condition settings
+            if (recurrence.IsEndsNever())
+            {
+                EndsNever = true;
+            }
+            else if (recurrence.IsEndsAfterSpecifiedNumberOfOccurences())
+            {
+                EndsAfter = true;
+                RecurrenceEventsCount = recurrence.Count();
+            }
+            else if (recurrence.IsEndsOnSpecifiedDate())
+            {
+                EndsOn = true;
+                RecurrenceEndDate = recurrence.EndDate() ?? DateTime.Today;
+            }
+        }
+
+        private void CloseUpdateWindow()
+        {
+            // Reset Update flag
+            eventUpdater.Type = GoogleCalendar.ActionType.none;
+            repository.SetEventUpdater(eventUpdater);
+
+            Application.Current.Windows[1].Close();
         }
 
         #endregion

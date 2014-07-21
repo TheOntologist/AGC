@@ -9,10 +9,10 @@ namespace AGC.GUI.Common
 {
     public interface IRepository
     {
-        //void GetCurrentEvent(Action<CalendarEvent> callback);
-
         CalendarEvent GetCurrentEvent();
-
         void SetCurrentEvent(CalendarEvent calEvent);
+
+        CalendarEventUpdater GetEventUpdater();
+        void SetEventUpdater(CalendarEventUpdater calEventUpdater);
     }
 }

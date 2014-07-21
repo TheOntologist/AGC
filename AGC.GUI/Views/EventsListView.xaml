@@ -22,6 +22,8 @@
             </ListView.View>
             <ListView.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding Path=DeleteEventCommand}" />
+                <KeyBinding Key="Enter"  Command="{Binding Path=UpdateEventCommand}" />
+                <KeyBinding Key="Space"  Command="{Binding Path=UpdateEventCommand}" />
             </ListView.InputBindings>
         </ListView>
         <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowDefaultControls, Converter={StaticResource BoolToVis}}">

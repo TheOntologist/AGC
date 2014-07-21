@@ -8,6 +8,8 @@ namespace AGC.Library
 {
     public interface IRecurrenceSettings
     {
+        RecurrenceSettings SetRecurrence(DateTime start, string rrule);
+
         RecurrenceSettings StartsOn(DateTime start);
 
         RecurrenceSettings Daily();
@@ -36,6 +38,8 @@ namespace AGC.Library
         bool IsRepeatsWeeky();
         bool IsRepeatsMonthly();
         bool IsRepeatsYearly();
+
+        int GetInterval();
 
         bool IsRepeatsOnMonday();
         bool IsRepeatsOnTuesday();

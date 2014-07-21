@@ -10,6 +10,8 @@ namespace AGC.Library
     {
         bool CreateEvent(CalendarEvent ev);
 
+        bool UpdateEvent(CalendarEvent ev, GoogleCalendar.ActionType type);
+
         bool AddQuickEvent(String eventText);
 
         bool DeleteEvent(CalendarEvent ev);
@@ -21,5 +23,7 @@ namespace AGC.Library
         CalendarEventList GetAllEvents();
 
         void DeleteEvents(CalendarEventList evs);
+
+        RecurrenceSettings GetRecurrenceSettings(CalendarEvent ev);
     }
 }

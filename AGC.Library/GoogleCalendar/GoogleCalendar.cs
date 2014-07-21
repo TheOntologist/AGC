@@ -35,6 +35,13 @@ namespace AGC.Library
 
         #region Public Methods
 
+        public enum ActionType
+        {
+            none,
+            single,
+            all
+        }
+
         public bool CreateEvent(CalendarEvent ev)
         {
             log.Debug("Try to create new event title=\"" + ev.Title + "\"");
@@ -42,34 +49,7 @@ namespace AGC.Library
             try
             {
                 // New event
-                Event newEvent = new Event();
-
-                newEvent.Summary = ev.Title;
-                newEvent.Location = ev.Location;
-                newEvent.Description = ev.Content;
-
-                newEvent.Start = ConvertToEventDateTime(ev.Start, ev.IsFullDateEvent);
-                newEvent.End = ev.IsFullDateEvent ? ConvertToEventDateTime(ev.Start, true) : ConvertToEventDateTime(ev.End, false);
-
-                // Recurrence
-                if (!String.IsNullOrEmpty(ev.RRule))
-                {
-                    newEvent.Recurrence = new String[] { ev.RRule };
-                }
-
-                // Reminder
-                newEvent.Reminders = new Event.RemindersData()
-                {
-                    Overrides = new List<EventReminder> 
-                    { 
-                        new EventReminder()
-                        {
-                            Method = "email",
-                            Minutes = ev.Reminder
-                        }
-                    },
-                    UseDefault = false
-                };
+                Event newEvent = ConvertCalendarEventToGoogleEvent(ev);
 
                 service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
              
@@ -82,6 +62,69 @@ namespace AGC.Library
                 log.Error("Event creation failed with error:", ex);
                 log.Info("Event Details: " + ev.ToString());
                 return false;               
+            }
+        }
+
+        public bool TestCreateEvent(CalendarEvent ev)
+        {
+            log.Debug("Try to create new event title=\"" + ev.Title + "\"");
+
+            try
+            {
+                // New event
+                Event newEvent = ConvertCalendarEventToGoogleEvent(ev);
+                newEvent.Status = "cancelled";
+
+                service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
+
+                log.Debug("New event was successfully created");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Event creation failed with error:", ex);
+                log.Info("Event Details: " + ev.ToString());
+                return false;
+            }
+        }
+
+        public bool UpdateEvent(CalendarEvent ev, ActionType type)
+        {
+            log.Debug("Try to update event title=\"" + ev.Title + "\"");
+            try
+            {
+                switch (type)
+                {
+                    case ActionType.single:
+                        {
+                            ev.RRule = String.Empty;
+                            break;
+                        }
+                    case ActionType.all:
+                        {
+                            ev.Id = GetMainEventId(ev.Id);
+                            break;
+                        }                        
+                }
+
+                Event newEvent = ConvertCalendarEventToGoogleEvent(ev);
+
+                // Increate sequence number... I hate you Google API for your crazy things >_<
+                //newEvent.Sequence = newEvent.Sequence == null ? 1 : newEvent.Sequence++;
+                newEvent = UpdateSequenceNumber(newEvent);
+
+                service.Events.Update(newEvent, DEFAULT_CALENDAR, newEvent.Id).Execute();
+
+                log.Debug("New event was successfully updated");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Event update failed with error:", ex);
+                log.Info("Event Details: " + ev.ToString());
+                return false;
             }
         }
 
@@ -162,6 +205,16 @@ namespace AGC.Library
             }
         }
 
+        public RecurrenceSettings GetRecurrenceSettings(CalendarEvent ev)
+        {
+            if (!ev.IsRecurrenceEvent)
+            {
+                return new RecurrenceSettings();
+            }
+
+            return new RecurrenceSettings(ev.Start, GetGoogleEventById(GetMainEventId(ev.Id)).Recurrence[0]);
+        }
+
         #endregion
 
         #region Private Methods
@@ -236,6 +289,43 @@ namespace AGC.Library
             return calendarEvent;
         }
 
+        private static Event ConvertCalendarEventToGoogleEvent(CalendarEvent ev)
+        {
+            try
+            {
+                Event googleEvent = new Event();
+
+                if (!string.IsNullOrEmpty(ev.Id))
+                {
+                    googleEvent.Id = ev.Id;
+                }
+
+                googleEvent.Summary = ev.Title;
+                googleEvent.Location = ev.Location;
+                googleEvent.Description = ev.Content;
+
+                googleEvent.Start = ConvertToEventDateTime(ev.Start, ev.IsFullDateEvent);
+                googleEvent.End = ev.IsFullDateEvent ? ConvertToEventDateTime(ev.Start, true) : ConvertToEventDateTime(ev.End, false);
+
+                // Recurrence
+                if (!String.IsNullOrEmpty(ev.RRule))
+                {
+                    googleEvent.Recurrence = new String[] { ev.RRule };
+                }
+
+                // Reminder
+                googleEvent.Reminders = ConvertMinutesToGoogleEventReminder(ev.Reminder);
+
+                return googleEvent;
+            }
+            catch (Exception ex)
+            {
+                log.Error("CalendarEvent convertation to GoogleEvent failed with error:", ex);
+                log.Info("Event Details: " + ev.ToString());
+                return null;
+            }
+        }
+
         private static CalendarEventList ConvertToCalendarEvents(IList<Event> googleEvents)
         {
             CalendarEventList calendarEvents = new CalendarEventList();
@@ -246,6 +336,28 @@ namespace AGC.Library
             }
 
             return calendarEvents;
+        }
+
+        private static Event.RemindersData ConvertMinutesToGoogleEventReminder(int minutes)
+        {
+            Event.RemindersData reminder = new Event.RemindersData()
+            {
+                Overrides = new List<EventReminder> 
+                    { 
+                        new EventReminder()
+                        {
+                            Method = "email",
+                            Minutes = minutes
+                        }
+                    },
+                UseDefault = false
+            };
+            return reminder;
+        }
+
+        private Event GetGoogleEventById(string id)
+        {
+            return service.Events.Get(DEFAULT_CALENDAR, id).Execute();
         }
 
         private static DateTime GetEventStartDate(Event ev)
@@ -274,9 +386,39 @@ namespace AGC.Library
                 return false;
         }
 
-        private static string GetRRule(IList<string> recurrence)
+        private static string GetMainEventId(string id)
         {
-            return recurrence[0];
+            return id.Split('_')[0];
+        }
+
+        private Event UpdateSequenceNumber(Event ev)
+        {
+            int sequence = service.Events.Get(DEFAULT_CALENDAR, ev.Id).Execute().Sequence ?? 0;
+            sequence++;
+            ev.Sequence = sequence;
+            return ev;
+        }
+
+        private static string GetRRule(Event ev)
+        {
+            if (!IsFullDayEvent(ev))
+            {
+                return String.Empty;
+            }
+
+            return ev.Recurrence != null ? ev.Recurrence[0] : String.Empty;
+        }
+
+        private static int GetReminder(Event ev)
+        {
+            if (ev.Reminders.UseDefault == true)
+            {
+                return 10;
+            }
+            else
+            {
+                return ev.Reminders.Overrides[0].Minutes ?? 10;
+            }           
         }
 
         #endregion

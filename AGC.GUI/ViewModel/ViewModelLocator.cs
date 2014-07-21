@@ -80,6 +80,24 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public UpdateEventOptionsViewModel UpdateEventOptions
+        {
+            get
+            {
+                log.Debug("Get UpdateEventOptionsViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<UpdateEventOptionsViewModel>();
+            }
+        }
+
+        public UpdateEventViewModel UpdateEvent
+        {
+            get
+            {
+                log.Debug("Get UpdateEventViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<UpdateEventViewModel>();
+            }
+        }
+
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>

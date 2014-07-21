@@ -39,10 +39,10 @@ namespace AGC.GUI.Controls
         }
 
         public static readonly DependencyProperty HoursProperty =
-            DependencyProperty.Register("Hours", typeof(int), typeof(TimePicker), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentHoursPropertyChanged));
+            DependencyProperty.Register("Hours", typeof(int), typeof(TimePicker), new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentHoursPropertyChanged));
 
         public static readonly DependencyProperty MinutesProperty =
-            DependencyProperty.Register("Minutes", typeof(int), typeof(TimePicker), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentMinutesPropertyChanged));
+            DependencyProperty.Register("Minutes", typeof(int), typeof(TimePicker), new FrameworkPropertyMetadata(-1, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentMinutesPropertyChanged));
 
         private static void OnCurrentHoursPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {

@@ -1,0 +1,14 @@
+﻿<Window x:Class="AGC.GUI.Views.UpdateEventView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:AGC.GUI.Views"
+        xmlns:ignore="http://www.ignore.com"
+        Title="Update Event"
+        mc:Ignorable="d ignore"
+        DataContext="{Binding UpdateEvent, Source={StaticResource Locator}}" Height="440" Width="720">
+    <Grid>
+        <views:EventsCreateView />
+    </Grid>
+</Window>

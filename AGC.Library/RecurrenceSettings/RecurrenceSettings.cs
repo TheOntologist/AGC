@@ -80,42 +80,18 @@ namespace AGC.Library
 
         public RecurrenceSettings(DateTime start, string rrule)
         {
-            startDate = start;
-            rrule = rrule.Replace(RRULE_PART, "");
-            string[] parameters = rrule.Split(';');
-
-            foreach (string param in parameters)
-            {
-                if (param.Contains(FREQ_PART))
-                {
-                    SetFreqPart(param);
-                }
-                else if (param.Contains(INTERVAL_PART))
-                {
-                    SetIntervalPart(param);
-                }
-                else if (param.Contains(BYDAY_PART))
-                {
-                    SetByDayPart(param);
-                }
-                else if (param.Contains(BYMONTHDAY_PART))
-                {
-                    SetByMonthDayPart(param);
-                }
-                else if (param.Contains(COUNT_PART))
-                {
-                    SetCountPart(param);
-                }
-                else if (param.Contains(UNTIL_PART))
-                {
-                    SetUntilPart(param);
-                }
-            }
+            SetRecurrenceSettings(start, rrule);
         }
 
         #endregion
 
         #region Public Methods
+
+        public RecurrenceSettings SetRecurrence(DateTime start, string rrule)
+        {
+            SetRecurrenceSettings(start, rrule);
+            return this;
+        }
 
         public RecurrenceSettings StartsOn(DateTime start)
         {
@@ -274,6 +250,11 @@ namespace AGC.Library
         }
 
         #endregion
+
+        public int GetInterval()
+        {
+            return interval;
+        }
 
         #region Weekdays Settings info
 
@@ -486,6 +467,40 @@ namespace AGC.Library
             return ((int)date.DayOfWeek == 0) ? 7 : (int)date.DayOfWeek;
         }
 
+        private void SetRecurrenceSettings(DateTime start, string rrule)
+        {
+            startDate = start;
+            rrule = rrule.Replace(RRULE_PART, "");
+            string[] parameters = rrule.Split(';');
+
+            foreach (string param in parameters)
+            {
+                if (param.Contains(FREQ_PART))
+                {
+                    SetFreqPart(param);
+                }
+                else if (param.Contains(INTERVAL_PART))
+                {
+                    SetIntervalPart(param);
+                }
+                else if (param.Contains(BYDAY_PART))
+                {
+                    SetByDayPart(param);
+                }
+                else if (param.Contains(BYMONTHDAY_PART))
+                {
+                    SetByMonthDayPart(param);
+                }
+                else if (param.Contains(COUNT_PART))
+                {
+                    SetCountPart(param);
+                }
+                else if (param.Contains(UNTIL_PART))
+                {
+                    SetUntilPart(param);
+                }
+            }
+        }
 
         private void SetFreqPart(string freqParam)
         {

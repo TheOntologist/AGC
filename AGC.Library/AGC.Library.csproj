@@ -93,6 +93,7 @@
     <Compile Include="CalendarEvents\CalendarEvent.cs" />
     <Compile Include="CalendarEvents\CalendarEventList.cs" />
     <Compile Include="CalendarEvents\CalendarEventService.cs" />
+    <Compile Include="CalendarEvents\CalendarEventUpdater.cs" />
     <Compile Include="CalendarEvents\ICalendarEventService.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="GoogleCalendar\GoogleCalendar.cs" />
