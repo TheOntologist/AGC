@@ -12,7 +12,8 @@
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Content="Only this instance" Style="{StaticResource Button}" Command="{Binding UpdateOnlyInstanceCommand}" common:FocusExtension.IsFocused="true"/>
-            <Button Content="All events in the series" Style="{StaticResource Button}" Command="{Binding UpdateAllEventsCommand}"/>
+            <Button Content="All the following" Style="{StaticResource Button}" Command="{Binding UpdateFollowingEventsCommand}"/>
+            <Button Content="All events in the series" Style="{StaticResource Button}" Command="{Binding UpdateAllEventsCommand}"/>            
         </StackPanel>
     </Grid>
 </Window>

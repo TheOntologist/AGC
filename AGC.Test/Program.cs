@@ -30,7 +30,21 @@ namespace AGC.Test
             Console.WriteLine("################################################################################");
             Console.WriteLine();
 
-            CreateTestEvents();
+            calendar.TestCreateEvent(new CalendarEvent("Today", "Content", "Location", period.Today().Start, period.Today().End));
+
+            /*
+            CalendarEventList all = calendar.GetAllEvents();
+
+            foreach (CalendarEvent ev in all)
+            {
+                if(ev.IsRecurrenceEvent)
+                {
+                    RecurrenceSettings rec = calendar.GetRecurrenceSettings(ev);
+                    int i = 0;
+                }
+            }
+             */
+            //CreateTestEvents();
             //allEvents.SortByDate();
             //calendar.DeleteEvents(calendar.GetAllEvents());
 
@@ -51,8 +65,8 @@ namespace AGC.Test
             calendar.CreateEvent(new CalendarEvent("Next Week Friday", "Content", "Location", period.NextWeek().Start.AddDays(4), period.NextWeek().Start.AddDays(4).AddHours(5)));
             calendar.CreateEvent(new CalendarEvent("This Month 20", "Content", "Location", period.ThisMonth().Start.AddDays(19), period.ThisMonth().Start.AddDays(19).AddHours(5)));
             calendar.CreateEvent(new CalendarEvent("Next Month 25", "Content", "Location", period.NextMonth().Start.AddDays(24), period.NextMonth().Start.AddDays(24).AddHours(5)));
-            calendar.CreateEvent(new CalendarEvent("Next + 3 Month Single (last month 19)", "Content", "Location", period.NextNMonth(3, true).Start.AddDays(18), period.NextNMonth(3, true).Start.AddDays(18).AddHours(5)));
-            calendar.CreateEvent(new CalendarEvent("Next + 3 Month Period (+ 2 month 17)s", "Content", "Location", period.NextNMonth(2, false).Start.AddMonths(2).AddDays(16), period.NextNMonth(2, false).Start.AddMonths(2).AddDays(16).AddHours(5)));
+            //calendar.CreateEvent(new CalendarEvent("Next + 3 Month Single (last month 19)", "Content", "Location", period.NextNMonth(3, true).Start.AddDays(18), period.NextNMonth(3, true).Start.AddDays(18).AddHours(5)));
+            //calendar.CreateEvent(new CalendarEvent("Next + 3 Month Period (+ 2 month 17)s", "Content", "Location", period.NextNMonth(2, false).Start.AddMonths(2).AddDays(16), period.NextNMonth(2, false).Start.AddMonths(2).AddDays(16).AddHours(5)));
         }
 
         private static void DeleteTestEvents()
@@ -96,13 +110,13 @@ namespace AGC.Test
             period.NextMonth().WriteConsoleLog();
             Console.WriteLine();
 
-            Console.WriteLine("Next + 3 Month Single");
-            period.NextNMonth(3, true).WriteConsoleLog();
-            Console.WriteLine();
+            //Console.WriteLine("Next + 3 Month Single");
+            //period.NextNMonth(3, true).WriteConsoleLog();
+            //Console.WriteLine();
 
-            Console.WriteLine("Next + 3 Month Period");
-            period.NextNMonth(3, false).WriteConsoleLog();
-            Console.WriteLine();
+            //Console.WriteLine("Next + 3 Month Period");
+            //period.NextNMonth(3, false).WriteConsoleLog();
+            //Console.WriteLine();
         }
 
         private static void TestCalendarEventService()
@@ -131,14 +145,6 @@ namespace AGC.Test
             Console.WriteLine("#                                Next Month                                    #");
             Console.WriteLine("################################################################################");
             service.GetEvents(allEvents, period.NextMonth()).WriteConsoleLogShort();
-            Console.WriteLine("################################################################################");
-            Console.WriteLine("#                                Next + 3 Month (Single)                       #");
-            Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.NextNMonth(3, true)).WriteConsoleLogShort();
-            Console.WriteLine("################################################################################");
-            Console.WriteLine("#                                Next + 3 Month (Period)                       #");
-            Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.NextNMonth(3, false)).WriteConsoleLogShort();
         }
 
         private static void TestCalendarEventServiceSearch()

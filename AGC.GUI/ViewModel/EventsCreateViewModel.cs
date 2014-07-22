@@ -1004,7 +1004,6 @@ namespace AGC.GUI.ViewModel
         {
             CalendarEvent ev = GetCalendarEvent();
             ev.Id = eventUpdater.CalendarEvent.Id;
-            eventUpdater.Type = IsRecurringEvent ? GoogleCalendar.ActionType.all : eventUpdater.Type;
 
             if (calendar.UpdateEvent(ev, eventUpdater.Type))
             {

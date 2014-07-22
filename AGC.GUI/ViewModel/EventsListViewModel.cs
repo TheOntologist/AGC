@@ -586,12 +586,12 @@ namespace AGC.GUI.ViewModel
             if (SelectedEvent.IsRecurrenceEvent)
             {
                 repository.SetCurrentEvent(SelectedEvent);
-                var deleteEventWindow = new Views.DeleteEventView();
+                var deleteEventWindow = new Views.DeleteEventOptionsView();
                 deleteEventWindow.ShowDialog();
             }
             else
             {
-                if (calendar.DeleteEvent(SelectedEvent))
+                if (calendar.DeleteEvent(SelectedEvent, GoogleCalendar.ActionType.single))
                 {
                     MessageBox.Show(Application.Current.MainWindow, "Deleted", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                 }

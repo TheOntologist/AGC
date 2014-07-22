@@ -71,12 +71,12 @@ namespace AGC.GUI.ViewModel
             }
         }
 
-        public DeleteEventViewModel DeleteEvent
+        public DeleteEventOptionsViewModel DeleteEvent
         {
             get
             {
-                log.Debug("Get DeleteEventViewModel from ViewModelLocator");
-                return _bootStrapper.Container.Resolve<DeleteEventViewModel>(); 
+                log.Debug("Get DeleteEventOptionsViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<DeleteEventOptionsViewModel>(); 
             }
         }
 

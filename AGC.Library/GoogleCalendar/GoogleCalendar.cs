@@ -39,7 +39,8 @@ namespace AGC.Library
         {
             none,
             single,
-            all
+            all,
+            following
         }
 
         public bool CreateEvent(CalendarEvent ev)
@@ -49,7 +50,7 @@ namespace AGC.Library
             try
             {
                 // New event
-                Event newEvent = ConvertCalendarEventToGoogleEvent(ev);
+                Event newEvent = ConvertCalendarEventToGoogleEvent(ev, false);
 
                 service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
              
@@ -72,7 +73,7 @@ namespace AGC.Library
             try
             {
                 // New event
-                Event newEvent = ConvertCalendarEventToGoogleEvent(ev);
+                Event newEvent = ConvertCalendarEventToGoogleEvent(ev, false);
                 newEvent.Status = "cancelled";
 
                 service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
@@ -105,13 +106,19 @@ namespace AGC.Library
                         {
                             ev.Id = GetMainEventId(ev.Id);
                             break;
-                        }                        
+                        }
+                    case ActionType.following:
+                        {
+                            // Create recurrence event with new settings
+                            CreateEvent(ev);
+                            ev = GetAllPreviousEvents(ev);
+                            break;
+                        }
                 }
 
-                Event newEvent = ConvertCalendarEventToGoogleEvent(ev);
+                Event newEvent = ConvertCalendarEventToGoogleEvent(ev, true);
 
                 // Increate sequence number... I hate you Google API for your crazy things >_<
-                //newEvent.Sequence = newEvent.Sequence == null ? 1 : newEvent.Sequence++;
                 newEvent = UpdateSequenceNumber(newEvent);
 
                 service.Events.Update(newEvent, DEFAULT_CALENDAR, newEvent.Id).Execute();
@@ -146,11 +153,29 @@ namespace AGC.Library
             }           
         }
 
-        public bool DeleteEvent(CalendarEvent ev)
+        public bool DeleteEvent(CalendarEvent ev, ActionType type)
         {
             try
             {
-                service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
+                switch (type)
+                {
+                    case ActionType.single:
+                        {
+                            service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
+                            break;
+                        }
+                    case ActionType.all:
+                        {
+                            ev.Id = GetMainEventId(ev.Id);
+                            service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
+                            break;
+                        }
+                    case ActionType.following:
+                        {
+                            UpdateEvent(GetAllPreviousEvents(ev), ActionType.all);
+                            break;
+                        }
+                }
                 return true;
             }
             catch(Exception ex)
@@ -159,17 +184,6 @@ namespace AGC.Library
                 log.Info("Event Details: " + ev.ToString());
                 return false;
             }
-        }
-
-        public bool DeleteSingleInstanceOfRecurringEvent(CalendarEvent ev)
-        {
-            return DeleteEvent(ev);
-        }
-
-        public bool DeleteAllInstancesOfRecurringEvent(CalendarEvent ev)
-        {
-            ev.Id = ev.Id.Split('_')[0];
-            return DeleteEvent(ev);
         }
 
         public CalendarEventList GetAllEvents()
@@ -201,7 +215,7 @@ namespace AGC.Library
         {
             foreach (CalendarEvent ev in evs)
             {
-                DeleteEvent(ev);
+                DeleteEvent(ev, ActionType.single);
             }
         }
 
@@ -289,13 +303,13 @@ namespace AGC.Library
             return calendarEvent;
         }
 
-        private static Event ConvertCalendarEventToGoogleEvent(CalendarEvent ev)
+        private static Event ConvertCalendarEventToGoogleEvent(CalendarEvent ev, bool rememberId)
         {
             try
             {
                 Event googleEvent = new Event();
 
-                if (!string.IsNullOrEmpty(ev.Id))
+                if (!string.IsNullOrEmpty(ev.Id) && rememberId)
                 {
                     googleEvent.Id = ev.Id;
                 }
@@ -358,6 +372,21 @@ namespace AGC.Library
         private Event GetGoogleEventById(string id)
         {
             return service.Events.Get(DEFAULT_CALENDAR, id).Execute();
+        }
+
+        private CalendarEvent GetAllPreviousEvents(CalendarEvent ev)
+        {
+            // Get recurrence event using it's single instance event id
+            CalendarEvent old = ConvertGoogleEventToCalendarEvent(GetGoogleEventById(GetMainEventId(ev.Id)));
+
+            // Get old event recurrence settings
+            RecurrenceSettings previous = GetRecurrenceSettings(old);
+
+            // Change it to end one day before new event
+            previous.EndsOn(ev.Start.AddDays(-1));
+            old.RRule = previous.ToString();
+
+            return old;
         }
 
         private static DateTime GetEventStartDate(Event ev)

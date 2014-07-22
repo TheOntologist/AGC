@@ -63,8 +63,8 @@ namespace AGC.GUI.Common
             Container.RegisterType<AddQuickEventViewModel>();
             log.Debug("Registered type of AddQuickEventViewModel");
 
-            Container.RegisterType<DeleteEventViewModel>();
-            log.Debug("Registered type of DeleteEventViewModel");
+            Container.RegisterType<DeleteEventOptionsViewModel>();
+            log.Debug("Registered type of DeleteEventOptionsViewModel");
 
             Container.RegisterType<UpdateEventOptionsViewModel>();
             log.Debug("Registered type of UpdateEventOptionsViewModel");

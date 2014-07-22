@@ -14,11 +14,7 @@ namespace AGC.Library
 
         bool AddQuickEvent(String eventText);
 
-        bool DeleteEvent(CalendarEvent ev);
-
-        bool DeleteSingleInstanceOfRecurringEvent(CalendarEvent ev);
-
-        bool DeleteAllInstancesOfRecurringEvent(CalendarEvent ev);
+        bool DeleteEvent(CalendarEvent ev, GoogleCalendar.ActionType type);
 
         CalendarEventList GetAllEvents();
 
