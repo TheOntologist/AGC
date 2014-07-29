@@ -30,6 +30,23 @@ namespace AGC.Library
             this.FormatedEndDate = string.Empty;
             this.RRule = String.Empty;
             this.Reminder = 10;
+            this.IsFake = false;
+        }
+
+        /// <summary>
+        /// Fake event constructor
+        /// </summary>
+        public CalendarEvent(String calContent)
+        {
+            this.Title = String.Empty;
+            this.Content = calContent;
+            this.Location = String.Empty;
+            this.Start = DateTime.Today;
+            this.End = null;
+            this.FormatedStartDate = string.Empty;
+            this.FormatedEndDate = string.Empty;
+            this.RRule = String.Empty;
+            this.IsFake = true;
         }
 
         /// <summary>
@@ -51,6 +68,7 @@ namespace AGC.Library
             this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.RRule = String.Empty;
             this.Reminder = 10;
+            this.IsFake = false;
         }
 
         /// <summary>
@@ -73,6 +91,7 @@ namespace AGC.Library
             this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.RRule = calRRule;
             this.Reminder = 10;
+            this.IsFake = false;
         }
 
         /// <summary>
@@ -97,6 +116,7 @@ namespace AGC.Library
             this.IsFullDateEvent = calIsFullDayEvent;
             this.IsRecurrenceEvent = calIsRecurrenceEvent;
             this.Reminder = 10;
+            this.IsFake = false;
         }
 
         #endregion
@@ -128,6 +148,8 @@ namespace AGC.Library
         public bool IsRecurrenceEvent { get; set; }
 
         public int Reminder { get; set; }
+
+        public bool IsFake { get; set; }
 
         public override string ToString() 
         {

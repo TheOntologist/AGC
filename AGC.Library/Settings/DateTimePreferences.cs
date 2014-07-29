@@ -14,7 +14,7 @@ namespace AGC.Library
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private const int VERSION = 0;
+        private const int VERSION = 1;
         private const string PAUSE = " . ";
 
         public string Day { get; set; }
@@ -30,6 +30,7 @@ namespace AGC.Library
         public bool HideEndDate { get; set; }
         public bool HideStartTimeAndEndDateIfFullDay { get; set; }
         public bool HideMonthIfCurrent { get; set; }
+        public bool GroupByMonth { get; set; }
 
         //Default constructor
         public DateTimePreferences()
@@ -46,6 +47,7 @@ namespace AGC.Library
             this.HideEndDate = false;
             this.HideStartTimeAndEndDateIfFullDay = true;
             this.HideMonthIfCurrent = true;
+            this.GroupByMonth = true;
         }
 
         //Deserialization constructor
@@ -65,17 +67,29 @@ namespace AGC.Library
                 HideEndDate = (bool)info.GetValue("HideEndDate", typeof(bool));
                 HideStartTimeAndEndDateIfFullDay = (bool)info.GetValue("HideStartTimeAndEndDateIfFullDay", typeof(bool));
                 HideMonthIfCurrent = (bool)info.GetValue("HideMonthIfCurrent", typeof(bool));
+                // Version 1 new values
+                GroupByMonth = true;
             }
             if (version == 1)
             {
-                // ....
+                Day = (string)info.GetValue("Day", typeof(string));
+                Month = (string)info.GetValue("Month", typeof(string));
+                Year = (string)info.GetValue("Year", typeof(string));
+                Time = (string)info.GetValue("Time", typeof(string));
+                Delimeter = (char)info.GetValue("Delimeter", typeof(char));
+                DateFormatUS = (bool)info.GetValue("DateFormatUS", typeof(bool));
+                HideYear = (bool)info.GetValue("HideYear", typeof(bool));
+                HideEndDate = (bool)info.GetValue("HideEndDate", typeof(bool));
+                HideStartTimeAndEndDateIfFullDay = (bool)info.GetValue("HideStartTimeAndEndDateIfFullDay", typeof(bool));
+                HideMonthIfCurrent = (bool)info.GetValue("HideMonthIfCurrent", typeof(bool));
+                GroupByMonth = (bool)info.GetValue("GroupByMonth", typeof(bool));
             }
         }
 
         //Serialization function.
         public void GetObjectData(SerializationInfo info, StreamingContext ctxt)
         {
-            //You can use any custom name for your name-value pair. But make sure you
+            // You can use any custom name for your name-value pair. But make sure you
             // read the values with the same name. For ex:- If you write EmpId as "EmployeeId"
             // then you should read the same with "EmployeeId"
             info.AddValue("Version", VERSION);
@@ -89,6 +103,7 @@ namespace AGC.Library
             info.AddValue("HideEndDate", HideEndDate);
             info.AddValue("HideStartTimeAndEndDateIfFullDay", HideStartTimeAndEndDateIfFullDay);
             info.AddValue("HideMonthIfCurrent", HideMonthIfCurrent);
+            info.AddValue("GroupByMonth", GroupByMonth);
         }
 
         public bool Save()

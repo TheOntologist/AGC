@@ -11,6 +11,7 @@ namespace AGC.Library
         #region Private Variables
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string[] months = new string[] { string.Empty, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
         #endregion
 
@@ -84,8 +85,16 @@ namespace AGC.Library
 
             try
             {
+                int month = 0;
+
                 foreach (CalendarEvent ev in allEvents)
                 {
+                    if(preferences.GroupByMonth && month != ev.Start.Month)
+                    {
+                        formatedEvents.Add(new CalendarEvent(months[ev.Start.Month]));
+                        month = ev.Start.Month;
+                    }
+
                     ev.FormatedStartDate = preferences.StartDateTime(ev);
                     ev.FormatedEndDate = preferences.EndDateTime(ev);
                     formatedEvents.Add(ev);                    

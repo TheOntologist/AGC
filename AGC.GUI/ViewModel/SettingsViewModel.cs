@@ -341,6 +341,28 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public const string GroupByMonthPropertyName = "GroupByMonth";
+        private bool _groupByMonth = false;
+        public bool GroupByMonth
+        {
+            get
+            {
+                return _groupByMonth;
+            }
+
+            set
+            {
+                if (_groupByMonth == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(GroupByMonthPropertyName);
+                _groupByMonth = value;
+                RaisePropertyChanged(GroupByMonthPropertyName);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -412,6 +434,7 @@ namespace AGC.GUI.ViewModel
             ShowYear = !dateTimePreferences.HideYear;
             DoNotShowTimeAndForFullDayEvents = dateTimePreferences.HideStartTimeAndEndDateIfFullDay;
             DoNotShowMonthForCurrentMonthEvents = dateTimePreferences.HideMonthIfCurrent;
+            GroupByMonth = dateTimePreferences.GroupByMonth;
         }
 
         private void SaveDateTimePreferences()
@@ -479,6 +502,7 @@ namespace AGC.GUI.ViewModel
             dateTimePreferences.HideYear = !ShowYear;
             dateTimePreferences.HideStartTimeAndEndDateIfFullDay = DoNotShowTimeAndForFullDayEvents;
             dateTimePreferences.HideMonthIfCurrent = DoNotShowMonthForCurrentMonthEvents;
+            dateTimePreferences.GroupByMonth = GroupByMonth;
 
             if (dateTimePreferences.Save())
             {

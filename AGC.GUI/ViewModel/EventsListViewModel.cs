@@ -571,47 +571,53 @@ namespace AGC.GUI.ViewModel
 
         private void DeleteEvent()
         {
-            if (SelectedEvent.IsRecurrenceEvent)
+            if (!SelectedEvent.IsFake)
             {
-                repository.SetCurrentEvent(SelectedEvent);
-                var deleteEventWindow = new Views.DeleteEventOptionsView();
-                deleteEventWindow.ShowDialog();
-            }
-            else
-            {
-                if (calendar.DeleteEvent(SelectedEvent, GoogleCalendar.ActionType.single))
+                if (SelectedEvent.IsRecurrenceEvent)
                 {
-                    MessageBox.Show(Application.Current.MainWindow, "Deleted", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                    repository.SetCurrentEvent(SelectedEvent);
+                    var deleteEventWindow = new Views.DeleteEventOptionsView();
+                    deleteEventWindow.ShowDialog();
                 }
                 else
                 {
-                    MessageBox.Show(Application.Current.MainWindow, "Failed to delete event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    if (calendar.DeleteEvent(SelectedEvent, GoogleCalendar.ActionType.single))
+                    {
+                        MessageBox.Show(Application.Current.MainWindow, "Deleted", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                    }
+                    else
+                    {
+                        MessageBox.Show(Application.Current.MainWindow, "Failed to delete event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    }
                 }
+                RefreshEventsList();
             }
-            RefreshEventsList();
         }
 
         private void UpdateEvent()
         {
-            repository.SetCurrentEvent(SelectedEvent);
-
-            if (SelectedEvent.IsRecurrenceEvent)
-            {               
-                var updateEventOptionsWindow = new Views.UpdateEventOptionsView();
-                updateEventOptionsWindow.ShowDialog();
-            }
-            else
+            if (!SelectedEvent.IsFake)
             {
-                CalendarEventUpdater updateEvent = new CalendarEventUpdater(GoogleCalendar.ActionType.single, SelectedEvent);
-                repository.SetEventUpdater(updateEvent);
-            }
+                repository.SetCurrentEvent(SelectedEvent);
 
-            if (repository.GetEventUpdater().Type != GoogleCalendar.ActionType.none)
-            {
-                var updateEventWindow = new Views.UpdateEventView();
-                updateEventWindow.ShowDialog();
-                RefreshEventsList();
-            }           
+                if (SelectedEvent.IsRecurrenceEvent)
+                {
+                    var updateEventOptionsWindow = new Views.UpdateEventOptionsView();
+                    updateEventOptionsWindow.ShowDialog();
+                }
+                else
+                {
+                    CalendarEventUpdater updateEvent = new CalendarEventUpdater(GoogleCalendar.ActionType.single, SelectedEvent);
+                    repository.SetEventUpdater(updateEvent);
+                }
+
+                if (repository.GetEventUpdater().Type != GoogleCalendar.ActionType.none)
+                {
+                    var updateEventWindow = new Views.UpdateEventView();
+                    updateEventWindow.ShowDialog();
+                    RefreshEventsList();
+                }
+            }
         }
 
         private void ShowChooseDateEventsControls()
