@@ -26,6 +26,7 @@ namespace AGC.Library
         public char Delimeter { get; set; }
 
         public bool DateFormatUS { get; set; }
+        public bool HideMonth { get; set; }
         public bool HideYear { get; set; }
         public bool HideEndDate { get; set; }
         public bool HideStartTimeAndEndDateIfFullDay { get; set; }
@@ -43,6 +44,7 @@ namespace AGC.Library
             this.Delimeter = ' ';
 
             this.DateFormatUS = false;
+            this.HideMonth = false;
             this.HideYear = true;
             this.HideEndDate = false;
             this.HideStartTimeAndEndDateIfFullDay = true;
@@ -69,6 +71,7 @@ namespace AGC.Library
                 HideMonthIfCurrent = (bool)info.GetValue("HideMonthIfCurrent", typeof(bool));
                 // Version 1 new values
                 GroupByMonth = true;
+                HideMonth = false;
             }
             if (version == 1)
             {
@@ -78,11 +81,13 @@ namespace AGC.Library
                 Time = (string)info.GetValue("Time", typeof(string));
                 Delimeter = (char)info.GetValue("Delimeter", typeof(char));
                 DateFormatUS = (bool)info.GetValue("DateFormatUS", typeof(bool));
+                HideMonth = (bool)info.GetValue("HideMonth", typeof(bool));
                 HideYear = (bool)info.GetValue("HideYear", typeof(bool));
                 HideEndDate = (bool)info.GetValue("HideEndDate", typeof(bool));
                 HideStartTimeAndEndDateIfFullDay = (bool)info.GetValue("HideStartTimeAndEndDateIfFullDay", typeof(bool));
                 HideMonthIfCurrent = (bool)info.GetValue("HideMonthIfCurrent", typeof(bool));
                 GroupByMonth = (bool)info.GetValue("GroupByMonth", typeof(bool));
+
             }
         }
 
@@ -99,6 +104,7 @@ namespace AGC.Library
             info.AddValue("Time", Time);
             info.AddValue("Delimeter", Delimeter);
             info.AddValue("DateFormatUS", DateFormatUS);
+            info.AddValue("HideMonth", HideMonth);
             info.AddValue("HideYear", HideYear);
             info.AddValue("HideEndDate", HideEndDate);
             info.AddValue("HideStartTimeAndEndDateIfFullDay", HideStartTimeAndEndDateIfFullDay);
@@ -150,7 +156,8 @@ namespace AGC.Library
 
         public string StartDateTime(CalendarEvent ev)
         {
-            string year = HideYear ? string.Empty : Delimeter + Year;
+            string month = HideMonth ? string.Empty : DateFormatUS ? Month + Delimeter : Delimeter + Month;
+            string year = HideYear ? string.Empty : Delimeter + Year;            
             string time = HideStartTimeAndEndDateIfFullDay && ev.IsFullDateEvent ? string.Empty : Time;
 
             if (HideMonthIfCurrent && ev.Start.Month == DateTime.Today.Month && ev.Start.Year == DateTime.Today.Year)
@@ -158,8 +165,8 @@ namespace AGC.Library
                 return String.Format("{0:" + Day + year + PAUSE + time + "}", ev.Start);
             }
 
-            return DateFormatUS ? String.Format("{0:" + Month + Delimeter + Day + year + PAUSE + time + "}", ev.Start) :
-                                  String.Format("{0:" + Day + Delimeter + Month + year + PAUSE + time + "}", ev.Start);
+            return DateFormatUS ? String.Format("{0:" + month + Day + year + PAUSE + time + "}", ev.Start) :
+                                  String.Format("{0:" + Day + month + year + PAUSE + time + "}", ev.Start);
         }
 
         public string EndDateTime(CalendarEvent ev)
@@ -179,6 +186,7 @@ namespace AGC.Library
                 return string.Empty;
             }
 
+            string month = HideMonth ? string.Empty : DateFormatUS ? Month + Delimeter : Delimeter + Month;
             string year = HideYear ? string.Empty : Delimeter + Year;
             DateTime end = ev.End ?? DateTime.Today;
 
@@ -187,8 +195,8 @@ namespace AGC.Library
                 return String.Format("{0:" + Day + year + PAUSE + Time + "}", end);
             }
 
-            return DateFormatUS ? String.Format("{0:" + Month + Delimeter + Day + year + PAUSE + Time + "}", end) :
-                                  String.Format("{0:" + Day + Delimeter + Month + year + PAUSE + Time + "}", end);
+            return DateFormatUS ? String.Format("{0:" + month + Day + year + PAUSE + Time + "}", end) :
+                                  String.Format("{0:" + Day + month + year + PAUSE + Time + "}", end);
         }
     }
 }

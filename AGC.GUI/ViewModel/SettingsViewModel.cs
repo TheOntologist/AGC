@@ -297,6 +297,28 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public const string ShowMonthPropertyName = "ShowMonth";
+        private bool _showMonth = true;
+        public bool ShowMonth
+        {
+            get
+            {
+                return _showMonth;
+            }
+
+            set
+            {
+                if (_showMonth == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(ShowMonthPropertyName);
+                _showMonth = value;
+                RaisePropertyChanged(ShowMonthPropertyName);
+            }
+        }
+
         public const string DoNotShowTimeAndForFullDayEventsPropertyName = "DoNotShowTimeAndForFullDayEvents";
         private bool _doNotShowTimeAndForFullDayEvents = true;
         public bool DoNotShowTimeAndForFullDayEvents
@@ -431,6 +453,7 @@ namespace AGC.GUI.ViewModel
             }
 
             ShowEndTime = !dateTimePreferences.HideEndDate;
+            ShowMonth = !dateTimePreferences.HideMonth;
             ShowYear = !dateTimePreferences.HideYear;
             DoNotShowTimeAndForFullDayEvents = dateTimePreferences.HideStartTimeAndEndDateIfFullDay;
             DoNotShowMonthForCurrentMonthEvents = dateTimePreferences.HideMonthIfCurrent;
@@ -499,6 +522,7 @@ namespace AGC.GUI.ViewModel
             }
 
             dateTimePreferences.HideEndDate = !ShowEndTime;
+            dateTimePreferences.HideMonth = !ShowMonth;
             dateTimePreferences.HideYear = !ShowYear;
             dateTimePreferences.HideStartTimeAndEndDateIfFullDay = DoNotShowTimeAndForFullDayEvents;
             dateTimePreferences.HideMonthIfCurrent = DoNotShowMonthForCurrentMonthEvents;
