@@ -21,6 +21,9 @@ namespace AGC.Library
         private const string DATE_FORMAT = "yyyy-MM-dd";
         private const string TIME_FORMAT = "yyyy-MM-ddTHH:MM:ss";
 
+        private const string CONFIRMED = "confirmed";
+        private const string TENTATIVE = "tentative";
+
         private CalendarService service;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -104,7 +107,7 @@ namespace AGC.Library
                         }
                     case ActionType.all:
                         {
-                            ev.Id = GetMainEventId(ev.Id);
+                            ev = GetMainEventData(ev); //.Id = GetMainEventId(ev.Id);
                             break;
                         }
                     case ActionType.following:
@@ -285,7 +288,7 @@ namespace AGC.Library
             CalendarEvent calendarEvent;
             try
             {
-                calendarEvent = new CalendarEvent(ev.Id, ev.Summary, ev.Description, ev.Location, GetEventStartDate(ev), GetEventEndDate(ev), IsFullDayEvent(ev), IsRecurringEvent(ev));
+                calendarEvent = new CalendarEvent(ev.Id, ev.Summary, ev.Description, ev.Location, GetEventStartDate(ev), GetEventEndDate(ev), IsFullDayEvent(ev), IsRecurringEvent(ev), IsConfirmedEvent(ev));
             }
             catch(Exception ex)
             {
@@ -329,6 +332,9 @@ namespace AGC.Library
 
                 // Reminder
                 googleEvent.Reminders = ConvertMinutesToGoogleEventReminder(ev.Reminder);
+
+                // Status
+                googleEvent.Status = ev.Confirmed ? CONFIRMED : TENTATIVE;
 
                 return googleEvent;
             }
@@ -374,6 +380,25 @@ namespace AGC.Library
             return service.Events.Get(DEFAULT_CALENDAR, id).Execute();
         }
 
+        private CalendarEvent GetMainEventData(CalendarEvent ev)
+        {
+            ev.Id = GetMainEventId(ev.Id);
+
+            // Find start and end dates of the first event in the series using main part of event ID
+            CalendarEventList events = GetAllEvents();
+
+            int i = 0;
+            while (!events[i].Id.Contains(ev.Id))
+            {
+                i++;
+            }
+
+            ev.Start = events[i].Start;
+            ev.End = events[i].End;
+
+            return ev;
+        }
+
         private CalendarEvent GetAllPreviousEvents(CalendarEvent ev)
         {
             // Get recurrence event using it's single instance event id
@@ -413,6 +438,11 @@ namespace AGC.Library
                 return true;
             else
                 return false;
+        }
+
+        private static bool IsConfirmedEvent(Event ev)
+        {
+            return ev.Status == CONFIRMED ? true : false;
         }
 
         private static string GetMainEventId(string id)

@@ -41,6 +41,13 @@ namespace AGC.GUI.ViewModel
             Search
         }
 
+        private enum UpdateType
+        {
+            full,
+            confirm,
+            makeTentative
+        }
+
         private static List<string> PERIOD_TYPE = new List<string>(new string[] { SINGLE_MONTH, ALL_MONTHS, INTERVENING_MONTHS });
 
         private EventsListType eventListType = EventsListType.Today;
@@ -59,6 +66,8 @@ namespace AGC.GUI.ViewModel
         public RelayCommand SearchEventsCommand { get; private set; }
         public RelayCommand DeleteEventCommand { get; private set; }
         public RelayCommand UpdateEventCommand { get; private set; }
+        public RelayCommand ConfirmEventCommand { get; private set; }
+        public RelayCommand MakeTentativeEventCommand { get; private set; }
         public RelayCommand ShowChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand HideChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand GetChooseDateEventsCommand { get; private set; }
@@ -89,7 +98,9 @@ namespace AGC.GUI.ViewModel
                 GetPeriodEventsCommand = new RelayCommand(GetPeriodEvents);
                 SearchEventsCommand = new RelayCommand(SearchEvents);
                 DeleteEventCommand = new RelayCommand(DeleteEvent);
-                UpdateEventCommand = new RelayCommand(UpdateEvent);
+                UpdateEventCommand = new RelayCommand(FullUpdateEvent);
+                ConfirmEventCommand = new RelayCommand(ConfirmEvent);
+                MakeTentativeEventCommand = new RelayCommand(MakeTentativeEvent);
                 ShowChooseDateEventsControlsCommand = new RelayCommand(ShowChooseDateEventsControls);
                 HideChooseDateEventsControlsCommand = new RelayCommand(HideChooseDateEventsControls);
                 GetChooseDateEventsCommand = new RelayCommand(GetChooseDateEvents);
@@ -594,30 +605,62 @@ namespace AGC.GUI.ViewModel
             }
         }
 
-        private void UpdateEvent()
+        private void UpdateEvent(UpdateType updateType)
         {
-            if (!SelectedEvent.IsFake)
+            if (SelectedEvent.IsFake)
             {
-                repository.SetCurrentEvent(SelectedEvent);
+                return;
+            }
 
-                if (SelectedEvent.IsRecurrenceEvent)
+            repository.SetCurrentEvent(SelectedEvent);
+
+            if (SelectedEvent.IsRecurrenceEvent)
+            {
+                var updateEventOptionsWindow = new Views.UpdateEventOptionsView();
+                updateEventOptionsWindow.ShowDialog();
+            }
+            else
+            {
+                CalendarEventUpdater updateEvent = new CalendarEventUpdater(GoogleCalendar.ActionType.single, SelectedEvent);
+                repository.SetEventUpdater(updateEvent);
+            }
+
+            if (repository.GetEventUpdater().Type != GoogleCalendar.ActionType.none && updateType == UpdateType.full)
+            {
+                var updateEventWindow = new Views.UpdateEventView();
+                updateEventWindow.ShowDialog();
+                RefreshEventsList();
+            }
+            else
+            {
+                CalendarEventUpdater eventUpdater = repository.GetEventUpdater();
+                eventUpdater.CalendarEvent.Confirmed = updateType == UpdateType.confirm ? true : false;
+                eventUpdater.CalendarEvent.RRule = calendar.GetRecurrenceSettings(eventUpdater.CalendarEvent).ToString();
+                if (calendar.UpdateEvent(eventUpdater.CalendarEvent, eventUpdater.Type))
                 {
-                    var updateEventOptionsWindow = new Views.UpdateEventOptionsView();
-                    updateEventOptionsWindow.ShowDialog();
+                    RefreshEventsList();
+                    MessageBox.Show(Application.Current.MainWindow, "Event status changed", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
                 }
                 else
                 {
-                    CalendarEventUpdater updateEvent = new CalendarEventUpdater(GoogleCalendar.ActionType.single, SelectedEvent);
-                    repository.SetEventUpdater(updateEvent);
-                }
-
-                if (repository.GetEventUpdater().Type != GoogleCalendar.ActionType.none)
-                {
-                    var updateEventWindow = new Views.UpdateEventView();
-                    updateEventWindow.ShowDialog();
-                    RefreshEventsList();
+                    MessageBox.Show(Application.Current.MainWindow, "Failed to change event status. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
                 }
             }
+        }
+
+        private void FullUpdateEvent()
+        {
+            UpdateEvent(UpdateType.full);
+        }
+
+        private void ConfirmEvent()
+        {
+            UpdateEvent(UpdateType.confirm);
+        }
+
+        private void MakeTentativeEvent()
+        {
+            UpdateEvent(UpdateType.makeTentative);
         }
 
         private void ShowChooseDateEventsControls()

@@ -980,6 +980,28 @@ namespace AGC.GUI.ViewModel
 
         #endregion
 
+        public const string IsConfirmedPropertyName = "IsConfirmed";
+        private bool _isConfirmed = true;
+        public bool IsConfirmed
+        {
+            get
+            {
+                return _isConfirmed;
+            }
+
+            set
+            {
+                if (_isConfirmed == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(IsConfirmedPropertyName);
+                _isConfirmed = value;
+                RaisePropertyChanged(IsConfirmedPropertyName);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -1038,6 +1060,7 @@ namespace AGC.GUI.ViewModel
             }
 
             ev.Reminder = CalculateReminderMinutes();
+            ev.Confirmed = IsConfirmed;
 
             return ev;
         }

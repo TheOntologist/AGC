@@ -14,6 +14,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Start" DisplayMemberBinding="{Binding FormatedStartDate}" />
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" />
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Content}" />
                     <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location}" />
@@ -24,6 +25,8 @@
                 <KeyBinding Key="Delete" Command="{Binding Path=DeleteEventCommand}" />
                 <KeyBinding Key="Enter"  Command="{Binding Path=UpdateEventCommand}" />
                 <KeyBinding Key="Space"  Command="{Binding Path=UpdateEventCommand}" />
+                <KeyBinding Key="C"  Command="{Binding Path=ConfirmEventCommand}" />
+                <KeyBinding Key="T"  Command="{Binding Path=MakeTentativeEventCommand}" />
             </ListView.InputBindings>
         </ListView>
         <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowDefaultControls, Converter={StaticResource BoolToVis}}">

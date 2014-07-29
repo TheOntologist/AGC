@@ -130,6 +130,8 @@
                     <ComboBox ItemsSource="{Binding RepeatTypeList}" SelectedValue="{Binding SelectedRepeatType}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Type" />
                 </StackPanel>
             </GroupBox>
+
+            <CheckBox Content="Confirmed" Grid.Row="2" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding IsConfirmed}" HorizontalAlignment="Left"/>
             <Button Content="Save" Grid.Row="2"  Command="{Binding CreateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}" Visibility="{Binding IsNewEvent, Converter={StaticResource BoolToVis}}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2" Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}">
                 <Button Content="Update" Grid.Row="2"  Command="{Binding UpdateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Update" Style="{StaticResource Button}"/>

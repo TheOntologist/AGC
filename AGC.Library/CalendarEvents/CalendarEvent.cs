@@ -11,6 +11,7 @@ namespace AGC.Library
         #region Constants
 
         private const string DEFAULT_DATETIME_FORMAT = "ddd d MMM . HH:mm";
+        private const string TENTATIVE = "*";
 
         #endregion
 
@@ -30,6 +31,8 @@ namespace AGC.Library
             this.FormatedEndDate = string.Empty;
             this.RRule = String.Empty;
             this.Reminder = 10;
+            this.Confirmed = true;
+            this.Status = this.Confirmed ? string.Empty : TENTATIVE;
             this.IsFake = false;
         }
 
@@ -46,6 +49,8 @@ namespace AGC.Library
             this.FormatedStartDate = string.Empty;
             this.FormatedEndDate = string.Empty;
             this.RRule = String.Empty;
+            this.Confirmed = true;
+            this.Status = this.Confirmed ? string.Empty : TENTATIVE;
             this.IsFake = true;
         }
 
@@ -68,6 +73,8 @@ namespace AGC.Library
             this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.RRule = String.Empty;
             this.Reminder = 10;
+            this.Confirmed = true;
+            this.Status = this.Confirmed ? string.Empty : TENTATIVE;
             this.IsFake = false;
         }
 
@@ -91,6 +98,8 @@ namespace AGC.Library
             this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.RRule = calRRule;
             this.Reminder = 10;
+            this.Confirmed = true;
+            this.Status = this.Confirmed ? string.Empty : TENTATIVE;
             this.IsFake = false;
         }
 
@@ -103,7 +112,7 @@ namespace AGC.Library
         /// <param name="calLocation"></param>
         /// <param name="calStart"></param>
         /// <param name="calEnd"></param>
-        public CalendarEvent(String calId, String calTitle, String calContent, String calLocation, DateTime calStart, DateTime? calEnd, bool calIsFullDayEvent, bool calIsRecurrenceEvent)
+        public CalendarEvent(String calId, String calTitle, String calContent, String calLocation, DateTime calStart, DateTime? calEnd, bool calIsFullDayEvent, bool calIsRecurrenceEvent, bool calIsConfirmed)
         {
             this.Id = calId;
             this.Title = calTitle;
@@ -116,6 +125,8 @@ namespace AGC.Library
             this.IsFullDateEvent = calIsFullDayEvent;
             this.IsRecurrenceEvent = calIsRecurrenceEvent;
             this.Reminder = 10;
+            this.Confirmed = calIsConfirmed;
+            this.Status = this.Confirmed ? string.Empty : TENTATIVE;
             this.IsFake = false;
         }
 
@@ -149,11 +160,15 @@ namespace AGC.Library
 
         public int Reminder { get; set; }
 
+        public bool Confirmed { get; set; }
+
+        public string Status { get; set; }
+
         public bool IsFake { get; set; }
 
         public override string ToString() 
         {
-            return String.Format("{0} . {1} . {2} . {3} . {4}", this.FormatedStartDate, this.Title, this.Content, this.Location, this.FormatedEndDate);
+            return String.Format("{0} . {1} . {2} . {3} . {4} . {5}", this.FormatedStartDate, this.Status, this.Title, this.Content, this.Location, this.FormatedEndDate);
         }
 
         #endregion
