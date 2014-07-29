@@ -62,6 +62,15 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public SettingsViewModel Settings
+        {
+            get
+            {
+                log.Debug("Get SettingsViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<SettingsViewModel>();
+            }
+        }
+
         public AddQuickEventViewModel AddQuickEvent
         {
             get

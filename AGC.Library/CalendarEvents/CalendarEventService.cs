@@ -78,6 +78,27 @@ namespace AGC.Library
             return selectedEvents;
         }
 
+        public CalendarEventList FormatEventsDatesStringRepresentation(CalendarEventList allEvents, DateTimePreferences preferences)
+        {
+            CalendarEventList formatedEvents = new CalendarEventList();
+
+            try
+            {
+                foreach (CalendarEvent ev in allEvents)
+                {
+                    ev.FormatedStartDate = preferences.StartDateTime(ev);
+                    ev.FormatedEndDate = preferences.EndDateTime(ev);
+                    formatedEvents.Add(ev);                    
+                }
+                return formatedEvents;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to format events dates", ex);
+                return allEvents;
+            }
+        }
+
         #endregion
 
         #region Private Methods

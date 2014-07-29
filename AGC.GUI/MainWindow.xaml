@@ -23,6 +23,9 @@
             <TabItem Header="Quick Events">
                 <views:AddQuickEventView />
             </TabItem>
+            <TabItem Header="Settings">
+                <views:SettingsView />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

@@ -14,5 +14,8 @@ namespace AGC.GUI.Common
 
         CalendarEventUpdater GetEventUpdater();
         void SetEventUpdater(CalendarEventUpdater calEventUpdater);
+
+        DateTimePreferences GetDateTimePreferences();
+        void SetDateTimePreferences(DateTimePreferences preferences);
     }
 }

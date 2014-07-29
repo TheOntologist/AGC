@@ -10,9 +10,7 @@ namespace AGC.Library
     {
         #region Constants
 
-        private const string DATE_FORMAT = "ddd d MMM";
-        private const string DATE_FORMAT_CURRENT_MONTH = "ddd d";
-        private const string TIME_FORMAT = "HH:mm";
+        private const string DEFAULT_DATETIME_FORMAT = "ddd d MMM . HH:mm";
 
         #endregion
 
@@ -28,6 +26,8 @@ namespace AGC.Library
             this.Location = String.Empty;
             this.Start = DateTime.Today;
             this.End = null;
+            this.FormatedStartDate = string.Format(DEFAULT_DATETIME_FORMAT, this.Start);
+            this.FormatedEndDate = string.Empty;
             this.RRule = String.Empty;
             this.Reminder = 10;
         }
@@ -47,6 +47,8 @@ namespace AGC.Library
             this.Location = calLocation;
             this.Start = calStart;
             this.End = calEnd;
+            this.FormatedStartDate = string.Format(DEFAULT_DATETIME_FORMAT, this.Start);
+            this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.RRule = String.Empty;
             this.Reminder = 10;
         }
@@ -67,6 +69,8 @@ namespace AGC.Library
             this.Location = calLocation;
             this.Start = calStart;
             this.End = calEnd;
+            this.FormatedStartDate = string.Format(DEFAULT_DATETIME_FORMAT, this.Start);
+            this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.RRule = calRRule;
             this.Reminder = 10;
         }
@@ -88,6 +92,8 @@ namespace AGC.Library
             this.Location = calLocation;
             this.Start = calStart;
             this.End = calEnd;
+            this.FormatedStartDate = string.Format(DEFAULT_DATETIME_FORMAT, this.Start);
+            this.FormatedEndDate = this.End == null ? string.Empty : string.Format(DEFAULT_DATETIME_FORMAT, this.End);
             this.IsFullDateEvent = calIsFullDayEvent;
             this.IsRecurrenceEvent = calIsRecurrenceEvent;
             this.Reminder = 10;
@@ -109,6 +115,12 @@ namespace AGC.Library
 
         public DateTime? End { get; set; }
 
+        public string FormatedStartDate { get; set; }
+
+        public string FormatedEndDate { get; set; }
+
+        public string EndDate { get; set; }
+
         public string RRule { get; set; }
 
         public bool IsFullDateEvent { get; set; }
@@ -119,15 +131,7 @@ namespace AGC.Library
 
         public override string ToString() 
         {
-            /*
-            bool thisMonthEventStart = DateTime.Today.Month == this.Start.Value.Month && DateTime.Today.Year == this.Start.Value.Year;
-            bool thisMonthEventEnd = DateTime.Today.Month == this.End.Value.Month && DateTime.Today.Year == this.End.Value.Year;
-
-            string startDateFormat = thisMonthEventStart ? DATE_FORMAT_CURRENT_MONTH : DATE_FORMAT;
-            string endDateFormat = thisMonthEventEnd ? DATE_FORMAT_CURRENT_MONTH : DATE_FORMAT;
-            */
-            //return String.Format("{0} (.) {1} (.) {2}", this.Title, this.Content, this.Location);
-            return String.Format("{0:" + DATE_FORMAT + "} . {1:HH:mm} . {2} . {3} . {4} . {5:" + DATE_FORMAT + "} . {6:HH:mm}", this.Start, this.Start, this.Title, this.Content, this.Location, this.End, this.End);
+            return String.Format("{0} . {1} . {2} . {3} . {4}", this.FormatedStartDate, this.Title, this.Content, this.Location, this.FormatedEndDate);
         }
 
         #endregion

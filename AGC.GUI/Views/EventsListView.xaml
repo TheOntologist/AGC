@@ -13,11 +13,11 @@
         <ListView Height="151" Margin="10,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Events}" AutomationProperties.Name="Events list" common:FocusExtension.IsFocused="{Binding IsEventsListFocused}" SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding Path=Start, StringFormat='{}{0:ddd d MMM HH:mm}'}" />
+                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding FormatedStartDate}" />
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Content}" />
                     <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location}" />
-                    <GridViewColumn Header="End" DisplayMemberBinding="{Binding Path=End, StringFormat='{}{0:ddd d MMM HH:mm}'}" />
+                    <GridViewColumn Header="End" DisplayMemberBinding="{Binding FormatedEndDate}" />
                 </GridView>
             </ListView.View>
             <ListView.InputBindings>

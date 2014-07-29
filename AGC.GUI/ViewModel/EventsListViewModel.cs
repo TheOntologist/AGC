@@ -78,6 +78,7 @@ namespace AGC.GUI.ViewModel
                 period = timeInterval;
                 repository = commonRepository;
                 Events = service.GetEvents(calendar.GetAllEvents(), period.Today());
+                Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
 
                 GetTodayEventsCommand = new RelayCommand(GetTodayEvents);
                 GetTomorrowEventsCommand = new RelayCommand(GetTomorrowEvents);
@@ -486,36 +487,17 @@ namespace AGC.GUI.ViewModel
         #region Private Methods
 
         private void GetTodayEvents()
-        {
-            #region Test
-            log.Debug("[TEST] Get Today Events. Dates ");
-            DateTime BaseDate = DateTime.Today;
-            log.Debug("[TEST] BaseDate " + DateTime.Today);
-            DateTime end = BaseDate.AddDays(1).AddSeconds(-1);
-            log.Debug("[TEST] End " + end);
-            log.Debug("[TEST] Period start " + period.Today().Start + " End " + period.Today().End);
-            #endregion
-
-            
+        {         
             Events = service.GetEvents(calendar.GetAllEvents(), period.Today());
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.Today;
             ShowResults();   
         }
 
         private void GetTomorrowEvents()
         {
-            #region Test
-            log.Debug("[TEST] Get Tomorrow Events. Dates ");
-            DateTime BaseDate = DateTime.Today;
-            log.Debug("[TEST] BaseDate " + DateTime.Today);
-            DateTime start = BaseDate.AddDays(1);
-            DateTime end = BaseDate.AddDays(2).AddSeconds(-1);
-            log.Debug("[TEST] start " + start);
-            log.Debug("[TEST] end " + end);
-            log.Debug("[TEST] Period start " + period.Tomorrow().Start + " End " + period.Tomorrow().End);
-            #endregion
-
             Events = service.GetEvents(calendar.GetAllEvents(), period.Tomorrow());
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.Tomorrow;
             ShowResults();  
         }
@@ -523,6 +505,7 @@ namespace AGC.GUI.ViewModel
         private void GetThisWeekEvents()
         {
             Events = service.GetEvents(calendar.GetAllEvents(), period.ThisWeek());
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.ThisWeek;
             ShowResults();
         }
@@ -530,6 +513,7 @@ namespace AGC.GUI.ViewModel
         private void GetNextWeekEvents()
         {
             Events = service.GetEvents(calendar.GetAllEvents(), period.NextWeek());
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.NextWeek;
             ShowResults();
         }
@@ -537,6 +521,7 @@ namespace AGC.GUI.ViewModel
         private void GetThisMonthEvents()
         {
             Events = service.GetEvents(calendar.GetAllEvents(), period.ThisMonth());
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.ThisMonth;
             ShowResults();
         }
@@ -544,6 +529,7 @@ namespace AGC.GUI.ViewModel
         private void GetNextMonthEvents()
         {
             Events = service.GetEvents(calendar.GetAllEvents(), period.NextMonth());
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.NextMonth;
             ShowResults();
         }
@@ -569,7 +555,8 @@ namespace AGC.GUI.ViewModel
                         break;
                     }
             }
-            
+
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.Period;
             ShowResults();
         }
@@ -577,6 +564,7 @@ namespace AGC.GUI.ViewModel
         private void SearchEvents()
         {
             Events = service.SearchEvents(calendar.GetAllEvents(), TextToSearch);
+            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.Search;
             ShowResults();
         }

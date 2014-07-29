@@ -102,6 +102,7 @@
     <Compile Include="ViewModel\EventsCreateViewModel.cs" />
     <Compile Include="ViewModel\EventsListViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\UpdateEventOptionsViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -118,6 +119,9 @@
     </Compile>
     <Compile Include="Views\EventsListView.xaml.cs">
       <DependentUpon>EventsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateEventOptionsView.xaml.cs">
       <DependentUpon>UpdateEventOptionsView.xaml</DependentUpon>
@@ -187,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EventsListView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

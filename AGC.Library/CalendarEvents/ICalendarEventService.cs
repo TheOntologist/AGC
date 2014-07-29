@@ -13,5 +13,7 @@ namespace AGC.Library
         CalendarEventList GetEvents(CalendarEventList allEvents, DateTime start, DateTime end);
 
         CalendarEventList SearchEvents(CalendarEventList allEvents, String keyword);
+
+        CalendarEventList FormatEventsDatesStringRepresentation(CalendarEventList allEvents, DateTimePreferences preferences);
     }
 }

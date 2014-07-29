@@ -11,6 +11,7 @@ namespace AGC.GUI.Common
     {
         private CalendarEvent currentEvent;
         private CalendarEventUpdater eventUpdater = new CalendarEventUpdater();
+        private DateTimePreferences dateTimePreferences = new DateTimePreferences().Load();
 
         public CalendarEvent GetCurrentEvent()
         {
@@ -30,6 +31,16 @@ namespace AGC.GUI.Common
         public void SetEventUpdater(CalendarEventUpdater calEventUpdater)
         {
             eventUpdater = calEventUpdater;
+        }
+
+        public DateTimePreferences GetDateTimePreferences()
+        {
+            return dateTimePreferences;
+        }
+
+        public void SetDateTimePreferences(DateTimePreferences preferences)
+        {
+            dateTimePreferences = preferences;
         }
     }
 }

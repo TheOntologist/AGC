@@ -30,7 +30,8 @@ namespace AGC.Test
             Console.WriteLine("################################################################################");
             Console.WriteLine();
 
-            calendar.TestCreateEvent(new CalendarEvent("Today", "Content", "Location", period.Today().Start, period.Today().End));
+            Console.WriteLine(String.Format("{0:d ddd MMM h:mm tt}", DateTime.Now));
+            //calendar.TestCreateEvent(new CalendarEvent("Today", "Content", "Location", period.Today().Start, period.Today().End));
 
             /*
             CalendarEventList all = calendar.GetAllEvents();
