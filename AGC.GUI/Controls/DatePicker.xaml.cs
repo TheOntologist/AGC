@@ -59,7 +59,7 @@ namespace AGC.GUI.Controls
 
         private static List<int> GetYearsList()
         {
-            List<int> years = Enumerable.Range(DateTime.Now.Year, 10).ToList();
+            List<int> years = Enumerable.Range(DateTime.Now.Year - 4, 8).ToList();
             years.Reverse();
             return years;
         }
@@ -175,6 +175,9 @@ namespace AGC.GUI.Controls
                         nextTimeSwitchToMinMonth = true;
                 }
             }
+
+            nextTimeSwitchToMinDay = false;
+            nextTimeSwitchToMaxDay = false;
         }
 
         private bool nextTimeSwitchToMinDay = false;

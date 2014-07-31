@@ -16,7 +16,7 @@ namespace AGC.Library
 
         bool DeleteEvent(CalendarEvent ev, GoogleCalendar.ActionType type);
 
-        CalendarEventList GetAllEvents();
+        CalendarEventList GetEvents(DateTime timeMin, DateTime timeMax);
 
         void DeleteEvents(CalendarEventList evs);
 

@@ -22,6 +22,8 @@ namespace AGC.Library
 
         TimeIntervals MonthsPeriod(int endMonth, TimeIntervals.PeriodType periodType);
 
+        TimeIntervals All();
+
         void WriteConsoleLog();
     }
 }

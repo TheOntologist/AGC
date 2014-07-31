@@ -8,11 +8,11 @@ namespace AGC.Library
 {
     public interface ICalendarEventService
     {
-        CalendarEventList GetEvents(CalendarEventList allEvents, TimeIntervals period);
+        CalendarEventList GetEvents(IGoogleCalendar calendar, TimeIntervals period);
 
-        CalendarEventList GetEvents(CalendarEventList allEvents, DateTime start, DateTime end);
+        CalendarEventList GetEvents(IGoogleCalendar calendar, DateTime start, DateTime end);
 
-        CalendarEventList SearchEvents(CalendarEventList allEvents, String keyword);
+        CalendarEventList SearchEvents(IGoogleCalendar calendar, TimeIntervals period, String keyword);
 
         CalendarEventList FormatEventsDatesStringRepresentation(CalendarEventList allEvents, DateTimePreferences preferences);
     }

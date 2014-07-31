@@ -144,6 +144,13 @@ namespace AGC.Library
             return this;
         }
 
+        public TimeIntervals All()
+        {
+            start = DateTime.Today.AddYears(-4);
+            end = DateTime.Today.AddYears(4);
+            return this;
+        }
+
         public void WriteConsoleLog()
         {
             Console.WriteLine("START: {0:dd.MM.yy HH:mm:ss zzz} END: {1:dd.MM.yy HH:mm:ss zzz}", start, end); 

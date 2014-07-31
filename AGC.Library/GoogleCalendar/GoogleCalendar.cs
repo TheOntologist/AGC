@@ -189,7 +189,7 @@ namespace AGC.Library
             }
         }
 
-        public CalendarEventList GetAllEvents()
+        public CalendarEventList GetEvents(DateTime timeMin, DateTime timeMax)
         {
             log.Debug("Try to get all events from Google Calendar");
             CalendarEventList calendarEvents = new CalendarEventList();
@@ -199,8 +199,8 @@ namespace AGC.Library
                 EventsResource.ListRequest events = service.Events.List(DEFAULT_CALENDAR);
                 events.SingleEvents = true;
                 events.MaxResults = 2500;
-                events.TimeMin = DateTime.Today.AddMonths(-2);
-                events.TimeMax = DateTime.Today.AddMonths(10);
+                events.TimeMin = timeMin;
+                events.TimeMax = timeMax;
                 Events eventList = events.Execute();
                 calendarEvents = ConvertToCalendarEvents(eventList.Items);
                 calendarEvents.SortByDate();
@@ -385,7 +385,7 @@ namespace AGC.Library
             ev.Id = GetMainEventId(ev.Id);
 
             // Find start and end dates of the first event in the series using main part of event ID
-            CalendarEventList events = GetAllEvents();
+            CalendarEventList events = GetEvents(DateTime.Today.AddYears(-4), DateTime.Today.AddYears(4));
 
             int i = 0;
             while (!events[i].Id.Contains(ev.Id))

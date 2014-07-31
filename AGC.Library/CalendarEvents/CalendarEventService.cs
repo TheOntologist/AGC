@@ -24,18 +24,18 @@ namespace AGC.Library
 
         #region Public Metods
 
-        public CalendarEventList GetEvents(CalendarEventList allEvents, TimeIntervals period)
+        public CalendarEventList GetEvents(IGoogleCalendar calendar, TimeIntervals period)
         {
-            return GetEvents(allEvents, period.Start, period.End);
+            return GetEvents(calendar, period.Start, period.End);
         }
 
-        public CalendarEventList GetEvents(CalendarEventList allEvents, DateTime start, DateTime end)
+        public CalendarEventList GetEvents(IGoogleCalendar calendar, DateTime start, DateTime end)
         {
             log.Debug("Select events, period=" + start + " - " + end);
             CalendarEventList selectedEvents = new CalendarEventList();
 
 
-            foreach (CalendarEvent ev in allEvents)
+            foreach (CalendarEvent ev in calendar.GetEvents(start, end))
             {
                 try
                 {
@@ -54,19 +54,36 @@ namespace AGC.Library
             return selectedEvents;
         }
 
-        public CalendarEventList SearchEvents(CalendarEventList allEvents, String keyword)
+        public CalendarEventList SearchEvents(IGoogleCalendar calendar, TimeIntervals period, String keyword)
         {
             CalendarEventList selectedEvents = new CalendarEventList();
-            
+            CalendarEventList events = calendar.GetEvents(period.Start, period.End);
             try
             {
                 if (!String.IsNullOrEmpty(keyword))
                 {
-                    foreach (CalendarEvent ev in allEvents)
+                    foreach (CalendarEvent ev in events)
                     {
-                        if (ev.Title.ToLower().Contains(keyword.ToLower()) || ev.Location.ToLower().Contains(keyword.ToLower()) || ev.Content.ToLower().Contains(keyword.ToLower()))
+                        if (!string.IsNullOrEmpty(ev.Title))
                         {
-                            selectedEvents.Add(ev);
+                            if (ev.Title.ToLower().Contains(keyword.ToLower()))
+                            {
+                                selectedEvents.Add(ev);
+                            }
+                        }
+                        else if (!string.IsNullOrEmpty(ev.Location))
+                        {
+                            if (ev.Location.ToLower().Contains(keyword.ToLower()))
+                            {
+                                selectedEvents.Add(ev);
+                            }
+                        }
+                        else if (!string.IsNullOrEmpty(ev.Location))
+                        {
+                            if (ev.Content.ToLower().Contains(keyword.ToLower()))
+                            {
+                                selectedEvents.Add(ev);
+                            }
                         }
                     }
                 }
