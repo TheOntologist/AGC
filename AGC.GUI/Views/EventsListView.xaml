@@ -48,16 +48,20 @@
                         <Button Content="Select Period" Style="{StaticResource Button}" Command="{Binding GetPeriodEventsCommand}"/>                       
                     </StackPanel>
                 </GroupBox>
-                <Button Content="Choose Date" Style="{StaticResource Button}" Command="{Binding ShowChooseDateEventsControlsCommand}" Margin="10,20,10,11"/>
+                <Button Content="Choose Date" Style="{StaticResource Button}" Command="{Binding ShowChooseDateEventsControlsCommand}" Margin="5,20,5,11"/>
+                <CheckBox Content="Enable Sort and Filter" Grid.Row="0" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSortingAndFiltering}" Margin="5, 5, 5, 0" />
+                <Button Content="Sorting and Filtering" Style="{StaticResource Button}" Command="{Binding SetSortingAndFilteringPreferencesCommand}" IsEnabled="{Binding EnableSortingAndFiltering}" Margin="5,20,5,11"/>
             </StackPanel>
 
             <GroupBox Header="Search Events" Margin="10,0,10,0" VerticalAlignment="Top" Height="60">
                 <StackPanel Orientation="Horizontal">
                     <TextBox Width="400" Margin="50,5,50,5" AutomationProperties.Name="Insert text to search" Text="{Binding TextToSearch}"/>
-                    <Button Content="OK" Style="{StaticResource Button}" Command="{Binding SearchEventsCommand}"/>
+                    <Button Content="OK" Style="{StaticResource Button}" Command="{Binding SearchEventsCommand}"/>                   
                 </StackPanel>
             </GroupBox>
+            <Button Content="Log out" Style="{StaticResource Button}" Command="{Binding LogOutCommand}" Width="100" HorizontalAlignment="Right"/>
         </StackPanel>
+        
         <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">
             <GroupBox Header="Choose Date" Height="90" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">

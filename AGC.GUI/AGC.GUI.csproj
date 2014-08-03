@@ -91,6 +91,9 @@
     <Compile Include="Controls\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DayOfWeekPicker.xaml.cs">
+      <DependentUpon>DayOfWeekPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MonthPicker.xaml.cs">
       <DependentUpon>MonthPicker.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,7 @@
     <Compile Include="ViewModel\EventsListViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\SortingAndFilteringViewModel.cs" />
     <Compile Include="ViewModel\UpdateEventOptionsViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -123,6 +127,9 @@
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SortingAndFilteringView.xaml.cs">
+      <DependentUpon>SortingAndFilteringView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UpdateEventOptionsView.xaml.cs">
       <DependentUpon>UpdateEventOptionsView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -133,6 +140,10 @@
     <Page Include="Controls\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DayOfWeekPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\MonthPicker.xaml">
       <SubType>Designer</SubType>
@@ -195,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SortingAndFilteringView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

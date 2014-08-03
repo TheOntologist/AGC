@@ -17,5 +17,8 @@ namespace AGC.GUI.Common
 
         DateTimePreferences GetDateTimePreferences();
         void SetDateTimePreferences(DateTimePreferences preferences);
+
+        SortFilterPreferences GetSortFilterPreferences();
+        void SetSortFilterPreferences(SortFilterPreferences preferences);
     }
 }

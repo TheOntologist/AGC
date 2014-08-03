@@ -107,6 +107,15 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public SortingAndFilteringViewModel SortingAndFiltering
+        {
+            get
+            {
+                log.Debug("Get SortingAndFilteringViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<SortingAndFilteringViewModel>();
+            }
+        }
+
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>

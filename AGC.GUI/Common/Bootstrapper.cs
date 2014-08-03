@@ -72,6 +72,9 @@ namespace AGC.GUI.Common
             Container.RegisterType<UpdateEventOptionsViewModel>();
             log.Debug("Registered type of UpdateEventOptionsViewModel");
 
+            Container.RegisterType<SortingAndFilteringViewModel>();
+            log.Debug("Registered type of SortingAndFilteringViewModel");
+
             log.Debug("Container was successfully configured");
         }
     }

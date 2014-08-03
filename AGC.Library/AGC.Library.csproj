@@ -103,6 +103,8 @@
     <Compile Include="RecurrenceSettings\RecurrenceSettings.cs" />
     <Compile Include="Settings\DateTimePreferences.cs" />
     <Compile Include="Settings\IDateTimePreferences.cs" />
+    <Compile Include="Settings\ISortFilterPreferences.cs" />
+    <Compile Include="Settings\SortFilterPreferences.cs" />
     <Compile Include="TimeIntervals\ITimeIntervals.cs" />
     <Compile Include="TimeIntervals\TimeIntervals.cs" />
   </ItemGroup>

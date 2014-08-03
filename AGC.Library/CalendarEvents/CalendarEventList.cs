@@ -17,6 +17,84 @@ namespace AGC.Library
             return this;
         }
 
+        public CalendarEventList SortByStartDate(bool ascending)
+        {
+            if (ascending)
+            {
+                this.Sort((x, y) => DateTime.Compare(x.Start, y.Start));
+            }
+            else
+            {
+                this.Sort((x, y) => DateTime.Compare(y.Start, x.Start));
+            }
+            return this;
+        }
+
+        public CalendarEventList SortByStatus(bool ascending)
+        {
+            if (ascending)
+            {
+                this.Sort((x, y) => string.Compare(x.Status, y.Status));
+            }
+            else
+            {
+                this.Sort((x, y) => string.Compare(y.Status, x.Status));
+            }
+            return this;
+        }
+
+        public CalendarEventList SortByTitle(bool ascending)
+        {
+            if (ascending)
+            {
+                this.Sort((x, y) => string.Compare(x.Title, y.Title));
+            }
+            else
+            {
+                this.Sort((x, y) => string.Compare(y.Title, x.Title));
+            }
+            return this;
+        }
+
+        public CalendarEventList SortByLocation(bool ascending)
+        {
+            if (ascending)
+            {
+                this.Sort((x, y) => string.Compare(x.Location, y.Location));
+            }
+            else
+            {
+                this.Sort((x, y) => string.Compare(y.Location, x.Location));
+            }
+            return this;
+        }
+
+        public CalendarEventList SortByContent(bool ascending)
+        {
+            if (ascending)
+            {
+                this.Sort((x, y) => string.Compare(x.Content, y.Content));
+            }
+            else
+            {
+                this.Sort((x, y) => string.Compare(y.Content, x.Content));
+            }
+            return this;
+        }
+
+        public CalendarEventList SortByEndDate(bool ascending)
+        {
+            if (ascending)
+            {
+                this.Sort((x, y) => DateTime.Compare(x.End ?? x.Start, y.End ?? y.Start));
+            }
+            else
+            {
+                this.Sort((x, y) => DateTime.Compare(y.End ?? y.Start, x.End ?? x.Start));
+            }
+            return this;
+        }
+
         public void WriteConsoleLog()
         {
             if (this != null)

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Windows;
 
 namespace AGC.GUI.ViewModel
@@ -16,7 +17,7 @@ namespace AGC.GUI.ViewModel
 
         private const string SINGLE_MONTH = "Single month";
         private const string ALL_MONTHS = "All months";
-        private const string INTERVENING_MONTHS = "Intervening months";
+        private const string INTERVENING_MONTHS = "Intervening months";    
 
         #endregion
 
@@ -51,6 +52,7 @@ namespace AGC.GUI.ViewModel
         private static List<string> PERIOD_TYPE = new List<string>(new string[] { SINGLE_MONTH, ALL_MONTHS, INTERVENING_MONTHS });
 
         private EventsListType eventListType = EventsListType.Today;
+        private SortFilterPreferences sortFilterPreferences;
 
         #endregion
 
@@ -71,6 +73,8 @@ namespace AGC.GUI.ViewModel
         public RelayCommand ShowChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand HideChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand GetChooseDateEventsCommand { get; private set; }
+        public RelayCommand SetSortingAndFilteringPreferencesCommand { get; private set; }
+        public RelayCommand LogOutCommand { get; private set; }
 
         #endregion
 
@@ -86,6 +90,8 @@ namespace AGC.GUI.ViewModel
                 service = eventService;
                 period = timeInterval;
                 repository = commonRepository;
+                sortFilterPreferences = repository.GetSortFilterPreferences();
+
                 Events = service.GetEvents(calendar, period.Today());
                 Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
 
@@ -104,6 +110,8 @@ namespace AGC.GUI.ViewModel
                 ShowChooseDateEventsControlsCommand = new RelayCommand(ShowChooseDateEventsControls);
                 HideChooseDateEventsControlsCommand = new RelayCommand(HideChooseDateEventsControls);
                 GetChooseDateEventsCommand = new RelayCommand(GetChooseDateEvents);
+                SetSortingAndFilteringPreferencesCommand = new RelayCommand(SetSortingAndFilteringPreferences);
+                LogOutCommand = new RelayCommand(LogOut);
 
                 log.Debug("EventsList view model was succssfully loaded");
             }
@@ -494,6 +502,28 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public const string EnableSortingAndFilteringPropertyName = "EnableSortingAndFiltering";
+        private bool _enableSortingAndFiltering = false;
+        public bool EnableSortingAndFiltering
+        {
+            get
+            {
+                return _enableSortingAndFiltering;
+            }
+
+            set
+            {
+                if (_enableSortingAndFiltering == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(EnableSortingAndFilteringPropertyName);
+                _enableSortingAndFiltering = value;
+                RaisePropertyChanged(EnableSortingAndFilteringPropertyName);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -502,6 +532,7 @@ namespace AGC.GUI.ViewModel
         {         
             Events = service.GetEvents(calendar, period.Today());
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.Today;
             ShowResults();   
         }
@@ -510,6 +541,7 @@ namespace AGC.GUI.ViewModel
         {
             Events = service.GetEvents(calendar, period.Tomorrow());
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.Tomorrow;
             ShowResults();  
         }
@@ -518,6 +550,7 @@ namespace AGC.GUI.ViewModel
         {
             Events = service.GetEvents(calendar, period.ThisWeek());
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.ThisWeek;
             ShowResults();
         }
@@ -526,6 +559,7 @@ namespace AGC.GUI.ViewModel
         {
             Events = service.GetEvents(calendar, period.NextWeek());
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.NextWeek;
             ShowResults();
         }
@@ -534,6 +568,7 @@ namespace AGC.GUI.ViewModel
         {
             Events = service.GetEvents(calendar, period.ThisMonth());
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.ThisMonth;
             ShowResults();
         }
@@ -542,6 +577,7 @@ namespace AGC.GUI.ViewModel
         {
             Events = service.GetEvents(calendar, period.NextMonth());
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.NextMonth;
             ShowResults();
         }
@@ -569,6 +605,7 @@ namespace AGC.GUI.ViewModel
             }
 
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.Period;
             ShowResults();
         }
@@ -577,6 +614,7 @@ namespace AGC.GUI.ViewModel
         {
             Events = service.SearchEvents(calendar, period.All(), TextToSearch);
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
+            SortAndFilterEvents();
             eventListType = EventsListType.Search;
             ShowResults();
         }
@@ -687,6 +725,43 @@ namespace AGC.GUI.ViewModel
             ShowResults();
         }
 
+        private void SetSortingAndFilteringPreferences()
+        {
+            var sortingAndFilteringWindow = new Views.SortingAndFilteringView();
+            sortingAndFilteringWindow.ShowDialog();
+            sortFilterPreferences = repository.GetSortFilterPreferences();
+            EnableSortingAndFiltering = sortFilterPreferences.Enable;
+            RefreshEventsList();
+        }
+
+        private void SortAndFilterEvents()
+        {
+            if (!EnableSortingAndFiltering)
+            {
+                return;
+            }
+
+            if (sortFilterPreferences.EnableSorting)
+            {
+                Events = service.Sort(Events, sortFilterPreferences);
+            }
+
+            if (sortFilterPreferences.EnableTimeFilter)
+            {
+                Events = service.FilterByStartTime(Events, sortFilterPreferences);
+            }
+
+            if (sortFilterPreferences.EnableDayOfWeekFilter)
+            {
+                Events = service.FilterByDayOfWeek(Events, sortFilterPreferences);
+            }
+
+            if (sortFilterPreferences.EnableStatusFilter)
+            {
+                Events = service.FilterByStatus(Events, sortFilterPreferences);
+            }           
+        }
+
         private void ShowResults()
         {
             if (Events.Count == 0)
@@ -744,6 +819,14 @@ namespace AGC.GUI.ViewModel
                         break;
                     }
             }
+        }
+
+        private void LogOut()
+        {
+            calendar.LogOut();          
+            RefreshEventsList();
+            System.Diagnostics.Process.Start("https://accounts.google.com/Logout");
+            Application.Current.Shutdown();
         }
 
         #endregion

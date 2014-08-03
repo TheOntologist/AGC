@@ -26,6 +26,7 @@ namespace AGC.Library
 
         private CalendarService service;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static string accessToken = string.Empty;
 
         #region Constructor
 
@@ -252,6 +253,9 @@ namespace AGC.Library
                 "user",
                 CancellationToken.None).Result;
 
+                // Save Token for log out
+                accessToken = credential.Token.AccessToken;
+
                 // Create the service.
                 service = new CalendarService(new BaseClientService.Initializer()
                 {
@@ -265,6 +269,43 @@ namespace AGC.Library
             }
             log.Debug("Finish Authorization");
 
+        }
+
+        public void LogOut()
+        {
+            log.Debug("Start Log out");
+
+            try
+            {
+                UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                new ClientSecrets
+                {
+                    ClientId = CLIENT_ID,
+                    ClientSecret = CLIENT_SECRET,
+                },
+                new[] { CalendarService.Scope.Calendar },
+                "user",
+                CancellationToken.None).Result;
+
+                // Save Token for log out
+                credential.Token.AccessToken = String.Empty;
+                credential.Token.ExpiresInSeconds = 1;
+                credential.Token.RefreshToken = String.Empty;
+
+                // Create the service.
+                service = new CalendarService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = APPLICATION_NAME,
+                });
+            }
+            catch (Exception ex)
+            {
+                log.Error("Log out failed with error:", ex);
+            }
+            log.Debug("Finish Log out");
+
+            //System.Diagnostics.Process.Start("https://accounts.google.com/o/oauth2/revoke?token=" + accessToken);
         }
 
         private static EventDateTime ConvertToEventDateTime(DateTime? dateTime, bool isFullDateEvent)

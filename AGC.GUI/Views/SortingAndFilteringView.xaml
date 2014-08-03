@@ -1,0 +1,54 @@
+﻿<Window x:Class="AGC.GUI.Views.SortingAndFilteringView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:AGC.GUI.Controls"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        Title="Sorting and Filtering"
+        DataContext="{Binding SortingAndFiltering, Source={StaticResource Locator}}" Height="250" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <CheckBox Content="Enable Sorting" Grid.Row="0" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableSorting}" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" IsEnabled="{Binding EnableSorting}">
+            <ComboBox AutomationProperties.Name="Sort by"  Style="{StaticResource DropDownMenu}" ItemsSource="{Binding SortByParamList}" SelectedItem="{Binding SelectedSortByParam}" Width="120" />
+            <CheckBox Content="Sort Order Ascending" Grid.Row="3" Style="{StaticResource ListCheckBox}" IsChecked="{Binding SortOrderAscending}" />
+        </StackPanel>
+
+        <CheckBox Content="Enable Start Time Filter" Grid.Row="2" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableTimeFilter}" />
+        <StackPanel Orientation="Horizontal" Grid.Row="3" IsEnabled="{Binding EnableTimeFilter}">
+            <Label Content="From:" Style="{StaticResource Label}"/>
+            <controls:TimePicker AutomationProperties.Name="From" Hours="{Binding FromTimeHours}" Minutes="{Binding FromTimeMinutes}" />
+            <Label Content="To:" Style="{StaticResource Label}"/>
+            <controls:TimePicker AutomationProperties.Name="To" Hours="{Binding ToTimeHours}" Minutes="{Binding ToTimeMinutes}" />
+        </StackPanel>        
+        
+        <CheckBox Content="Enable Day of Week Filter" Grid.Row="0" Grid.Column="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableDayOfWeekFilter}" />
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding EnableDayOfWeekFilter}">
+            <controls:DayOfWeekPicker DayOfWeek="{Binding SelectedDayOfWeek}" />
+        </StackPanel>
+
+        <CheckBox Content="Enable Status Filter" Grid.Row="2" Grid.Column="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableStatusFilter}" />
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" IsEnabled="{Binding EnableStatusFilter}">
+            <ComboBox AutomationProperties.Name="Status" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding StatusList}" SelectedItem="{Binding SelectedStatus}" Width="120" />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="4">
+            <Button Content="Save as default" Command="{Binding SavePreferencesAsDefaultCommand}" Width="100" AutomationProperties.Name="Save as default" Style="{StaticResource Button}"/>
+            <Button Content="Sort and filter" Command="{Binding SortAndFilterCommand}" Width="100" AutomationProperties.Name="Sort and filter" Style="{StaticResource Button}"/>
+            <Button Content="Cancel" Command="{Binding CancelSortAndFilterCommand}" Width="100" AutomationProperties.Name="Cancel" Style="{StaticResource Button}"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -15,5 +15,13 @@ namespace AGC.Library
         CalendarEventList SearchEvents(IGoogleCalendar calendar, TimeIntervals period, String keyword);
 
         CalendarEventList FormatEventsDatesStringRepresentation(CalendarEventList allEvents, DateTimePreferences preferences);
+
+        CalendarEventList Sort(CalendarEventList allEvents, SortFilterPreferences preferences);
+
+        CalendarEventList FilterByStartTime(CalendarEventList allEvents, SortFilterPreferences preferences);
+
+        CalendarEventList FilterByDayOfWeek(CalendarEventList allEvents, SortFilterPreferences preferences);
+
+        CalendarEventList FilterByStatus(CalendarEventList allEvents, SortFilterPreferences preferences);
     }
 }

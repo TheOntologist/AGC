@@ -21,5 +21,7 @@ namespace AGC.Library
         void DeleteEvents(CalendarEventList evs);
 
         RecurrenceSettings GetRecurrenceSettings(CalendarEvent ev);
+
+        void LogOut();
     }
 }

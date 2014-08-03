@@ -8,6 +8,13 @@ namespace AGC.Library
 {
     public class CalendarEventService : ICalendarEventService
     {
+        #region Constants
+
+        private const string CONFIRMED = "";
+        private const string TENTATIVE = "*";
+
+        #endregion
+
         #region Private Variables
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -123,6 +130,69 @@ namespace AGC.Library
                 log.Error("Failed to format events dates", ex);
                 return allEvents;
             }
+        }
+
+        public CalendarEventList Sort(CalendarEventList allEvents, SortFilterPreferences preferences)
+        {
+            return preferences.Sort(allEvents);
+        }
+
+        public CalendarEventList FilterByStartTime(CalendarEventList allEvents, SortFilterPreferences preferences)
+        {
+            if (!preferences.EnableTimeFilter)
+            {
+                return allEvents;
+            }
+
+            CalendarEventList filteredEvents = new CalendarEventList();
+
+            foreach (CalendarEvent ev in allEvents)
+            {
+                int starTimeInMinutes = ev.Start.Hour * 60 + ev.Start.Minute;
+                if (starTimeInMinutes >= preferences.TimeInMinutesMin && starTimeInMinutes <= preferences.TimeInMinutesMax)
+                {
+                    filteredEvents.Add(ev);
+                }
+            }
+            return filteredEvents;
+        }
+
+        public CalendarEventList FilterByDayOfWeek(CalendarEventList allEvents, SortFilterPreferences preferences)
+        {
+            if (!preferences.EnableDayOfWeekFilter)
+            {
+                return allEvents;
+            }
+
+            CalendarEventList filteredEvents = new CalendarEventList();
+
+            foreach (CalendarEvent ev in allEvents)
+            {
+                if (ev.Start.DayOfWeek == preferences.Weekday)
+                {
+                    filteredEvents.Add(ev);
+                }
+            }
+            return filteredEvents;
+        }
+
+        public CalendarEventList FilterByStatus(CalendarEventList allEvents, SortFilterPreferences preferences)
+        {
+            if (!preferences.EnableStatusFilter)
+            {
+                return allEvents;
+            }
+
+            CalendarEventList filteredEvents = new CalendarEventList();
+
+            foreach (CalendarEvent ev in allEvents)
+            {
+                if (ev.Status == (preferences.ShowConfirmedOnly ? CONFIRMED : TENTATIVE))
+                {
+                    filteredEvents.Add(ev);
+                }
+            }
+            return filteredEvents;
         }
 
         #endregion

@@ -12,6 +12,7 @@ namespace AGC.GUI.Common
         private CalendarEvent currentEvent;
         private CalendarEventUpdater eventUpdater = new CalendarEventUpdater();
         private DateTimePreferences dateTimePreferences = new DateTimePreferences().Load();
+        private SortFilterPreferences sortFilterPreferences = new SortFilterPreferences().Load();
 
         public CalendarEvent GetCurrentEvent()
         {
@@ -41,6 +42,16 @@ namespace AGC.GUI.Common
         public void SetDateTimePreferences(DateTimePreferences preferences)
         {
             dateTimePreferences = preferences;
+        }
+
+        public SortFilterPreferences GetSortFilterPreferences()
+        {
+            return sortFilterPreferences;
+        }
+
+        public void SetSortFilterPreferences(SortFilterPreferences preferences)
+        {
+            sortFilterPreferences = preferences;
         }
     }
 }
