@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using AGC.Library;
 using System;
+using GalaSoft.MvvmLight.Command;
 
 namespace AGC.GUI.ViewModel
 {
@@ -14,6 +15,8 @@ namespace AGC.GUI.ViewModel
 
         #endregion
 
+        public RelayCommand SelectEventsTabCommand { get; private set; }
+
         #region Constructor
 
         public MainViewModel(GoogleCalendar googleCalendar)
@@ -22,6 +25,7 @@ namespace AGC.GUI.ViewModel
             {
                 log.Debug("Loading MainWindow view model...");
                 calendar = googleCalendar;
+                SelectEventsTabCommand = new RelayCommand(SelectEventsTab);
                 log.Debug("MainWindow view model was succssfully loaded");
             }
             catch(Exception ex)
@@ -31,5 +35,32 @@ namespace AGC.GUI.ViewModel
         }
 
         #endregion
+
+        public const string EventsTabSelectedPropertyName = "EventsTabSelected";
+        private bool _eventsTabSelected = true;
+        public bool EventsTabSelected
+        {
+            get
+            {
+                return _eventsTabSelected;
+            }
+
+            set
+            {
+                if (_eventsTabSelected == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(EventsTabSelectedPropertyName);
+                _eventsTabSelected = value;
+                RaisePropertyChanged(EventsTabSelectedPropertyName);
+            }
+        }
+
+        private void SelectEventsTab()
+        {
+            EventsTabSelected = true;
+        }
     }
 }

@@ -14,7 +14,7 @@
     <Grid x:Name="LayoutRoot">
         
         <TabControl>
-            <TabItem Header="Events">
+            <TabItem Header="Events" IsSelected="{Binding EventsTabSelected}">
                 <views:EventsListView />
             </TabItem>
             <TabItem Header="Create Events">
@@ -27,5 +27,8 @@
                 <views:SettingsView />
             </TabItem>
         </TabControl>
+        <Grid.InputBindings>
+            <KeyBinding Key="Escape"  Command="{Binding SelectEventsTabCommand}" />
+        </Grid.InputBindings>
     </Grid>
 </Window>

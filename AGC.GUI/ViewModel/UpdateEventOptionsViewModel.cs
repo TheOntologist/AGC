@@ -17,6 +17,7 @@ namespace AGC.GUI.ViewModel
         public RelayCommand UpdateOnlyInstanceCommand { get; private set; }
         public RelayCommand UpdateFollowingEventsCommand { get; private set; }
         public RelayCommand UpdateAllEventsCommand { get; private set; }
+        public RelayCommand CancelUpdateCommand { get; private set; }
 
         public UpdateEventOptionsViewModel(IGoogleCalendar googleCalendar, IRepository commonRepository)
         {
@@ -28,6 +29,7 @@ namespace AGC.GUI.ViewModel
             UpdateOnlyInstanceCommand = new RelayCommand(UpdateOnlyInstance);
             UpdateFollowingEventsCommand = new RelayCommand(UpdateFollowingEvents);
             UpdateAllEventsCommand = new RelayCommand(UpdateAllEvents);
+            CancelUpdateCommand = new RelayCommand(CancelUpdate);
         }
 
         private void UpdateOnlyInstance()
@@ -49,6 +51,13 @@ namespace AGC.GUI.ViewModel
         {
             recurrence = calendar.GetRecurrenceSettings(selectedEvent);
             CalendarEventUpdater updateEvent = new CalendarEventUpdater(GoogleCalendar.ActionType.all, selectedEvent, recurrence);
+            repository.SetEventUpdater(updateEvent);
+            CloseWindow();
+        }
+
+        private void CancelUpdate()
+        {
+            CalendarEventUpdater updateEvent = new CalendarEventUpdater();
             repository.SetEventUpdater(updateEvent);
             CloseWindow();
         }

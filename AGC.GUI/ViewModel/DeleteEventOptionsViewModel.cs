@@ -16,6 +16,7 @@ namespace AGC.GUI.ViewModel
         public RelayCommand DeleteOnlyInstanceCommand { get; private set; }
         public RelayCommand DeleteFollowingEventsCommand { get; private set; }
         public RelayCommand DeleteAllEventsCommand { get; private set; }
+        public RelayCommand CancelDeleteCommand { get; private set; }
 
         public DeleteEventOptionsViewModel(IGoogleCalendar googleCalendar, IRepository commonRepository)
         {
@@ -26,6 +27,8 @@ namespace AGC.GUI.ViewModel
             DeleteOnlyInstanceCommand = new RelayCommand(DeleteOnlyInstance);
             DeleteFollowingEventsCommand = new RelayCommand(DeleteFollowingEvents);
             DeleteAllEventsCommand = new RelayCommand(DeleteAllEvents);
+            CancelDeleteCommand = new RelayCommand(CloseWindow);
+
         }
 
         private void DeleteOnlyInstance()

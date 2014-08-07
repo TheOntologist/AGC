@@ -50,5 +50,8 @@
             <Button Content="Sort and filter" Command="{Binding SortAndFilterCommand}" Width="100" AutomationProperties.Name="Sort and filter" Style="{StaticResource Button}"/>
             <Button Content="Cancel" Command="{Binding CancelSortAndFilterCommand}" Width="100" AutomationProperties.Name="Cancel" Style="{StaticResource Button}"/>
         </StackPanel>
+        <Grid.InputBindings>
+            <KeyBinding Key="Escape"  Command="{Binding CancelSortAndFilterCommand}" />
+        </Grid.InputBindings>
     </Grid>
 </Window>

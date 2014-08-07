@@ -674,6 +674,11 @@ namespace AGC.GUI.ViewModel
                 repository.SetEventUpdater(updateEvent);
             }
 
+            if (repository.GetEventUpdater().Type == GoogleCalendar.ActionType.none)
+            {
+                return;
+            }
+
             if (repository.GetEventUpdater().Type != GoogleCalendar.ActionType.none && updateType == UpdateType.full)
             {
                 var updateEventWindow = new Views.UpdateEventView();
@@ -716,14 +721,14 @@ namespace AGC.GUI.ViewModel
         {
             ShowChooseDateControls = true;
             ShowDefaultControls = false;
-            IsDefaultControlsFocused = true;
+            IsChooseDateControlsFocused = true;
         }
 
         private void HideChooseDateEventsControls()
         {
             ShowChooseDateControls = false;
             ShowDefaultControls = true;
-            IsChooseDateControlsFocused = true;
+            IsDefaultControlsFocused = true;          
         }
 
         private void GetChooseDateEvents()

@@ -82,5 +82,8 @@
                 <Button Content="Cancel" Width="80" Style="{StaticResource Button}" Command="{Binding HideChooseDateEventsControlsCommand}"/>
             </StackPanel>
         </StackPanel>
+        <Grid.InputBindings>
+            <KeyBinding Key="Escape"  Command="{Binding Path=HideChooseDateEventsControlsCommand}" />
+        </Grid.InputBindings>
     </Grid>
 </UserControl>

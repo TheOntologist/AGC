@@ -14,5 +14,8 @@
             <Button Content="All the following" Style="{StaticResource Button}" Command="{Binding DeleteFollowingEventsCommand}"/>
             <Button Content="All events in the series" Style="{StaticResource Button}" Command="{Binding DeleteAllEventsCommand}"/>
         </StackPanel>
+        <Grid.InputBindings>
+            <KeyBinding Key="Escape"  Command="{Binding CancelDeleteCommand}" />
+        </Grid.InputBindings>
     </Grid>
 </Window>
