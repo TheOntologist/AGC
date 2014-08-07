@@ -167,7 +167,31 @@ namespace AGC.Library
 
             foreach (CalendarEvent ev in allEvents)
             {
-                if (ev.Start.DayOfWeek == preferences.Weekday)
+                if (ev.Start.DayOfWeek == DayOfWeek.Monday && preferences.Monday)
+                {
+                    filteredEvents.Add(ev);
+                }
+                else if (ev.Start.DayOfWeek == DayOfWeek.Tuesday && preferences.Tuesday)
+                {
+                    filteredEvents.Add(ev);
+                }
+                else if (ev.Start.DayOfWeek == DayOfWeek.Wednesday && preferences.Wednesday)
+                {
+                    filteredEvents.Add(ev);
+                }
+                else if (ev.Start.DayOfWeek == DayOfWeek.Thursday && preferences.Thursday)
+                {
+                    filteredEvents.Add(ev);
+                }
+                else if (ev.Start.DayOfWeek == DayOfWeek.Friday && preferences.Friday)
+                {
+                    filteredEvents.Add(ev);
+                }
+                else if (ev.Start.DayOfWeek == DayOfWeek.Saturday && preferences.Saturday)
+                {
+                    filteredEvents.Add(ev);
+                }
+                else if (ev.Start.DayOfWeek == DayOfWeek.Sunday && preferences.Sunday)
                 {
                     filteredEvents.Add(ev);
                 }

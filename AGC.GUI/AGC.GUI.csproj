@@ -91,9 +91,6 @@
     <Compile Include="Controls\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DayOfWeekPicker.xaml.cs">
-      <DependentUpon>DayOfWeekPicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MonthPicker.xaml.cs">
       <DependentUpon>MonthPicker.xaml</DependentUpon>
     </Compile>
@@ -140,10 +137,6 @@
     <Page Include="Controls\DatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\DayOfWeekPicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\MonthPicker.xaml">
       <SubType>Designer</SubType>

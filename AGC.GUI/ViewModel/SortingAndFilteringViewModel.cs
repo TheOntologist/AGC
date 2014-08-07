@@ -19,14 +19,6 @@ namespace AGC.GUI.ViewModel
         private const string CONTENT = "content";
         private const string END_DATE = "end date";
 
-        private const string MO = "MO";
-        private const string TU = "TU";
-        private const string WE = "WE";
-        private const string TH = "TH";
-        private const string FR = "FR";
-        private const string SA = "SA";
-        private const string SU = "SU";
-
         private const string CONFIRMED = "confirmed";
         private const string TENTATIVE = "tentative";
 
@@ -42,7 +34,6 @@ namespace AGC.GUI.ViewModel
 
         private static List<string> SORT_BY_PARAM_LIST = new List<string>(new string[] { START_DATE, STATUS, TITLE, LOCATION, CONTENT, END_DATE });
         private static List<string> STATUS_LIST = new List<string>(new string[] { CONFIRMED, TENTATIVE });
-        private static string[] DAYS_OF_WEEK = new string[] { SU, MO, TU, WE, TH, FR, SA };
 
         #endregion
 
@@ -337,6 +328,164 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        #region Weekdays
+
+        public const string MondayPropertyName = "Monday";
+        private bool _monday = false;
+        public bool Monday
+        {
+            get
+            {
+                return _monday;
+            }
+
+            set
+            {
+                if (_monday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(MondayPropertyName);
+                _monday = value;
+                RaisePropertyChanged(MondayPropertyName);
+            }
+        }
+
+        public const string TuesdayPropertyName = "Tuesday";
+        private bool _tuesday = false;
+        public bool Tuesday
+        {
+            get
+            {
+                return _tuesday;
+            }
+
+            set
+            {
+                if (_tuesday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(TuesdayPropertyName);
+                _tuesday = value;
+                RaisePropertyChanged(TuesdayPropertyName);
+            }
+        }
+
+        public const string WednesdayPropertyName = "Wednesday";
+        private bool _wednesday = false;
+        public bool Wednesday
+        {
+            get
+            {
+                return _wednesday;
+            }
+
+            set
+            {
+                if (_wednesday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(WednesdayPropertyName);
+                _wednesday = value;
+                RaisePropertyChanged(WednesdayPropertyName);
+            }
+        }
+
+        public const string ThursdayPropertyName = "Thursday";
+        private bool _thursday = false;
+        public bool Thursday
+        {
+            get
+            {
+                return _thursday;
+            }
+
+            set
+            {
+                if (_thursday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(ThursdayPropertyName);
+                _thursday = value;
+                RaisePropertyChanged(ThursdayPropertyName);
+            }
+        }
+
+        public const string FridayPropertyName = "Friday";
+        private bool _friday = false;
+        public bool Friday
+        {
+            get
+            {
+                return _friday;
+            }
+
+            set
+            {
+                if (_friday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(FridayPropertyName);
+                _friday = value;
+                RaisePropertyChanged(FridayPropertyName);
+            }
+        }
+
+        public const string SaturdayPropertyName = "Saturday";
+        private bool _saturday = false;
+        public bool Saturday
+        {
+            get
+            {
+                return _saturday;
+            }
+
+            set
+            {
+                if (_saturday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SaturdayPropertyName);
+                _saturday = value;
+                RaisePropertyChanged(SaturdayPropertyName);
+            }
+        }
+
+        public const string SundayPropertyName = "Sunday";
+        private bool _sunday = false;
+        public bool Sunday
+        {
+            get
+            {
+                return _sunday;
+            }
+
+            set
+            {
+                if (_sunday == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SundayPropertyName);
+                _sunday = value;
+                RaisePropertyChanged(SundayPropertyName);
+            }
+        }
+
+        #endregion
+
         public const string StatusListPropertyName = "StatusList";
         private List<string> _statusList = STATUS_LIST;
         public List<string> StatusList
@@ -444,7 +593,14 @@ namespace AGC.GUI.ViewModel
             ToTimeHours = sortFilterPreferences.TimeInMinutesMax / 60;
             ToTimeMinutes = sortFilterPreferences.TimeInMinutesMax % 60;
 
-            SelectedDayOfWeek = DAYS_OF_WEEK[(int)sortFilterPreferences.Weekday];
+            Monday = sortFilterPreferences.Monday;
+            Tuesday = sortFilterPreferences.Tuesday;
+            Wednesday = sortFilterPreferences.Wednesday;
+            Thursday = sortFilterPreferences.Thursday;
+            Friday = sortFilterPreferences.Friday;
+            Saturday = sortFilterPreferences.Saturday;
+            Sunday = sortFilterPreferences.Sunday;
+
             SelectedStatus = sortFilterPreferences.ShowConfirmedOnly ? CONFIRMED : TENTATIVE;
         }
 
@@ -492,46 +648,16 @@ namespace AGC.GUI.ViewModel
             sortFilterPreferences.SortOrderAscending = SortOrderAscending;
 
             sortFilterPreferences.TimeInMinutesMin = FromTimeHours * 60 + FromTimeMinutes;
-            sortFilterPreferences.TimeInMinutesMax = ToTimeHours * 60 + ToTimeMinutes;           
+            sortFilterPreferences.TimeInMinutesMax = ToTimeHours * 60 + ToTimeMinutes;
 
-            switch (SelectedDayOfWeek)
-            {
-                case MO:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Monday;
-                        break;
-                    }
-                case TU:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Tuesday;
-                        break;
-                    }
-                case WE:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Wednesday;
-                        break;
-                    }
-                case TH:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Thursday;
-                        break;
-                    }
-                case FR:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Friday;
-                        break;
-                    }
-                case SA:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Saturday;
-                        break;
-                    }
-                case SU:
-                    {
-                        sortFilterPreferences.Weekday = System.DayOfWeek.Sunday;
-                        break;
-                    }
-            }
+            sortFilterPreferences.Monday = Monday;
+            sortFilterPreferences.Tuesday = Tuesday;
+            sortFilterPreferences.Wednesday = Wednesday;
+            sortFilterPreferences.Thursday = Thursday;
+            sortFilterPreferences.Friday = Friday;
+            sortFilterPreferences.Saturday = Saturday;
+            sortFilterPreferences.Sunday = Sunday;
+
             sortFilterPreferences.ShowConfirmedOnly = SelectedStatus == CONFIRMED ? true : false;
         }
 

@@ -7,7 +7,7 @@
         xmlns:ignore="http://www.ignore.com"
         mc:Ignorable="d ignore"
         Title="Sorting and Filtering"
-        DataContext="{Binding SortingAndFiltering, Source={StaticResource Locator}}" Height="250" Width="600">
+        DataContext="{Binding SortingAndFiltering, Source={StaticResource Locator}}" Height="250" Width="650">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -37,7 +37,17 @@
         
         <CheckBox Content="Enable Day of Week Filter" Grid.Row="0" Grid.Column="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableDayOfWeekFilter}" />
         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding EnableDayOfWeekFilter}">
-            <controls:DayOfWeekPicker DayOfWeek="{Binding SelectedDayOfWeek}" />
+            <GroupBox Header="Weekdays" KeyboardNavigation.DirectionalNavigation="Cycle">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" PreviewKeyDown="Weekdays_PreviewKeyDown">
+                    <CheckBox Name="Monday" Content="MO" IsChecked="{Binding Monday}"/>
+                    <CheckBox Content="TU" IsChecked="{Binding Tuesday}"/>
+                    <CheckBox Content="WE" IsChecked="{Binding Wednesday}"/>
+                    <CheckBox Content="TH" IsChecked="{Binding Thursday}"/>
+                    <CheckBox Content="FR" IsChecked="{Binding Friday}"/>
+                    <CheckBox Content="SA" IsChecked="{Binding Saturday}"/>
+                    <CheckBox Name="Sunday" Content="SU" IsChecked="{Binding Sunday}"/>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
 
         <CheckBox Content="Enable Status Filter" Grid.Row="2" Grid.Column="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableStatusFilter}" />

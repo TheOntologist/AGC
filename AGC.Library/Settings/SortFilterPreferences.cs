@@ -14,7 +14,7 @@ namespace AGC.Library
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private const int VERSION = 0;
+        private const int VERSION = 1;
 
         public enum SortBy
         {
@@ -36,7 +36,14 @@ namespace AGC.Library
         public int TimeInMinutesMax { get; set; }
 
         public bool EnableDayOfWeekFilter { get; set; }
-        public DayOfWeek Weekday { get; set; }
+        //public DayOfWeek Weekday { get; set; }
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
 
         public bool EnableStatusFilter { get; set; }
         public bool ShowConfirmedOnly { get; set; }
@@ -52,7 +59,6 @@ namespace AGC.Library
             TimeInMinutesMin = 540;
             TimeInMinutesMax = 600;
             SortOrderAscending = true;
-            Weekday = DayOfWeek.Wednesday;
             ShowConfirmedOnly = true;
         }
 
@@ -71,9 +77,29 @@ namespace AGC.Library
                 TimeInMinutesMin = (int)info.GetValue("TimeInMinutesMin", typeof(int));
                 TimeInMinutesMax = (int)info.GetValue("TimeInMinutesMax", typeof(int));
                 EnableDayOfWeekFilter = (bool)info.GetValue("EnableDayOfWeekFilter", typeof(bool));
-                Weekday = (DayOfWeek)info.GetValue("Weekday", typeof(DayOfWeek));
                 EnableStatusFilter = (bool)info.GetValue("EnableStatusFilter", typeof(bool));
                 ShowConfirmedOnly = (bool)info.GetValue("ShowConfirmedOnly", typeof(bool));
+            }
+            else if (version == 1)
+            {
+                Enable = (bool)info.GetValue("Enable", typeof(bool));
+                EnableSorting = (bool)info.GetValue("EnableSorting", typeof(bool));
+                SortParam = (SortBy)info.GetValue("SortParam", typeof(SortBy));
+                SortOrderAscending = (bool)info.GetValue("SortOrderAscending", typeof(bool));
+                EnableTimeFilter = (bool)info.GetValue("EnableTimeFilter", typeof(bool));
+                TimeInMinutesMin = (int)info.GetValue("TimeInMinutesMin", typeof(int));
+                TimeInMinutesMax = (int)info.GetValue("TimeInMinutesMax", typeof(int));
+                EnableDayOfWeekFilter = (bool)info.GetValue("EnableDayOfWeekFilter", typeof(bool));
+                EnableStatusFilter = (bool)info.GetValue("EnableStatusFilter", typeof(bool));
+                ShowConfirmedOnly = (bool)info.GetValue("ShowConfirmedOnly", typeof(bool));
+
+                Monday = (bool)info.GetValue("Monday", typeof(bool));
+                Tuesday = (bool)info.GetValue("Tuesday", typeof(bool));
+                Wednesday = (bool)info.GetValue("Wednesday", typeof(bool));
+                Thursday = (bool)info.GetValue("Thursday", typeof(bool));
+                Friday = (bool)info.GetValue("Friday", typeof(bool));
+                Saturday = (bool)info.GetValue("Saturday", typeof(bool));
+                Sunday = (bool)info.GetValue("Sunday", typeof(bool));
             }
         }
 
@@ -89,7 +115,15 @@ namespace AGC.Library
             info.AddValue("TimeInMinutesMin", TimeInMinutesMin);
             info.AddValue("TimeInMinutesMax", TimeInMinutesMax);
             info.AddValue("EnableDayOfWeekFilter", EnableDayOfWeekFilter);
-            info.AddValue("Weekday", Weekday);
+
+            info.AddValue("Monday", Monday);
+            info.AddValue("Tuesday", Tuesday);
+            info.AddValue("Wednesday", Wednesday);
+            info.AddValue("Thursday", Thursday);
+            info.AddValue("Friday", Friday);
+            info.AddValue("Saturday", Saturday);
+            info.AddValue("Sunday", Sunday);
+
             info.AddValue("EnableStatusFilter", EnableStatusFilter);
             info.AddValue("ShowConfirmedOnly", ShowConfirmedOnly);
         }
