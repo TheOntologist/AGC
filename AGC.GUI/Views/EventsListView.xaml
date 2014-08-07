@@ -52,16 +52,9 @@
                 <CheckBox Content="Enable Sort and Filter" Grid.Row="0" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSortingAndFiltering}" Margin="5, 5, 5, 0" />
                 <Button Content="Sorting and Filtering" Style="{StaticResource Button}" Command="{Binding SetSortingAndFilteringPreferencesCommand}" IsEnabled="{Binding EnableSortingAndFiltering}" Margin="5,20,5,11"/>
             </StackPanel>
-
-            <GroupBox Header="Search Events" Margin="10,0,10,0" VerticalAlignment="Top" Height="60">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Width="400" Margin="50,5,50,5" AutomationProperties.Name="Insert text to search" Text="{Binding TextToSearch}"/>
-                    <Button Content="OK" Style="{StaticResource Button}" Command="{Binding SearchEventsCommand}"/>                   
-                </StackPanel>
-            </GroupBox>
             <Button Content="Log out" Style="{StaticResource Button}" Command="{Binding LogOutCommand}" Width="100" HorizontalAlignment="Right"/>
         </StackPanel>
-        
+
         <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">
             <GroupBox Header="Choose Date" Height="90" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
@@ -77,9 +70,17 @@
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>              
+            </GroupBox>            
+            <GroupBox Header="Search" VerticalAlignment="Top" Height="60">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Enable search" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSearch}"/>
+                    <TextBox Width="400" Margin="50,5,50,5" AutomationProperties.Name="Insert text to search" Text="{Binding TextToSearch}" IsEnabled="{Binding EnableSearch}"/>
+                </StackPanel>
             </GroupBox>
-            <Button Content="OK" Width="80" Style="{StaticResource Button}" Command="{Binding GetChooseDateEventsCommand}"/>
-            <Button Content="Cancel" Width="80" Style="{StaticResource Button}" Command="{Binding HideChooseDateEventsControlsCommand}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="OK" Width="80" Style="{StaticResource Button}" Command="{Binding GetChooseDateEventsCommand}"/>
+                <Button Content="Cancel" Width="80" Style="{StaticResource Button}" Command="{Binding HideChooseDateEventsControlsCommand}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

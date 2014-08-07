@@ -61,10 +61,9 @@ namespace AGC.Library
             return selectedEvents;
         }
 
-        public CalendarEventList SearchEvents(IGoogleCalendar calendar, TimeIntervals period, String keyword)
+        public CalendarEventList SearchEvents(CalendarEventList events, String keyword)
         {
             CalendarEventList selectedEvents = new CalendarEventList();
-            CalendarEventList events = calendar.GetEvents(period.Start, period.End);
             try
             {
                 if (!String.IsNullOrEmpty(keyword))

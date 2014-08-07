@@ -38,8 +38,7 @@ namespace AGC.GUI.ViewModel
             NextWeek,
             ThisMonth,
             NextMonth,
-            Period,
-            Search
+            Period
         }
 
         private enum UpdateType
@@ -65,7 +64,6 @@ namespace AGC.GUI.ViewModel
         public RelayCommand GetThisMonthEventsCommand { get; private set; }
         public RelayCommand GetNextMonthEventsCommand { get; private set; }
         public RelayCommand GetPeriodEventsCommand { get; private set; }
-        public RelayCommand SearchEventsCommand { get; private set; }
         public RelayCommand DeleteEventCommand { get; private set; }
         public RelayCommand UpdateEventCommand { get; private set; }
         public RelayCommand ConfirmEventCommand { get; private set; }
@@ -102,7 +100,6 @@ namespace AGC.GUI.ViewModel
                 GetThisMonthEventsCommand = new RelayCommand(GetThisMonthEvents);
                 GetNextMonthEventsCommand = new RelayCommand(GetNextMonthEvents);
                 GetPeriodEventsCommand = new RelayCommand(GetPeriodEvents);
-                SearchEventsCommand = new RelayCommand(SearchEvents);
                 DeleteEventCommand = new RelayCommand(DeleteEvent);
                 UpdateEventCommand = new RelayCommand(FullUpdateEvent);
                 ConfirmEventCommand = new RelayCommand(ConfirmEvent);
@@ -210,6 +207,28 @@ namespace AGC.GUI.ViewModel
                 RaisePropertyChanging(SingleMonthPeriodPropertyName);
                 _singleMonthPeriod = value;
                 RaisePropertyChanged(SingleMonthPeriodPropertyName);
+            }
+        }
+
+        public const string EnableSearchPropertyName = "EnableSearch";
+        private bool _enableSearch = false;
+        public bool EnableSearch
+        {
+            get
+            {
+                return _enableSearch;
+            }
+
+            set
+            {
+                if (_enableSearch == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(EnableSearchPropertyName);
+                _enableSearch = value;
+                RaisePropertyChanged(EnableSearchPropertyName);
             }
         }
 
@@ -610,15 +629,6 @@ namespace AGC.GUI.ViewModel
             ShowResults();
         }
 
-        private void SearchEvents()
-        {
-            Events = service.SearchEvents(calendar, period.All(), TextToSearch);
-            Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
-            SortAndFilterEvents();
-            eventListType = EventsListType.Search;
-            ShowResults();
-        }
-
         private void DeleteEvent()
         {
             if (!SelectedEvent.IsFake)
@@ -719,7 +729,9 @@ namespace AGC.GUI.ViewModel
         private void GetChooseDateEvents()
         {
             Events = EndDateSpecified ? service.GetEvents(calendar, StartDate, EndDate.AddHours(23).AddMinutes(59).AddSeconds(59)) :
-                                        service.GetEvents(calendar, StartDate, DateTime.Today.AddYears(8));
+                                        service.GetEvents(calendar, StartDate, DateTime.Today.AddYears(2));
+
+            Events = EnableSearch ? service.SearchEvents(Events, TextToSearch) : Events;
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.ThisMonth;
             ShowResults();
@@ -811,11 +823,6 @@ namespace AGC.GUI.ViewModel
                 case EventsListType.Period:
                     {
                         GetPeriodEvents();
-                        break;
-                    }
-                case EventsListType.Search:
-                    {
-                        SearchEvents();
                         break;
                     }
             }
