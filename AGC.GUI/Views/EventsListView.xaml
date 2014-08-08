@@ -48,19 +48,19 @@
                         <Button Content="Select Period" Style="{StaticResource Button}" Command="{Binding GetPeriodEventsCommand}"/>                       
                     </StackPanel>
                 </GroupBox>
-                <Button Content="Choose Date" Style="{StaticResource Button}" Command="{Binding ShowChooseDateEventsControlsCommand}" Margin="5,20,5,11"/>
+                <Button Content="Choose Date" Style="{StaticResource Button}" Command="{Binding ShowChooseDateEventsControlsCommand}" Margin="5,20,5,11" Click="ShowChooseDate" />
                 <CheckBox Content="Enable Sort and Filter" Grid.Row="0" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSortingAndFiltering}" Margin="5, 5, 5, 0" />
                 <Button Content="Sorting and Filtering" Style="{StaticResource Button}" Command="{Binding SetSortingAndFilteringPreferencesCommand}" IsEnabled="{Binding EnableSortingAndFiltering}" Margin="5,20,5,11"/>
             </StackPanel>
             <Button Content="Log out" Style="{StaticResource Button}" Command="{Binding LogOutCommand}" Width="100" HorizontalAlignment="Right"/>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">
+        <StackPanel Name="ChooseDate" Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">
             <GroupBox Header="Choose Date" Height="90" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
                     <GroupBox Header="Start Date" Height="60">
                         <StackPanel Orientation="Horizontal">
-                            <controls:DatePicker Date="{Binding StartDate}" common:FocusExtension.IsFocused="{Binding IsChooseDateControlsFocused}" />
+                            <controls:DatePicker Date="{Binding StartDate}" Focusable="True" Focused="{Binding IsChooseDateControlsFocused}" />
                         </StackPanel>
                     </GroupBox>
                     <CheckBox Content="Select End Date" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EndDateSpecified}"/>
@@ -78,8 +78,8 @@
                 </StackPanel>
             </GroupBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="OK" Width="80" Style="{StaticResource Button}" Command="{Binding GetChooseDateEventsCommand}"/>
-                <Button Content="Cancel" Width="80" Style="{StaticResource Button}" Command="{Binding HideChooseDateEventsControlsCommand}"/>
+                <Button Content="OK" Width="80" Style="{StaticResource Button}" Command="{Binding GetChooseDateEventsCommand}" Click="HideChooseDate"/>
+                <Button Content="Cancel" Width="80" Style="{StaticResource Button}" Command="{Binding HideChooseDateEventsControlsCommand}" Click="HideChooseDate"/>
             </StackPanel>
         </StackPanel>
         <Grid.InputBindings>

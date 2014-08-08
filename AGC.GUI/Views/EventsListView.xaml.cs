@@ -20,6 +20,9 @@ namespace AGC.GUI.Views
             {
                 log.Debug("Loading EventsList view...");
                 InitializeComponent();
+                this.PreviewKeyDown += new KeyEventHandler(Escape_PreviewKeyDown);
+                // These controls were loaded to be focusable in future
+                ChooseDate.Visibility = System.Windows.Visibility.Hidden;
                 log.Debug("EventsList view was succssfully loaded");
             }
             catch(Exception ex)
@@ -28,7 +31,25 @@ namespace AGC.GUI.Views
             }           
         }
 
+        void Escape_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+                if (e.Key == Key.Escape)
+            {
+                ChooseDate.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
         public void Refresh()
         { }
+
+        private void ShowChooseDate(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ChooseDate.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void HideChooseDate(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ChooseDate.Visibility = System.Windows.Visibility.Hidden;
+        }
     }
 }

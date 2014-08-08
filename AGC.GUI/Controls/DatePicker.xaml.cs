@@ -36,8 +36,17 @@ namespace AGC.GUI.Controls
             set { SetValue(DateProperty, value); }
         }
 
+        public bool Focused
+        {
+            get { return (bool)GetValue(FocusedProperty); }
+            set { SetValue(FocusedProperty, value); }
+        }
+
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(DatePicker), new FrameworkPropertyMetadata(DateTime.Now, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentDatePropertyChanged));
+
+        public static readonly DependencyProperty FocusedProperty =
+            DependencyProperty.Register("Focused", typeof(bool), typeof(DatePicker), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCurrentFocusedPropertyChanged));
 
         private static void OnCurrentDatePropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
@@ -48,6 +57,17 @@ namespace AGC.GUI.Controls
             control.MonthsList.SelectedIndex = GetMonthIntValue(date.Month - 1);
             control.DaysList.SelectedItem = date.Day;
             control.DayOfWeek.Text = String.Format(DAY_OF_WEEK_FORMAT, date);
+        }
+
+        private static void OnCurrentFocusedPropertyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
+        {
+            DatePicker control = source as DatePicker;
+            bool focused = (bool)e.NewValue;
+
+            if(focused)
+            {
+                control.YearsList.Focus();
+            }
         }
 
         private void LoadData()

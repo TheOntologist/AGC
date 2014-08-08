@@ -345,7 +345,7 @@ namespace AGC.GUI.ViewModel
         }
 
         public const string ShowChooseDateControlsPropertyName = "ShowChooseDateControls";
-        private bool _showChooseDateControls = false;
+        private bool _showChooseDateControls = true;
         public bool ShowChooseDateControls
         {
             get
@@ -722,13 +722,15 @@ namespace AGC.GUI.ViewModel
             ShowChooseDateControls = true;
             ShowDefaultControls = false;
             IsChooseDateControlsFocused = true;
+            IsDefaultControlsFocused = false;
         }
 
         private void HideChooseDateEventsControls()
         {
             ShowChooseDateControls = false;
             ShowDefaultControls = true;
-            IsDefaultControlsFocused = true;          
+            IsDefaultControlsFocused = true;
+            IsChooseDateControlsFocused = false;
         }
 
         private void GetChooseDateEvents()
