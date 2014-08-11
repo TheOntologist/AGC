@@ -20,5 +20,8 @@ namespace AGC.GUI.Common
 
         SortFilterPreferences GetSortFilterPreferences();
         void SetSortFilterPreferences(SortFilterPreferences preferences);
+
+        QuickEventsTemplates GetQuickEventsTemplates();
+        void SetQuickEventsTemplates(QuickEventsTemplates templates);
     }
 }
