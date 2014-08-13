@@ -85,8 +85,10 @@
     <Compile Include="Common\BoolToOppositeBoolConverter.cs" />
     <Compile Include="Common\Bootstrapper.cs" />
     <Compile Include="Common\FocusExtension.cs" />
+    <Compile Include="Common\IMessanger.cs" />
     <Compile Include="Common\InputBindingsManager.cs" />
     <Compile Include="Common\IRepository.cs" />
+    <Compile Include="Common\Messanger.cs" />
     <Compile Include="Common\Repository.cs" />
     <Compile Include="Controls\DatePicker.xaml.cs">
       <DependentUpon>DatePicker.xaml</DependentUpon>
@@ -249,7 +251,20 @@
       <Name>AGC.Library</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Sounds\delete.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\error.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\neutral.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\success.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

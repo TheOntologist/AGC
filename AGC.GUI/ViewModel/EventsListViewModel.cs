@@ -29,6 +29,7 @@ namespace AGC.GUI.ViewModel
         private readonly ICalendarEventService service;
         private readonly ITimeIntervals period;
         private readonly IRepository repository;
+        private readonly IMessanger messanger;
 
         private enum EventsListType
         {
@@ -78,7 +79,7 @@ namespace AGC.GUI.ViewModel
 
         #region Constructor
 
-        public EventsListViewModel(IGoogleCalendar googleCalendar, ICalendarEventService eventService, ITimeIntervals timeInterval, IRepository commonRepository)
+        public EventsListViewModel(IGoogleCalendar googleCalendar, ICalendarEventService eventService, ITimeIntervals timeInterval, IRepository commonRepository, IMessanger commonMessanger)
         {
             try
             {
@@ -89,6 +90,7 @@ namespace AGC.GUI.ViewModel
                 period = timeInterval;
                 repository = commonRepository;
                 sortFilterPreferences = repository.GetSortFilterPreferences();
+                messanger = commonMessanger;
 
                 Events = service.GetEvents(calendar, period.Today());
                 Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
@@ -643,11 +645,11 @@ namespace AGC.GUI.ViewModel
                 {
                     if (calendar.DeleteEvent(SelectedEvent, GoogleCalendar.ActionType.single))
                     {
-                        MessageBox.Show(Application.Current.MainWindow, "Deleted", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                        messanger.Delete("Deleted");
                     }
                     else
                     {
-                        MessageBox.Show(Application.Current.MainWindow, "Failed to delete event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                        messanger.Error("Failed to delete event. Please check log file for a detailed information about the error.");
                     }
                 }
                 RefreshEventsList();
@@ -693,11 +695,11 @@ namespace AGC.GUI.ViewModel
                 if (calendar.UpdateEvent(eventUpdater.CalendarEvent, eventUpdater.Type))
                 {
                     RefreshEventsList();
-                    MessageBox.Show(Application.Current.MainWindow, "Event status changed", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                    messanger.Success("Event status changed");
                 }
                 else
                 {
-                    MessageBox.Show(Application.Current.MainWindow, "Failed to change event status. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                    messanger.Error("Failed to change event status. Please check log file for a detailed information about the error.");
                 }
             }
         }
@@ -785,7 +787,7 @@ namespace AGC.GUI.ViewModel
         {
             if (Events.Count == 0)
             {
-                MessageBox.Show(Application.Current.MainWindow, "No events", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Neutral("No events");
             }                
             else
             {

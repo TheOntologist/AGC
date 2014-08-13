@@ -30,6 +30,7 @@ namespace AGC.GUI.ViewModel
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository repository;
+        private readonly IMessanger messanger;
         private SortFilterPreferences sortFilterPreferences;
 
         private static List<string> SORT_BY_PARAM_LIST = new List<string>(new string[] { START_DATE, STATUS, TITLE, LOCATION, CONTENT, END_DATE });
@@ -47,9 +48,10 @@ namespace AGC.GUI.ViewModel
 
         #region Constructor
 
-        public SortingAndFilteringViewModel(IRepository commonRepository)
+        public SortingAndFilteringViewModel(IRepository commonRepository, IMessanger commonMessanger)
         {
             repository = commonRepository;
+            messanger = commonMessanger;
             sortFilterPreferences = repository.GetSortFilterPreferences();
             LoadSortFilterPreferences();
 
@@ -667,12 +669,12 @@ namespace AGC.GUI.ViewModel
 
             if (sortFilterPreferences.Save())
             {
-                MessageBox.Show(Application.Current.MainWindow, "Saved", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Success("Saved");
                 repository.SetSortFilterPreferences(sortFilterPreferences);
             }
             else
             {
-                MessageBox.Show(Application.Current.MainWindow, "Failed to save Sorting and Filtering preferences. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                messanger.Error("Failed to save Sorting and Filtering preferences. Please check log file for a detailed information about the error.");
             }
 
             sortFilterPreferences.Enable = true;

@@ -10,6 +10,7 @@ namespace AGC.GUI.ViewModel
     {
         private readonly IGoogleCalendar calendar;
         private readonly IRepository repository;
+        private readonly IMessanger messanger;
 
         private CalendarEvent selectedEvent;
 
@@ -18,11 +19,12 @@ namespace AGC.GUI.ViewModel
         public RelayCommand DeleteAllEventsCommand { get; private set; }
         public RelayCommand CancelDeleteCommand { get; private set; }
 
-        public DeleteEventOptionsViewModel(IGoogleCalendar googleCalendar, IRepository commonRepository)
+        public DeleteEventOptionsViewModel(IGoogleCalendar googleCalendar, IRepository commonRepository, IMessanger commonMessanger)
         {
             calendar = googleCalendar;
             repository = commonRepository;
             selectedEvent = repository.GetCurrentEvent();
+            messanger = commonMessanger;
 
             DeleteOnlyInstanceCommand = new RelayCommand(DeleteOnlyInstance);
             DeleteFollowingEventsCommand = new RelayCommand(DeleteFollowingEvents);
@@ -33,19 +35,40 @@ namespace AGC.GUI.ViewModel
 
         private void DeleteOnlyInstance()
         {
-            calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.single);
+            if (calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.single))
+            {
+                messanger.Delete("Deleted");
+            }
+            else
+            {
+                messanger.Error("Failed to delete single event");
+            }
             CloseWindow();
         }
 
         private void DeleteFollowingEvents()
         {
-            calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.following);
+            if (calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.following))
+            {
+                messanger.Delete("Deleted");
+            }
+            else
+            {
+                messanger.Error("Failed to delete following events");
+            }
             CloseWindow();
         }
 
         private void DeleteAllEvents()
         {
-            calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.all);
+            if (calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.all))
+            {
+                messanger.Delete("Deleted");
+            }
+            else
+            {
+                messanger.Error("Failed to delete all events in the series");
+            }
             CloseWindow();
         }
 

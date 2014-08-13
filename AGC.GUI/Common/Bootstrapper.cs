@@ -54,6 +54,9 @@ namespace AGC.GUI.Common
             Container.RegisterInstance<IRepository>(new Repository());
             log.Debug("Registered instance of Repository");
 
+            Container.RegisterInstance<IMessanger>(new Messanger());
+            log.Debug("Registered instance of Messanger");
+
             Container.RegisterType<MainViewModel>();
             log.Debug("Registered type of MainViewModel");
 

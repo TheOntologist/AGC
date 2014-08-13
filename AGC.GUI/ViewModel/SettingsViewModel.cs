@@ -45,7 +45,9 @@ namespace AGC.GUI.ViewModel
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository repository;
+        private readonly IMessanger messanger;
         private DateTimePreferences dateTimePreferences;
+        private SoundPreferences soundPreferences;
 
         private static List<string> DATE_FORMAT_LIST = new List<string>(new string[] { DATE_FORMAT_DAY_FIRST, DATE_FORMAT_MONTH_FIRST });
         private static List<string> MONTH_FORMAT_LIST = new List<string>(new string[] { MONTH_FORMAT_SHORT_NAME, MONTH_FORMAT_NAME, MONTH_FORMAT_NUMBER });
@@ -62,12 +64,16 @@ namespace AGC.GUI.ViewModel
 
         #region Constructor
 
-        public SettingsViewModel(IRepository commonRepository)
+        public SettingsViewModel(IRepository commonRepository, IMessanger commonMessanger)
         {
-            repository = commonRepository;
+            repository = commonRepository;            
             dateTimePreferences = repository.GetDateTimePreferences();
+            messanger = commonMessanger;
+            soundPreferences = messanger.GetSoundPreferences();
             LoadDateTimePreferences();
-            
+
+            EnableSounds = soundPreferences.Enable;
+
             SaveDateTimePreferencesCommand = new RelayCommand(SaveDateTimePreferences);
         }
 
@@ -387,6 +393,37 @@ namespace AGC.GUI.ViewModel
 
         #endregion
 
+        #region Sound Preferences
+
+        public const string EnableSoundsPropertyName = "EnableSounds";
+        private bool _enableSounds = false;
+        public bool EnableSounds
+        {
+            get
+            {
+                return _enableSounds;
+            }
+
+            set
+            {
+                if (_enableSounds == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(EnableSoundsPropertyName);
+                _enableSounds = value;
+                RaisePropertyChanged(EnableSoundsPropertyName);
+
+                soundPreferences.Enable = value;
+                soundPreferences.Save();
+                messanger.SetSoundPreferences(soundPreferences);
+                messanger.Success(value ? "Sound enabled" : "Sound disabled");
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
@@ -530,12 +567,12 @@ namespace AGC.GUI.ViewModel
 
             if (dateTimePreferences.Save())
             {
-                MessageBox.Show(Application.Current.MainWindow, "Saved", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Success("Saved");
                 repository.SetDateTimePreferences(dateTimePreferences);
             }
             else
             {
-                MessageBox.Show(Application.Current.MainWindow, "Failed to save Date-Time preferences. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                messanger.Error("Failed to save Date-Time preferences. Please check log file for a detailed information about the error.");
             }
         }
 

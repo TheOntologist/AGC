@@ -7,7 +7,11 @@
         mc:Ignorable="d ignore"
         DataContext="{Binding Settings, Source={StaticResource Locator}}" Height="400" Width="700">
     <Grid>
-        <GroupBox Header="Date-Time Preferences" Height="260" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="260" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Date-Time Preferences" Grid.Row="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -43,6 +47,9 @@
 
                 <Button Content="Save" Grid.Column="2" Grid.Row="5" Command="{Binding SaveDateTimePreferencesCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}" />
             </Grid>           
+        </GroupBox>
+        <GroupBox Header="Sound Preferences" Grid.Row="1">
+            <CheckBox Content="Use sounds instead of pop-up messages" Style="{StaticResource ListCheckBox}" IsChecked="{Binding EnableSounds}"/>
         </GroupBox>
     </Grid>
 </UserControl>

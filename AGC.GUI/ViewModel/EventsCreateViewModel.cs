@@ -40,6 +40,7 @@ namespace AGC.GUI.ViewModel
 
         private readonly IGoogleCalendar calendar;
         private readonly IRepository repository;
+        private readonly IMessanger messanger;
         private IRecurrenceSettings recurrence;
         private CalendarEventUpdater eventUpdater;
 
@@ -57,7 +58,7 @@ namespace AGC.GUI.ViewModel
 
         #region Constructor
 
-        public EventsCreateViewModel(IGoogleCalendar googleCalendar, IRecurrenceSettings recurrenceSettings, IRepository commonRepository)
+        public EventsCreateViewModel(IGoogleCalendar googleCalendar, IRecurrenceSettings recurrenceSettings, IRepository commonRepository, IMessanger commonMessanger)
         {
             try
             {
@@ -65,6 +66,7 @@ namespace AGC.GUI.ViewModel
 
                 calendar = googleCalendar;
                 repository = commonRepository;
+                messanger = commonMessanger;
                 recurrence = recurrenceSettings;
 
                 CreateEventCommand = new RelayCommand(CreateEvent);
@@ -1012,13 +1014,13 @@ namespace AGC.GUI.ViewModel
 
             if (calendar.CreateEvent(ev))
             {
-                MessageBox.Show(Application.Current.MainWindow, "Created", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Success("Created");
                 CleanInputText();
                 recurrence.Clear(); 
             }
             else
             {
-                MessageBox.Show(Application.Current.MainWindow, "Failed to create event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                messanger.Error("Failed to create event. Please check log file for a detailed information about the error.");
             }
         }
 
@@ -1029,11 +1031,11 @@ namespace AGC.GUI.ViewModel
 
             if (calendar.UpdateEvent(ev, eventUpdater.Type))
             {
-                MessageBox.Show(Application.Current.MainWindow, "Updated", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Success("Updated");
             }
             else
             {
-                MessageBox.Show(Application.Current.MainWindow, "Failed to update event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                messanger.Error("Failed to update event. Please check log file for a detailed information about the error.");
             }
 
             CloseUpdateWindow();

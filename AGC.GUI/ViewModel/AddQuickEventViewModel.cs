@@ -24,6 +24,8 @@ namespace AGC.GUI.ViewModel
 
         private readonly IGoogleCalendar calendar;
         private readonly IRepository repository;
+        private readonly IMessanger messanger;
+
         private QuickEventsTemplates quickEventsTemplates;
 
         #endregion
@@ -41,7 +43,7 @@ namespace AGC.GUI.ViewModel
 
         #region Constructor
 
-        public AddQuickEventViewModel(IGoogleCalendar googleCalendar, IRepository commonRepository)
+        public AddQuickEventViewModel(IGoogleCalendar googleCalendar, IRepository commonRepository, IMessanger commonMessanger)
         {
             try
             {
@@ -49,6 +51,7 @@ namespace AGC.GUI.ViewModel
 
                 calendar = googleCalendar;
                 repository = commonRepository;
+                messanger = commonMessanger;
                 quickEventsTemplates = repository.GetQuickEventsTemplates();
                 LoadData();
 
@@ -212,7 +215,7 @@ namespace AGC.GUI.ViewModel
 
             if (selectedTemplateIndex == 0)
             {
-                MessageBox.Show(Application.Current.MainWindow, "First position reached", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Neutral("First position reached");
                 return;
             }
 
@@ -234,7 +237,7 @@ namespace AGC.GUI.ViewModel
 
             if (selectedTemplateIndex == Tempaltes.Count - 1)
             {
-                MessageBox.Show(Application.Current.MainWindow, "Last position reached", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Neutral("Last position reached");
                 return;
             }
 
@@ -249,7 +252,7 @@ namespace AGC.GUI.ViewModel
         private void RemoveTemplate()
         {
             Tempaltes.Remove(SelectedTemplate);
-            MessageBox.Show(Application.Current.MainWindow, "Removed", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            messanger.Delete ("Removed");
             SelectedTemplate = Tempaltes.Count > 0 ? Tempaltes[0] : string.Empty;
             SaveChanges();
 
@@ -259,18 +262,18 @@ namespace AGC.GUI.ViewModel
         {
             if (calendar.AddQuickEvent(QuickEventText))
             {
-                MessageBox.Show(Application.Current.MainWindow, "Added", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+                messanger.Success("Added");
             }
             else
             {
-                MessageBox.Show(Application.Current.MainWindow, "Failed to add quick event. Please check log file for a detailed information about the error.", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                messanger.Error("Failed to add quick event. Please check log file for a detailed information about the error.");
             }
         }
 
         private void SaveAsTemplate()
         {
             Tempaltes.Add(QuickEventText);
-            MessageBox.Show(Application.Current.MainWindow, "Saved", "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            messanger.Success("Saved");
             SaveChanges();
         }
 
