@@ -16,19 +16,6 @@
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Row="0">
-                    <ComboBox Style="{StaticResource DropDownMenu}" Width="300" ItemsSource="{Binding Tempaltes}" SelectedItem="{Binding SelectedTemplate}" AutomationProperties.Name="Templates List, press return to select template">
-                        <ComboBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding Path=SelectTemplateCommand}" />
-                        </ComboBox.InputBindings>
-                    </ComboBox>
-                    <CheckBox Content="Edit Selected Template" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EditTemplate}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Row="1" IsEnabled="{Binding EditTemplate}">
-                    <Button Content="Move Up" Command="{Binding MoveUpTemplateCommand}" HorizontalAlignment="Right" Width="100" AutomationProperties.Name="Move Up" Style="{StaticResource Button}" />
-                    <Button Content="Move Down" Command="{Binding MoveDownTemplateCommand}" HorizontalAlignment="Right" Width="100" AutomationProperties.Name="Move Down" Style="{StaticResource Button}" />
-                    <Button Content="Remove" Command="{Binding RemoveTemplateCommand}" HorizontalAlignment="Right" Width="100" AutomationProperties.Name="Remove" Style="{StaticResource Button}" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Row="2">
                     <TextBox Width="400" AutomationProperties.Name="Quick Event Text, press return to create event" Style="{StaticResource InputText}" Text="{Binding QuickEventText, UpdateSourceTrigger=PropertyChanged}" common:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text" common:FocusExtension.IsFocused="{Binding IsTemplateSelected}">
                         <TextBox.InputBindings>
                             <KeyBinding Key="Return" Command="{Binding Path=AddQuickEventCommand}" />
@@ -37,6 +24,20 @@
                     <Button Content="Add" Style="{StaticResource Button}" Command="{Binding AddQuickEventCommand}"/>
                     <Button Content="Save as Template" Style="{StaticResource Button}" Command="{Binding SaveAsTemplateCommand}"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <ComboBox Style="{StaticResource DropDownMenu}" Width="300" ItemsSource="{Binding Tempaltes}" SelectedItem="{Binding SelectedTemplate}" AutomationProperties.Name="Templates List, press return to select template">
+                        <ComboBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding Path=SelectTemplateCommand}" />
+                        </ComboBox.InputBindings>
+                    </ComboBox>
+                    <CheckBox Content="Edit Selected Template" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EditTemplate}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="2" IsEnabled="{Binding EditTemplate}">
+                    <Button Content="Move Up" Command="{Binding MoveUpTemplateCommand}" HorizontalAlignment="Right" Width="100" AutomationProperties.Name="Move Up" Style="{StaticResource Button}" />
+                    <Button Content="Move Down" Command="{Binding MoveDownTemplateCommand}" HorizontalAlignment="Right" Width="100" AutomationProperties.Name="Move Down" Style="{StaticResource Button}" />
+                    <Button Content="Remove" Command="{Binding RemoveTemplateCommand}" HorizontalAlignment="Right" Width="100" AutomationProperties.Name="Remove" Style="{StaticResource Button}" />
+                </StackPanel>
+                
             </Grid>
 
         </GroupBox>
