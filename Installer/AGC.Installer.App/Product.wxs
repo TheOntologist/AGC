@@ -14,6 +14,10 @@
     <Condition Message="This application requires .NET Framework 4.5. Please install the .NET Framework then run this installer again.">
       <![CDATA[NETFRAMEWORK45]]>
     </Condition>
+
+    <Property Id="INSTALLLOCATION">
+      <RegistrySearch Id="GetInstallLocation" Root="HKLM" Key="SOFTWARE\$(var.ProductName)\Install" Name="InstallLocation" Type="raw" />
+    </Property>
     
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
@@ -27,8 +31,15 @@
 		<Feature Id="ProductFeature" Title="AGC.Installer.App" Level="1">
 			<ComponentGroupRef Id="AGC.GUI_Project" />
       <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="PropertiesSavedInRegistry" />
 		</Feature>
 
+    <Component Id="PropertiesSavedInRegistry" Directory="INSTALLLOCATION"  Guid="4ad7c73a-cb05-4b8a-812b-784f2419bccd">
+      <RegistryKey Action="create" Root="HKLM" Key="SOFTWARE\$(var.ProductName)\Install">
+        <RegistryValue Name="InstallLocation" Type="string" Value="[INSTALLLOCATION]"/>
+      </RegistryKey>
+    </Component>
+    
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>
     <UIRef Id="WixUI_InstallDir"/>
 	</Product>
