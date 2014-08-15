@@ -13,6 +13,7 @@ namespace AGC.Library
     public class DateTimePreferences : IDateTimePreferences, ISerializable 
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string CONFIG = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AGC\\" + "DateTimePreferences.bin";
 
         private const int VERSION = 1;
         private const string PAUSE = " . ";
@@ -46,10 +47,10 @@ namespace AGC.Library
             this.DateFormatUS = false;
             this.HideMonth = false;
             this.HideYear = true;
-            this.HideEndDate = false;
+            this.HideEndDate = true;
             this.HideStartTimeAndEndDateIfFullDay = true;
             this.HideMonthIfCurrent = true;
-            this.GroupByMonth = true;
+            this.GroupByMonth = false;
         }
 
         //Deserialization constructor
@@ -117,7 +118,7 @@ namespace AGC.Library
             try
             {
                 log.Debug("Saving DateTimePreferences...");
-                Stream stream = File.Open("DateTimePreferences.config", FileMode.Create);
+                Stream stream = File.Open(CONFIG, FileMode.Create);
                 BinaryFormatter bformatter = new BinaryFormatter();
                 bformatter.Serialize(stream, this);
                 stream.Close();
@@ -140,7 +141,7 @@ namespace AGC.Library
                 if (File.Exists("DateTimePreferences.config"))
                 {
                     log.Debug("Loading DateTimePreferences...");
-                    Stream stream = File.Open("DateTimePreferences.config", FileMode.Open);
+                    Stream stream = File.Open(CONFIG, FileMode.Open);
                     BinaryFormatter bformatter = new BinaryFormatter();
                     preferences = (DateTimePreferences)bformatter.Deserialize(stream);
                     stream.Close();

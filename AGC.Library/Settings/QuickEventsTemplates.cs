@@ -13,6 +13,7 @@ namespace AGC.Library
     public class QuickEventsTemplates : IQuickEventsTemplates, ISerializable
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string CONFIG = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AGC\\" + "QuickEventsTemplates.bin";
 
         private const int VERSION = 0;
 
@@ -65,7 +66,7 @@ namespace AGC.Library
             try
             {
                 log.Debug("Saving QuickEventsTemplates...");
-                Stream stream = File.Open("QuickEventsTemplates.config", FileMode.Create);
+                Stream stream = File.Open(CONFIG, FileMode.Create);
                 BinaryFormatter bformatter = new BinaryFormatter();
                 bformatter.Serialize(stream, this);
                 stream.Close();
@@ -88,7 +89,7 @@ namespace AGC.Library
                 if (File.Exists("QuickEventsTemplates.config"))
                 {
                     log.Debug("Loading QuickEventsTemplates...");
-                    Stream stream = File.Open("QuickEventsTemplates.config", FileMode.Open);
+                    Stream stream = File.Open(CONFIG, FileMode.Open);
                     BinaryFormatter bformatter = new BinaryFormatter();
                     templates = (QuickEventsTemplates)bformatter.Deserialize(stream);
                     stream.Close();

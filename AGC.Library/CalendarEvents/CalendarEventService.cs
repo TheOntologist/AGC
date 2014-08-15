@@ -106,13 +106,26 @@ namespace AGC.Library
         {
             CalendarEventList formatedEvents = new CalendarEventList();
 
+            bool multipleMonths;
+
+            // Find if there are events from different month in the list by comparing years and month data of the first and last event in the list
+            if (allEvents.Count > 1)
+            {
+                multipleMonths = allEvents[0].Start.Year != allEvents[allEvents.Count - 1].Start.Year ? true :
+                                 allEvents[0].Start.Month != allEvents[allEvents.Count - 1].Start.Month;
+            }
+            else
+            {
+                multipleMonths = false;
+            }
+            
             try
             {
                 int month = 0;
 
                 foreach (CalendarEvent ev in allEvents)
                 {
-                    if(preferences.GroupByMonth && month != ev.Start.Month)
+                    if (preferences.GroupByMonth && multipleMonths && month != ev.Start.Month)
                     {
                         formatedEvents.Add(new CalendarEvent(months[ev.Start.Month]));
                         month = ev.Start.Month;

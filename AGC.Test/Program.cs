@@ -18,7 +18,7 @@ namespace AGC.Test
 
         private static GoogleCalendar calendar = new GoogleCalendar();
         private static TimeIntervals period = new TimeIntervals();
-        private static CalendarEventList allEvents = calendar.GetAllEvents();
+        //private static CalendarEventList allEvents = calendar.GetAllEvents();
         private static ICalendarEventService service = new CalendarEventService();
 
         #endregion
@@ -30,7 +30,9 @@ namespace AGC.Test
             Console.WriteLine("################################################################################");
             Console.WriteLine();
 
-            Console.WriteLine(String.Format("{0:d ddd MMM h:mm tt}", DateTime.Now));
+
+            Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            //Console.WriteLine(String.Format("{0:d ddd MMM h:mm tt}", DateTime.Now));
             //calendar.TestCreateEvent(new CalendarEvent("Today", "Content", "Location", period.Today().Start, period.Today().End));
 
             /*
@@ -72,12 +74,12 @@ namespace AGC.Test
 
         private static void DeleteTestEvents()
         {
-            calendar.DeleteEvents(service.SearchEvents(allEvents, "Content"));
+            //calendar.DeleteEvents(service.SearchEvents(allEvents, "Content"));
         }
 
         private static void DeleteAllEvents()
         {
-            calendar.DeleteEvents(calendar.GetAllEvents());
+            //calendar.DeleteEvents(calendar.GetAllEvents());
         }
 
         private static void TestAddQuickEvent()
@@ -125,45 +127,45 @@ namespace AGC.Test
             Console.WriteLine("################################################################################");
             Console.WriteLine("#                                    Today                                     #");
             Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.Today()).WriteConsoleLogShort();
+            //service.GetEvents(allEvents, period.Today()).WriteConsoleLogShort();
             Console.WriteLine("################################################################################");
             Console.WriteLine("#                                 Tomorrow                                     #");
             Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.Tomorrow()).WriteConsoleLogShort();
+           // service.GetEvents(allEvents, period.Tomorrow()).WriteConsoleLogShort();
             Console.WriteLine("################################################################################");
             Console.WriteLine("#                                This Week                                     #");
             Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.ThisWeek()).WriteConsoleLogShort();
+          //  service.GetEvents(allEvents, period.ThisWeek()).WriteConsoleLogShort();
             Console.WriteLine("################################################################################");
             Console.WriteLine("#                                Next Week                                     #");
             Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.NextWeek()).WriteConsoleLogShort();
+          //  service.GetEvents(allEvents, period.NextWeek()).WriteConsoleLogShort();
             Console.WriteLine("################################################################################");
             Console.WriteLine("#                                This Month                                    #");
             Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.ThisMonth()).WriteConsoleLogShort();
+          //  service.GetEvents(allEvents, period.ThisMonth()).WriteConsoleLogShort();
             Console.WriteLine("################################################################################");
             Console.WriteLine("#                                Next Month                                    #");
             Console.WriteLine("################################################################################");
-            service.GetEvents(allEvents, period.NextMonth()).WriteConsoleLogShort();
+           // service.GetEvents(allEvents, period.NextMonth()).WriteConsoleLogShort();
         }
 
         private static void TestCalendarEventServiceSearch()
         {
             Console.WriteLine("Keyword: Today");
-            service.SearchEvents(allEvents, "Today").WriteConsoleLogShort();
+            //service.SearchEvents(allEvents, "Today").WriteConsoleLogShort();
             Console.WriteLine();
 
             Console.WriteLine("Keyword: Content");
-            service.SearchEvents(allEvents, "Content").WriteConsoleLogShort();
+            //service.SearchEvents(allEvents, "Content").WriteConsoleLogShort();
             Console.WriteLine();
 
             Console.WriteLine("Keyword: loCaTiOn");
-            service.SearchEvents(allEvents, "loCaTiOn").WriteConsoleLogShort();
+           // service.SearchEvents(allEvents, "loCaTiOn").WriteConsoleLogShort();
             Console.WriteLine();
 
             Console.WriteLine("Keyword: NotExits");
-            service.SearchEvents(allEvents, "NotExits").WriteConsoleLogShort();
+          //  service.SearchEvents(allEvents, "NotExits").WriteConsoleLogShort();
             Console.WriteLine();
         }
 

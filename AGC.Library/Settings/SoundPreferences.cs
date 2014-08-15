@@ -13,6 +13,7 @@ namespace AGC.Library
     public class SoundPreferences : ISoundPreferences, ISerializable 
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string CONFIG = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AGC\\" + "SoundPreferences.bin";
 
         private const int VERSION = 0;
         private const string DEFAULT_SUCCESS_SOUND = "success.wav";
@@ -67,7 +68,7 @@ namespace AGC.Library
             try
             {
                 log.Debug("Saving SoundPreferences...");
-                Stream stream = File.Open("SoundPreferences.config", FileMode.Create);
+                Stream stream = File.Open(CONFIG, FileMode.Create);
                 BinaryFormatter bformatter = new BinaryFormatter();
                 bformatter.Serialize(stream, this);
                 stream.Close();
@@ -90,7 +91,7 @@ namespace AGC.Library
                 if (File.Exists("SoundPreferences.config"))
                 {
                     log.Debug("Loading SoundPreferences...");
-                    Stream stream = File.Open("SoundPreferences.config", FileMode.Open);
+                    Stream stream = File.Open(CONFIG, FileMode.Open);
                     BinaryFormatter bformatter = new BinaryFormatter();
                     preferences = (SoundPreferences)bformatter.Deserialize(stream);
                     stream.Close();
