@@ -1,6 +1,6 @@
 Accessible Google Calendar or AGC is an application which helps visually disabled people work with Google Calendar.
 
-It's main features are:
+Main features:
 
 * Friendly interface for keyboard users
 
@@ -14,7 +14,7 @@ It's main features are:
 * Functionality to customize how events data is displayed
 
 
-Installation and first run
+Installation and First run:
 
 1) Download latest release MSI from here
 
