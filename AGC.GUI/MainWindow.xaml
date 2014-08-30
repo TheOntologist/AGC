@@ -26,6 +26,9 @@
             <TabItem Header="Settings">
                 <views:SettingsView />
             </TabItem>
+            <TabItem Header="Sounds">
+                <views:SoundsView />
+            </TabItem>
         </TabControl>
         <Grid.InputBindings>
             <KeyBinding Key="Escape"  Command="{Binding SelectEventsTabCommand}" />

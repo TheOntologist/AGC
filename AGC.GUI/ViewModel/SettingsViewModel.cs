@@ -46,8 +46,7 @@ namespace AGC.GUI.ViewModel
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository repository;
         private readonly IMessanger messanger;
-        private DateTimePreferences dateTimePreferences;
-        private SoundPreferences soundPreferences;
+        private DateTimePreferences dateTimePreferences;       
 
         private static List<string> DATE_FORMAT_LIST = new List<string>(new string[] { DATE_FORMAT_DAY_FIRST, DATE_FORMAT_MONTH_FIRST });
         private static List<string> MONTH_FORMAT_LIST = new List<string>(new string[] { MONTH_FORMAT_SHORT_NAME, MONTH_FORMAT_NAME, MONTH_FORMAT_NUMBER });
@@ -69,11 +68,7 @@ namespace AGC.GUI.ViewModel
             repository = commonRepository;            
             dateTimePreferences = repository.GetDateTimePreferences();
             messanger = commonMessanger;
-            soundPreferences = messanger.GetSoundPreferences();
-            LoadDateTimePreferences();
-
-            EnableSounds = soundPreferences.Enable;
-
+            LoadDateTimePreferences();            
             SaveDateTimePreferencesCommand = new RelayCommand(SaveDateTimePreferences);
         }
 
@@ -388,37 +383,6 @@ namespace AGC.GUI.ViewModel
                 RaisePropertyChanging(GroupByMonthPropertyName);
                 _groupByMonth = value;
                 RaisePropertyChanged(GroupByMonthPropertyName);
-            }
-        }
-
-        #endregion
-
-        #region Sound Preferences
-
-        public const string EnableSoundsPropertyName = "EnableSounds";
-        private bool _enableSounds = false;
-        public bool EnableSounds
-        {
-            get
-            {
-                return _enableSounds;
-            }
-
-            set
-            {
-                if (_enableSounds == value)
-                {
-                    return;
-                }
-
-                RaisePropertyChanging(EnableSoundsPropertyName);
-                _enableSounds = value;
-                RaisePropertyChanged(EnableSoundsPropertyName);
-
-                soundPreferences.Enable = value;
-                soundPreferences.Save();
-                messanger.SetSoundPreferences(soundPreferences);
-                messanger.Success(value ? "Sound enabled" : "Sound disabled");
             }
         }
 

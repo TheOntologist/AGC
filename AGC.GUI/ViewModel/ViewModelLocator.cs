@@ -116,6 +116,15 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public SoundsViewModel Sounds
+        {
+            get
+            {
+                log.Debug("Get SoundsViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<SoundsViewModel>();
+            }
+        }
+
         /// <summary>
         /// Cleans up all the resources.
         /// </summary>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <?define ProductName="AGC" ?>
-  <?define ProductVersion="0.0.34.0" ?>
+  <?define ProductVersion="0.0.35.0" ?>
   <?define ProductCode="*"?>
   <?define UpgradeCode="5d03ab3b-667d-4ae0-862c-ef7f9bf653a9"?>
   <?define Manufacturer="NA"?>

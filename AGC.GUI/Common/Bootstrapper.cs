@@ -78,6 +78,9 @@ namespace AGC.GUI.Common
             Container.RegisterType<SortingAndFilteringViewModel>();
             log.Debug("Registered type of SortingAndFilteringViewModel");
 
+            Container.RegisterType<SoundsViewModel>();
+            log.Debug("Registered type of SoundsViewModel");
+
             log.Debug("Container was successfully configured");
         }
     }

@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="AGC.GUI.Views.SoundsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        mc:Ignorable="d ignore"
+        DataContext="{Binding Sounds, Source={StaticResource Locator}}" Height="400" Width="700">
+    <Grid>
+        <GroupBox Header="Sound Preferences">
+            <CheckBox Content="Use sounds instead of pop-up messages" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSounds}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        </GroupBox>
+    </Grid>
+</UserControl>

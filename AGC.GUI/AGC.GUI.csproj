@@ -106,6 +106,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SortingAndFilteringViewModel.cs" />
+    <Compile Include="ViewModel\SoundsViewModel.cs" />
     <Compile Include="ViewModel\UpdateEventOptionsViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -128,6 +129,9 @@
     </Compile>
     <Compile Include="Views\SortingAndFilteringView.xaml.cs">
       <DependentUpon>SortingAndFilteringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SoundsView.xaml.cs">
+      <DependentUpon>SoundsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateEventOptionsView.xaml.cs">
       <DependentUpon>UpdateEventOptionsView.xaml</DependentUpon>
@@ -205,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SortingAndFilteringView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SoundsView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
