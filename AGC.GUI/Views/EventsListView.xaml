@@ -10,7 +10,7 @@
         DataContext="{Binding EventsList, Source={StaticResource Locator}}" Height="400" Width="700">
 
     <Grid>
-        <ListView Height="151" Margin="10,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Events}" AutomationProperties.Name="Events list" common:FocusExtension.IsFocused="{Binding IsEventsListFocused}" SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+        <ListView Height="151" Margin="10,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Events}" AutomationProperties.Name="Events list, select event and press return to update or delete to delete event. Press Ctrol + R to refresh events list" common:FocusExtension.IsFocused="{Binding IsEventsListFocused}" SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Start" DisplayMemberBinding="{Binding FormatedStartDate}" />
@@ -84,6 +84,7 @@
         </StackPanel>
         <Grid.InputBindings>
             <KeyBinding Key="Escape"  Command="{Binding Path=HideChooseDateEventsControlsCommand}" />
+            <KeyBinding Gesture="CTRL+R"  Command="{Binding Path=RefreshCommand}" />
         </Grid.InputBindings>
     </Grid>
 </UserControl>

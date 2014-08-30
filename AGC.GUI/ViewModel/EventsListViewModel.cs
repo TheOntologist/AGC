@@ -65,6 +65,7 @@ namespace AGC.GUI.ViewModel
         public RelayCommand GetThisMonthEventsCommand { get; private set; }
         public RelayCommand GetNextMonthEventsCommand { get; private set; }
         public RelayCommand GetPeriodEventsCommand { get; private set; }
+        public RelayCommand RefreshCommand { get; private set; }
         public RelayCommand DeleteEventCommand { get; private set; }
         public RelayCommand UpdateEventCommand { get; private set; }
         public RelayCommand ConfirmEventCommand { get; private set; }
@@ -102,6 +103,7 @@ namespace AGC.GUI.ViewModel
                 GetThisMonthEventsCommand = new RelayCommand(GetThisMonthEvents);
                 GetNextMonthEventsCommand = new RelayCommand(GetNextMonthEvents);
                 GetPeriodEventsCommand = new RelayCommand(GetPeriodEvents);
+                RefreshCommand = new RelayCommand(RefreshEventsList);
                 DeleteEventCommand = new RelayCommand(DeleteEvent);
                 UpdateEventCommand = new RelayCommand(FullUpdateEvent);
                 ConfirmEventCommand = new RelayCommand(ConfirmEvent);

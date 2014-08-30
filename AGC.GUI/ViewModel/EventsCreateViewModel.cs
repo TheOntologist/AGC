@@ -52,6 +52,7 @@ namespace AGC.GUI.ViewModel
 
         public RelayCommand CreateEventCommand { get; private set; }
         public RelayCommand UpdateEventCommand { get; private set; }
+        public RelayCommand QuickActionCommand { get; private set; }
         public RelayCommand CancelUpdateEventCommand { get; private set; }
 
         #endregion
@@ -71,6 +72,7 @@ namespace AGC.GUI.ViewModel
 
                 CreateEventCommand = new RelayCommand(CreateEvent);
                 UpdateEventCommand = new RelayCommand(UpdateEvent);
+                QuickActionCommand = new RelayCommand(QuickAction);
                 CancelUpdateEventCommand = new RelayCommand(CancelUpdateEvent);
 
                 // For Update Events
@@ -1039,6 +1041,18 @@ namespace AGC.GUI.ViewModel
             }
 
             CloseUpdateWindow();
+        }
+
+        private void QuickAction()
+        {
+            if (IsUpdate)
+            {
+                UpdateEvent();
+            }
+            else
+            {
+                CreateEvent();
+            }
         }
 
         private void CancelUpdateEvent()

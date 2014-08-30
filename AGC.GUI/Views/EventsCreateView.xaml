@@ -32,9 +32,9 @@
             <Label Content="Content:" Grid.Column="0" Grid.Row="1" Style="{StaticResource Label}"/>
             <Label Content="Location:" Grid.Column="0" Grid.Row="2" Style="{StaticResource Label}"/>
 
-            <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource InputText}" Text="{Binding Title}" AutomationProperties.Name="Title"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource InputText}" Text="{Binding Content}" AutomationProperties.Name="Content"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource InputText}" Text="{Binding Location}" AutomationProperties.Name="Location"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource InputText}" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Title"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource InputText}" Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Content"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource InputText}" Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Location"/>
 
             <StackPanel Grid.ColumnSpan="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
                 <CheckBox Content="All day" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding IsFullDayEvent}"/>
@@ -81,7 +81,7 @@
                 <ComboBox Grid.Column="1" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding RecurrenceType}" SelectedItem="{Binding SelectedRecurrenceType}"/>
                 <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal" Visibility="{Binding CustomInterval, Converter={StaticResource BoolToVis}}">
                     <ComboBox Style="{StaticResource IntPicker}" ItemsSource="{Binding IntervalList}" SelectedItem="{Binding Interval}" AutomationProperties.Name="Interval"/>
-                    <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding IntervalType}"/>
+                    <TextBox Style="{StaticResource ShortReadonly}" Text="{Binding IntervalType, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <GroupBox Header="Weekdays" Grid.Column="1" Grid.Row="2" Visibility="{Binding RepeatWeekly, Converter={StaticResource BoolToVis}}" KeyboardNavigation.DirectionalNavigation="Cycle">
                     <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" PreviewKeyDown="Weekdays_PreviewKeyDown">
@@ -115,7 +115,7 @@
                         <RadioButton Grid.Column="0" Grid.Row="0" Content="Never" Style="{StaticResource RadioButton}" IsChecked="{Binding EndsNever}"/>
                         
                         <RadioButton Grid.Column="0" Grid.Row="1" Content="After" Style="{StaticResource RadioButton}" IsChecked="{Binding EndsAfter}"/>
-                        <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ShortInputText}" Text="{Binding RecurrenceEventsCount}" Visibility="{Binding EndsAfter, Converter={StaticResource BoolToVis}}" AutomationProperties.Name="occurences"/>
+                        <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ShortInputText}" Text="{Binding RecurrenceEventsCount, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding EndsAfter, Converter={StaticResource BoolToVis}}" AutomationProperties.Name="occurences"/>
                         
                         <RadioButton Grid.Column="0" Grid.Row="2" Content="On" Style="{StaticResource RadioButton}" IsChecked="{Binding EndsOn}"/>                        
                         <GroupBox Header="Until Date" Grid.Column="1"  Grid.Row="2" Visibility="{Binding EndsOn, Converter={StaticResource BoolToVis}}">
@@ -126,7 +126,7 @@
             </Grid>
             <GroupBox Header="Reminder" Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
-                    <TextBox Style="{StaticResource ShortInputText}" Text="{Binding RepeatValue}" AutomationProperties.Name="Value" />
+                    <TextBox Style="{StaticResource ShortInputText}" Text="{Binding RepeatValue, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Value" />
                     <ComboBox ItemsSource="{Binding RepeatTypeList}" SelectedValue="{Binding SelectedRepeatType}" Style="{StaticResource DatePicker}" AutomationProperties.Name="Type" />
                 </StackPanel>
             </GroupBox>
@@ -138,5 +138,10 @@
                 <Button Content="Cancel" Grid.Row="2"  Command="{Binding CancelUpdateEventCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Cancel" Style="{StaticResource Button}"/>
             </StackPanel>
         </Grid>
+        <Grid.InputBindings>
+            <KeyBinding Gesture="Alt+o" Command="{Binding Path=QuickActionCommand}" />
+            <KeyBinding Gesture="Alt+u" Command="{Binding Path=QuickActionCommand}" />
+            <KeyBinding Key="Return" Command="{Binding Path=QuickActionCommand}" />
+        </Grid.InputBindings>
     </Grid>
 </UserControl>
