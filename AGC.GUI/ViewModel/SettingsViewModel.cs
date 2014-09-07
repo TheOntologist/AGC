@@ -531,12 +531,12 @@ namespace AGC.GUI.ViewModel
 
             if (dateTimePreferences.Save())
             {
-                messanger.Success("Saved");
+                messanger.Success("Saved", false);
                 repository.SetDateTimePreferences(dateTimePreferences);
             }
             else
             {
-                messanger.Error("Failed to save Date-Time preferences. Please check log file for a detailed information about the error.");
+                messanger.Error("Failed to save Date-Time preferences. Please check log file for a detailed information about the error.", false);
             }
         }
 

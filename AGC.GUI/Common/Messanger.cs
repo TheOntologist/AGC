@@ -11,9 +11,13 @@ namespace AGC.GUI.Common
 {
     public class Messanger : IMessanger
     {
+        private const string MP3 = "mp3";
+        private const string WAV = "wav";
+
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static SoundPreferences soundPreferences = new SoundPreferences().Load();
+        private static string appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\AGC\Sounds\";
         private bool SoundsOn = soundPreferences.Enable;
 
         public SoundPreferences GetSoundPreferences()
@@ -27,61 +31,27 @@ namespace AGC.GUI.Common
             SoundsOn = preferences.Enable;
         }
 
-
-        public void Success(string info)
-        {
-            if (SoundsOn)
-            {
-                PlaySuccessSound();
-            }
-            else
-            {
-                MessageBox.Show(Application.Current.MainWindow, info, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-            }
-        }
-
-        public void Neutral(string info)
-        {
-            if (SoundsOn)
-            {
-                PlayNeutralSound();
-            }
-            else
-            {
-                MessageBox.Show(Application.Current.MainWindow, info, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-            }
-        }
-
-        public void Error(string err)
-        {
-            if (SoundsOn)
-            {
-                PlayErrorSound();
-            }
-            else
-            {
-                MessageBox.Show(Application.Current.MainWindow, err, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-            }
-        }
-
-        public void Delete(string info)
-        {
-            if (SoundsOn)
-            {
-                PlayDeleteSound();
-            }
-            else
-            {
-                MessageBox.Show(Application.Current.MainWindow, info, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
-            }
-        }
-
-        private void PlaySuccessSound()
+        public void PlaySound(string file)
         {
             try
             {
-                SoundPlayer player = new SoundPlayer(@"Sounds\" + soundPreferences.Success);
-                player.Play();
+                string format = GetAudioFormat(file);
+
+                if (format == MP3)
+                {
+                    WMPLib.WindowsMediaPlayer wplayer = new WMPLib.WindowsMediaPlayer();
+                    wplayer.URL = file;
+                    wplayer.controls.play();
+                }
+                else if (format == WAV)
+                {
+                    SoundPlayer player = new SoundPlayer(file);
+                    player.Play();
+                }
+                else
+                {
+                    log.Error("Cannot play sound, unkown file format.");
+                }
             }
             catch (Exception ex)
             {
@@ -89,43 +59,58 @@ namespace AGC.GUI.Common
             }
         }
 
-        private void PlayNeutralSound()
+        public void Success(string info, bool alwaysShowMessageBox)
         {
-            try
+            if (SoundsOn && !alwaysShowMessageBox)
             {
-                SoundPlayer player = new SoundPlayer(@"Sounds\" + soundPreferences.Neutral);
-                player.Play();
+                PlaySound(appdata + soundPreferences.Success);
             }
-            catch (Exception ex)
+            else
             {
-                log.Error("Failed to play neutral sound:", ex);
+                MessageBox.Show(Application.Current.MainWindow, info, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
             }
         }
 
-        private void PlayErrorSound()
+        public void Neutral(string info, bool alwaysShowMessageBox)
         {
-            try
+            if (SoundsOn && !alwaysShowMessageBox)
             {
-                SoundPlayer player = new SoundPlayer(@"Sounds\" + soundPreferences.Error);
-                player.Play();
+                PlaySound(appdata + soundPreferences.Neutral);
             }
-            catch (Exception ex)
+            else
             {
-                log.Error("Failed to play error sound:", ex);
+                MessageBox.Show(Application.Current.MainWindow, info, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
             }
         }
 
-        private void PlayDeleteSound()
+        public void Error(string err, bool alwaysShowMessageBox)
         {
-            try
+            if (SoundsOn && !alwaysShowMessageBox)
             {
-                SoundPlayer player = new SoundPlayer(@"Sounds\" + soundPreferences.Delete);
-                player.Play();
+                PlaySound(appdata + soundPreferences.Error);
             }
-            catch (Exception ex)
+            else
             {
-                log.Error("Failed to play delete sound:", ex);
+                MessageBox.Show(Application.Current.MainWindow, err, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
+        }
+
+        public void Delete(string info, bool alwaysShowMessageBox)
+        {
+            if (SoundsOn && !alwaysShowMessageBox)
+            {
+                PlaySound(appdata + soundPreferences.Delete);
+            }
+            else
+            {
+                MessageBox.Show(Application.Current.MainWindow, info, "Information", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
+            }
+        }
+
+        private string GetAudioFormat(string file)
+        {
+            string[] parts = file.Split('.');
+            return parts[parts.Count() - 1];
         }
     }
 }

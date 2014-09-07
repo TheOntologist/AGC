@@ -669,12 +669,12 @@ namespace AGC.GUI.ViewModel
 
             if (sortFilterPreferences.Save())
             {
-                messanger.Success("Saved");
+                messanger.Success("Saved", false);
                 repository.SetSortFilterPreferences(sortFilterPreferences);
             }
             else
             {
-                messanger.Error("Failed to save Sorting and Filtering preferences. Please check log file for a detailed information about the error.");
+                messanger.Error("Failed to save Sorting and Filtering preferences. Please check log file for a detailed information about the error.", false);
             }
 
             sortFilterPreferences.Enable = true;

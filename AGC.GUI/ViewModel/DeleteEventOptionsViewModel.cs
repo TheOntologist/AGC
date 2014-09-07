@@ -37,11 +37,11 @@ namespace AGC.GUI.ViewModel
         {
             if (calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.single))
             {
-                messanger.Delete("Deleted");
+                messanger.Delete("Deleted", false);
             }
             else
             {
-                messanger.Error("Failed to delete single event");
+                messanger.Error("Failed to delete single event", false);
             }
             CloseWindow();
         }
@@ -50,11 +50,11 @@ namespace AGC.GUI.ViewModel
         {
             if (calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.following))
             {
-                messanger.Delete("Deleted");
+                messanger.Delete("Deleted", false);
             }
             else
             {
-                messanger.Error("Failed to delete following events");
+                messanger.Error("Failed to delete following events", false);
             }
             CloseWindow();
         }
@@ -63,11 +63,11 @@ namespace AGC.GUI.ViewModel
         {
             if (calendar.DeleteEvent(selectedEvent, GoogleCalendar.ActionType.all))
             {
-                messanger.Delete("Deleted");
+                messanger.Delete("Deleted", false);
             }
             else
             {
-                messanger.Error("Failed to delete all events in the series");
+                messanger.Error("Failed to delete all events in the series", false);
             }
             CloseWindow();
         }

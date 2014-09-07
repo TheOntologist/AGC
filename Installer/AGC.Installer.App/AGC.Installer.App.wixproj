@@ -35,6 +35,14 @@
       <RefTargetDir>INSTALLLOCATION</RefTargetDir>
       <MainProject>True</MainProject>
     </ProjectReference>
+    <ProjectReference Include="..\AGC.Installer.CustomActions\AGC.Installer.CustomActions.csproj">
+      <Name>AGC.Installer.CustomActions</Name>
+      <Project>{14363ee8-34e5-46ac-b0b2-0d96fd71ae99}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">

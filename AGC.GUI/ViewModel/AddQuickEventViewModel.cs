@@ -215,7 +215,7 @@ namespace AGC.GUI.ViewModel
 
             if (selectedTemplateIndex == 0)
             {
-                messanger.Neutral("First position reached");
+                messanger.Neutral("First position reached", false);
                 return;
             }
 
@@ -237,7 +237,7 @@ namespace AGC.GUI.ViewModel
 
             if (selectedTemplateIndex == Tempaltes.Count - 1)
             {
-                messanger.Neutral("Last position reached");
+                messanger.Neutral("Last position reached", false);
                 return;
             }
 
@@ -252,7 +252,7 @@ namespace AGC.GUI.ViewModel
         private void RemoveTemplate()
         {
             Tempaltes.Remove(SelectedTemplate);
-            messanger.Delete ("Removed");
+            messanger.Delete("Removed", false);
             SelectedTemplate = Tempaltes.Count > 0 ? Tempaltes[0] : string.Empty;
             SaveChanges();
 
@@ -262,18 +262,18 @@ namespace AGC.GUI.ViewModel
         {
             if (calendar.AddQuickEvent(QuickEventText))
             {
-                messanger.Success("Added");
+                messanger.Success("Added", false);
             }
             else
             {
-                messanger.Error("Failed to add quick event. Please check log file for a detailed information about the error.");
+                messanger.Error("Failed to add quick event. Please check log file for a detailed information about the error.", false);
             }
         }
 
         private void SaveAsTemplate()
         {
             Tempaltes.Add(QuickEventText);
-            messanger.Success("Saved");
+            messanger.Success("Saved", false);
             SaveChanges();
         }
 

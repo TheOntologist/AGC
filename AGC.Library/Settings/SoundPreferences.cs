@@ -15,17 +15,25 @@ namespace AGC.Library
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly string CONFIG = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\AGC\\" + "SoundPreferences.bin";
 
-        private const int VERSION = 0;
+        private const int VERSION = 1;
         private const string DEFAULT_SUCCESS_SOUND = "success.wav";
         private const string DEFAULT_NEUTRAL_SOUND = "neutral.wav";
         private const string DEFAULT_ERROR_SOUND = "error.wav";
         private const string DEFAULT_DELETE_SOUND = "delete.wav";
+        private static List<string> DEFAULT_SOUNDS = new List<string>(new string[] { 
+            DEFAULT_SUCCESS_SOUND,
+            DEFAULT_NEUTRAL_SOUND,
+            DEFAULT_ERROR_SOUND,
+            DEFAULT_DELETE_SOUND
+        });
 
         public bool Enable { get; set; }
         public string Success { get; set; }
         public string Neutral { get; set; }
         public string Error { get; set; }
         public string Delete { get; set; }
+        public List<string> Sounds { get; set; }
+
 
         //Default constructor
         public SoundPreferences()
@@ -35,9 +43,10 @@ namespace AGC.Library
             Neutral = DEFAULT_NEUTRAL_SOUND;
             Error = DEFAULT_ERROR_SOUND;
             Delete = DEFAULT_DELETE_SOUND;
+            Sounds = DEFAULT_SOUNDS;
         }
 
-                //Deserialization constructor
+        //Deserialization constructor
         public SoundPreferences(SerializationInfo info, StreamingContext ctxt)
         {
             int version = (int)info.GetValue("Version", typeof(int));
@@ -49,6 +58,16 @@ namespace AGC.Library
                 Neutral = (string)info.GetValue("Neutral", typeof(string));
                 Error = (string)info.GetValue("Error", typeof(string));
                 Delete = (string)info.GetValue("Delete", typeof(string));
+                Sounds = DEFAULT_SOUNDS;
+            }
+            else if (version == 1)
+            {
+                Enable = (bool)info.GetValue("Enable", typeof(bool));
+                Success = (string)info.GetValue("Success", typeof(string));
+                Neutral = (string)info.GetValue("Neutral", typeof(string));
+                Error = (string)info.GetValue("Error", typeof(string));
+                Delete = (string)info.GetValue("Delete", typeof(string));
+                Sounds = (List<string>)info.GetValue("Sounds", typeof(List<string>));
             }
         }
 
@@ -61,6 +80,7 @@ namespace AGC.Library
             info.AddValue("Neutral", Neutral);
             info.AddValue("Error", Error);
             info.AddValue("Delete", Delete);
+            info.AddValue("Sounds", Sounds);
         }
 
         public bool Save()
@@ -88,7 +108,7 @@ namespace AGC.Library
 
             try
             {
-                if (File.Exists("SoundPreferences.config"))
+                if (File.Exists(CONFIG))
                 {
                     log.Debug("Loading SoundPreferences...");
                     Stream stream = File.Open(CONFIG, FileMode.Open);

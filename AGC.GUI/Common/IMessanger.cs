@@ -13,12 +13,14 @@ namespace AGC.GUI.Common
 
         void SetSoundPreferences(SoundPreferences preferences);
 
-        void Success(string info);
+        void PlaySound(string file);
 
-        void Neutral(string info);
+        void Success(string info, bool alwaysShowMessageBox);
 
-        void Error(string err);
+        void Neutral(string info, bool alwaysShowMessageBox);
 
-        void Delete(string info);
+        void Error(string err, bool alwaysShowMessageBox);
+
+        void Delete(string info, bool alwaysShowMessageBox);
     }
 }

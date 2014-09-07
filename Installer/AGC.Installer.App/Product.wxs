@@ -28,6 +28,9 @@
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)"/>
       </Directory>
+      <Directory Id="AppDataFolder">
+      
+      </Directory>
     </Directory>
     
 		<Feature Id="ProductFeature" Title="AGC.Installer.App" Level="1">
@@ -44,5 +47,13 @@
     
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" ></Property>
     <UIRef Id="WixUI_InstallDir"/>
+
+    <CustomAction Id="CopySoundFiles" BinaryKey="CopySoundFilesCA" DllEntry="CopySoundFiles" Return="check" Execute="immediate" />
+    <Binary Id="CopySoundFilesCA" SourceFile="$(var.AGC.Installer.CustomActions.TargetDir)$(var.AGC.Installer.CustomActions.TargetName).CA.dll" />
+
+    <InstallExecuteSequence>
+      <Custom Action="CopySoundFiles" After="InstallFinalize">NOT Installed</Custom>
+    </InstallExecuteSequence>
+    
 	</Product>
 </Wix>

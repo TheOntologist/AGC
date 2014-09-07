@@ -8,7 +8,26 @@
         DataContext="{Binding Sounds, Source={StaticResource Locator}}" Height="400" Width="700">
     <Grid>
         <GroupBox Header="Sound Preferences">
-            <CheckBox Content="Use sounds instead of pop-up messages" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSounds}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <CheckBox Content="Use sounds instead of pop-up messages" Grid.Row="0" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSounds}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" IsEnabled="{Binding EnableSounds}">
+                    <ComboBox AutomationProperties.Name="Sound type" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding SoundTypeList}" SelectedItem="{Binding SelectedSoundType}" Width="120" />
+                    <ComboBox AutomationProperties.Name="Sounds, press space to play sound, return to set sound, delete to delete sound" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding SoundsList}" SelectedItem="{Binding SelectedSound}" Width="120">                  
+                        <ComboBox.InputBindings>
+                            <KeyBinding Key="Space" Command="{Binding Path=PlaySoundCommand}" />
+                            <KeyBinding Key="Return" Command="{Binding Path=SetSoundCommand}" />
+                            <KeyBinding Key="Delete" Command="{Binding Path=DeleteSoundCommand}" />
+                        </ComboBox.InputBindings>
+                    </ComboBox>
+                    <Button Content="Set Sound" Style="{StaticResource Button}" Command="{Binding SetSoundCommand}" Width="110" />
+                    <Button Content="Delete Sound" Style="{StaticResource Button}" Command="{Binding DeleteSoundCommand}" Width="110" />
+                    <Button Content="Add New Sound" Style="{StaticResource Button}" Command="{Binding AddNewSoundCommand}" Width="110" />
+                </StackPanel>               
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

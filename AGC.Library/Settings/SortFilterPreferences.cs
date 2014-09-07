@@ -154,7 +154,7 @@ namespace AGC.Library
 
             try
             {
-                if (File.Exists("SortFilterPreferences.config"))
+                if (File.Exists(CONFIG))
                 {
                     log.Debug("Loading SortFilterPreferences...");
                     Stream stream = File.Open(CONFIG, FileMode.Open);

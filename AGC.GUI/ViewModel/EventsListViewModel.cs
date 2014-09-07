@@ -647,11 +647,11 @@ namespace AGC.GUI.ViewModel
                 {
                     if (calendar.DeleteEvent(SelectedEvent, GoogleCalendar.ActionType.single))
                     {
-                        messanger.Delete("Deleted");
+                        messanger.Delete("Deleted", false);
                     }
                     else
                     {
-                        messanger.Error("Failed to delete event. Please check log file for a detailed information about the error.");
+                        messanger.Error("Failed to delete event. Please check log file for a detailed information about the error.", false);
                     }
                 }
                 RefreshEventsList();
@@ -697,11 +697,11 @@ namespace AGC.GUI.ViewModel
                 if (calendar.UpdateEvent(eventUpdater.CalendarEvent, eventUpdater.Type))
                 {
                     RefreshEventsList();
-                    messanger.Success("Event status changed");
+                    messanger.Success("Event status changed", false);
                 }
                 else
                 {
-                    messanger.Error("Failed to change event status. Please check log file for a detailed information about the error.");
+                    messanger.Error("Failed to change event status. Please check log file for a detailed information about the error.", false);
                 }
             }
         }
@@ -746,6 +746,7 @@ namespace AGC.GUI.ViewModel
             Events = service.FormatEventsDatesStringRepresentation(Events, repository.GetDateTimePreferences());
             eventListType = EventsListType.ThisMonth;
             ShowResults();
+            HideChooseDateEventsControls();
         }
 
         private void SetSortingAndFilteringPreferences()
@@ -789,7 +790,7 @@ namespace AGC.GUI.ViewModel
         {
             if (Events.Count == 0)
             {
-                messanger.Neutral("No events");
+                messanger.Neutral("No events", false);
             }                
             else
             {

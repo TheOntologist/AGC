@@ -86,7 +86,7 @@ namespace AGC.Library
 
             try
             {
-                if (File.Exists("QuickEventsTemplates.config"))
+                if (File.Exists(CONFIG))
                 {
                     log.Debug("Loading QuickEventsTemplates...");
                     Stream stream = File.Open(CONFIG, FileMode.Open);

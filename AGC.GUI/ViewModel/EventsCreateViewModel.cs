@@ -1016,13 +1016,13 @@ namespace AGC.GUI.ViewModel
 
             if (calendar.CreateEvent(ev))
             {
-                messanger.Success("Created");
+                messanger.Success("Created", false);
                 CleanInputText();
                 recurrence.Clear(); 
             }
             else
             {
-                messanger.Error("Failed to create event. Please check log file for a detailed information about the error.");
+                messanger.Error("Failed to create event. Please check log file for a detailed information about the error.", false);
             }
         }
 
@@ -1033,11 +1033,11 @@ namespace AGC.GUI.ViewModel
 
             if (calendar.UpdateEvent(ev, eventUpdater.Type))
             {
-                messanger.Success("Updated");
+                messanger.Success("Updated", false);
             }
             else
             {
-                messanger.Error("Failed to update event. Please check log file for a detailed information about the error.");
+                messanger.Error("Failed to update event. Please check log file for a detailed information about the error.", false);
             }
 
             CloseUpdateWindow();

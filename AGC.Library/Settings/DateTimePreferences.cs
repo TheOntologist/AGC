@@ -138,7 +138,7 @@ namespace AGC.Library
 
             try
             {
-                if (File.Exists("DateTimePreferences.config"))
+                if (File.Exists(CONFIG))
                 {
                     log.Debug("Loading DateTimePreferences...");
                     Stream stream = File.Open(CONFIG, FileMode.Open);
