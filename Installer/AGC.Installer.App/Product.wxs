@@ -51,8 +51,15 @@
     <CustomAction Id="CopySoundFiles" BinaryKey="CopySoundFilesCA" DllEntry="CopySoundFiles" Return="check" Execute="immediate" />
     <Binary Id="CopySoundFilesCA" SourceFile="$(var.AGC.Installer.CustomActions.TargetDir)$(var.AGC.Installer.CustomActions.TargetName).CA.dll" />
 
+    <Property Id="WixShellExecTarget" Value="[INSTALLLOCATION]readme.txt" />
+    <CustomAction Id="LaunchFile"
+        BinaryKey="WixCA"
+        DllEntry="WixShellExec"
+        Impersonate="yes" />
+
     <InstallExecuteSequence>
       <Custom Action="CopySoundFiles" After="InstallFinalize">NOT Installed</Custom>
+      <Custom Action='LaunchFile' After='InstallFinalize'>NOT Installed</Custom>
     </InstallExecuteSequence>
     
 	</Product>

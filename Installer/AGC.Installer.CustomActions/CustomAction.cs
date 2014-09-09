@@ -33,7 +33,7 @@ namespace AGC.Installer.CustomActions
                     // Copy sound files to AGC folder in AppData
                     foreach (FileInfo file in source.GetFiles())
                     {
-                        file.CopyTo(destination + @"\" + file.Name);
+                        file.CopyTo(destination + @"\" + file.Name, true);
                     }
                 }
                 session.Log("End CopySoundFiles");

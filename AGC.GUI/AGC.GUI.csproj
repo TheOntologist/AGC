@@ -260,6 +260,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\delete.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
