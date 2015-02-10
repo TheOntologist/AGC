@@ -70,7 +70,7 @@ namespace AGC.Library
             }
             else
             {
-                start = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                start = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + Convert.ToInt32(FirstDayOfWeekIsMonday));
             }
             
             end = start.AddDays(7).AddSeconds(-1);
@@ -85,7 +85,7 @@ namespace AGC.Library
             }
             else
             {
-                start = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(7);
+                start = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + Convert.ToInt32(FirstDayOfWeekIsMonday)).AddDays(7);
             }
 
             end = start.AddDays(7).AddSeconds(-1);
