@@ -18,7 +18,6 @@ namespace AGC.Library
 
         private DateTime start;
         private DateTime end;
-        private static bool TodayIsSunday = (int)DateTime.Today.DayOfWeek == 0;
         
         #endregion
 
@@ -64,7 +63,7 @@ namespace AGC.Library
 
         public TimeIntervals ThisWeek()
         {
-            if (FirstDayOfWeekIsMonday && TodayIsSunday)
+            if (FirstDayOfWeekIsMonday && TodayIsSunday())
             {
                 start = DateTime.Today.AddDays(-6);
             }
@@ -79,7 +78,7 @@ namespace AGC.Library
 
         public TimeIntervals NextWeek()
         {
-            if (FirstDayOfWeekIsMonday && TodayIsSunday)
+            if (FirstDayOfWeekIsMonday && TodayIsSunday())
             {
                 start = DateTime.Today.AddDays(1);
             }
@@ -154,6 +153,15 @@ namespace AGC.Library
         public void WriteConsoleLog()
         {
             Console.WriteLine("START: {0:dd.MM.yy HH:mm:ss zzz} END: {1:dd.MM.yy HH:mm:ss zzz}", start, end); 
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static bool TodayIsSunday()
+        {
+            return (int)DateTime.Today.DayOfWeek == 0;
         }
 
         #endregion
