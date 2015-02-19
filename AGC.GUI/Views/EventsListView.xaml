@@ -52,7 +52,13 @@
                 <CheckBox Content="Enable Sort and Filter" Grid.Row="0" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSortingAndFiltering}" Margin="5, 5, 5, 0" />
                 <Button Content="Sorting and Filtering" Style="{StaticResource Button}" Command="{Binding SetSortingAndFilteringPreferencesCommand}" IsEnabled="{Binding EnableSortingAndFiltering}" Margin="5,20,5,11"/>
             </StackPanel>
-            <Button Content="Log out" Style="{StaticResource Button}" Command="{Binding LogOutCommand}" Width="100" HorizontalAlignment="Right"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="View Another Calendar" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableViewAnotherCalendar}" Margin="10, 5, 5, 0" />
+                <TextBox Width="200" Margin="50,5,50,5" AutomationProperties.Name="Insert another email" Text="{Binding CalendarID}" IsEnabled="{Binding EnableViewAnotherCalendar}"/>
+                <Button Content="View" Style="{StaticResource Button}" Command="{Binding SetCalendarCommand}"  IsEnabled="{Binding EnableViewAnotherCalendar}" HorizontalAlignment="Left"/>
+                <Button Content="Log out" Style="{StaticResource Button}" Command="{Binding LogOutCommand}" Width="100" HorizontalAlignment="Right"/>
+            </StackPanel>
+            
         </StackPanel>
 
         <StackPanel Name="ChooseDate" Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">

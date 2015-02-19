@@ -23,5 +23,7 @@ namespace AGC.Library
         RecurrenceSettings GetRecurrenceSettings(CalendarEvent ev);
 
         void LogOut();
+
+        void SetCalendar(string calendar);
     }
 }

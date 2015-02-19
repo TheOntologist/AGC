@@ -17,7 +17,8 @@ namespace AGC.GUI.ViewModel
 
         private const string SINGLE_MONTH = "Single month";
         private const string ALL_MONTHS = "All months";
-        private const string INTERVENING_MONTHS = "Intervening months";    
+        private const string INTERVENING_MONTHS = "Intervening months";
+        private const string DEFAULT_CALENDAR = "primary";
 
         #endregion
 
@@ -74,6 +75,7 @@ namespace AGC.GUI.ViewModel
         public RelayCommand HideChooseDateEventsControlsCommand { get; private set; }
         public RelayCommand GetChooseDateEventsCommand { get; private set; }
         public RelayCommand SetSortingAndFilteringPreferencesCommand { get; private set; }
+        public RelayCommand SetCalendarCommand { get; private set; }
         public RelayCommand LogOutCommand { get; private set; }
 
         #endregion
@@ -112,6 +114,7 @@ namespace AGC.GUI.ViewModel
                 HideChooseDateEventsControlsCommand = new RelayCommand(HideChooseDateEventsControls);
                 GetChooseDateEventsCommand = new RelayCommand(GetChooseDateEvents);
                 SetSortingAndFilteringPreferencesCommand = new RelayCommand(SetSortingAndFilteringPreferences);
+                SetCalendarCommand = new RelayCommand(SetCalendar);
                 LogOutCommand = new RelayCommand(LogOut);
 
                 log.Debug("EventsList view model was succssfully loaded");
@@ -547,6 +550,56 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+
+        public const string EnableViewAnotherCalendarPropertyName = "EnableViewAnotherCalendar";
+        private bool _enableViewAnotherCalendar = false;
+        public bool EnableViewAnotherCalendar
+        {
+            get
+            {
+                return _enableViewAnotherCalendar;
+            }
+
+            set
+            {
+                if (_enableViewAnotherCalendar == value)
+                {
+                    return;
+                }
+
+                if (!value)
+                {
+                    calendar.SetCalendar(DEFAULT_CALENDAR);
+                    RefreshEventsList();
+                }
+
+                _enableViewAnotherCalendar = value;
+                RaisePropertyChanged(EnableViewAnotherCalendarPropertyName);
+            }
+        }
+
+
+        public const string CalendarIDPropertyName = "CalendarID";
+        private string _calendarID = string.Empty;
+        public string CalendarID
+        {
+            get
+            {
+                return _calendarID;
+            }
+
+            set
+            {
+                if (_calendarID == value)
+                {
+                    return;
+                }
+
+                _calendarID = value;
+                RaisePropertyChanged(CalendarIDPropertyName);
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -838,6 +891,12 @@ namespace AGC.GUI.ViewModel
                         break;
                     }
             }
+        }
+
+        private void SetCalendar()
+        {
+            calendar.SetCalendar(CalendarID);
+            RefreshEventsList();
         }
 
         private void LogOut()

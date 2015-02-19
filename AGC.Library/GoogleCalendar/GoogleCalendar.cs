@@ -27,6 +27,7 @@ namespace AGC.Library
         private CalendarService service;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static string accessToken = string.Empty;
+        private string calendarID = DEFAULT_CALENDAR;
 
         #region Constructor
 
@@ -47,6 +48,11 @@ namespace AGC.Library
             following
         }
 
+        public void SetCalendar(string calendar)
+        {
+            calendarID = calendar;
+        }
+
         public bool CreateEvent(CalendarEvent ev)
         {
             log.Debug("Try to create new event title=\"" + ev.Title + "\"");
@@ -56,7 +62,7 @@ namespace AGC.Library
                 // New event
                 Event newEvent = ConvertCalendarEventToGoogleEvent(ev, false);
 
-                service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
+                service.Events.Insert(newEvent, calendarID).Execute();
              
                 log.Debug("New event was successfully created");
 
@@ -80,7 +86,7 @@ namespace AGC.Library
                 Event newEvent = ConvertCalendarEventToGoogleEvent(ev, false);
                 newEvent.Status = "cancelled";
 
-                service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
+                service.Events.Insert(newEvent, calendarID).Execute();
 
                 log.Debug("New event was successfully created");
 
@@ -125,7 +131,7 @@ namespace AGC.Library
                 // Increate sequence number... I hate you Google API for your crazy things >_<
                 newEvent = UpdateSequenceNumber(newEvent);
 
-                service.Events.Update(newEvent, DEFAULT_CALENDAR, newEvent.Id).Execute();
+                service.Events.Update(newEvent, calendarID, newEvent.Id).Execute();
 
                 log.Debug("New event was successfully updated");
 
@@ -145,7 +151,7 @@ namespace AGC.Library
 
             try
             {
-                service.Events.QuickAdd(DEFAULT_CALENDAR, eventText).Execute();
+                service.Events.QuickAdd(calendarID, eventText).Execute();
                 log.Debug("Quick event was successfully added");
                 return true;
             }
@@ -165,13 +171,13 @@ namespace AGC.Library
                 {
                     case ActionType.single:
                         {
-                            service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
+                            service.Events.Delete(calendarID, ev.Id).Execute();
                             break;
                         }
                     case ActionType.all:
                         {
                             ev.Id = GetMainEventId(ev.Id);
-                            service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
+                            service.Events.Delete(calendarID, ev.Id).Execute();
                             break;
                         }
                     case ActionType.following:
@@ -197,7 +203,7 @@ namespace AGC.Library
 
             try
             {
-                EventsResource.ListRequest events = service.Events.List(DEFAULT_CALENDAR);
+                EventsResource.ListRequest events = service.Events.List(calendarID);
                 events.SingleEvents = true;
                 events.MaxResults = 2500;
                 events.TimeMin = timeMin;
@@ -418,7 +424,7 @@ namespace AGC.Library
 
         private Event GetGoogleEventById(string id)
         {
-            return service.Events.Get(DEFAULT_CALENDAR, id).Execute();
+            return service.Events.Get(calendarID, id).Execute();
         }
 
         private CalendarEvent GetMainEventData(CalendarEvent ev)
@@ -493,7 +499,7 @@ namespace AGC.Library
 
         private Event UpdateSequenceNumber(Event ev)
         {
-            int sequence = service.Events.Get(DEFAULT_CALENDAR, ev.Id).Execute().Sequence ?? 0;
+            int sequence = service.Events.Get(calendarID, ev.Id).Execute().Sequence ?? 0;
             sequence++;
             ev.Sequence = sequence;
             return ev;
