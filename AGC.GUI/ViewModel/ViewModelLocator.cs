@@ -53,6 +53,15 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public AnotherCalendarViewModel AnotherCalendar
+        {
+            get
+            {
+                log.Debug("Get AnotherCalendarViewModel from ViewModelLocator");
+                return _bootStrapper.Container.Resolve<AnotherCalendarViewModel>();
+            }
+        }
+
         public EventsCreateViewModel EventsCreate
         {
             get 

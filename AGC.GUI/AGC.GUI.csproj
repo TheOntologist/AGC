@@ -100,6 +100,7 @@
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AddQuickEventViewModel.cs" />
+    <Compile Include="ViewModel\AnotherCalendarViewModel.cs" />
     <Compile Include="ViewModel\DeleteEventOptionsViewModel.cs" />
     <Compile Include="ViewModel\EventsCreateViewModel.cs" />
     <Compile Include="ViewModel\EventsListViewModel.cs" />
@@ -114,6 +115,9 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\AddQuickEventView.xaml.cs">
       <DependentUpon>AddQuickEventView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AnotherCalendarView.xaml.cs">
+      <DependentUpon>AnotherCalendarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeleteEventOptionsView.xaml.cs">
       <DependentUpon>DeleteEventOptionsView.xaml</DependentUpon>
@@ -189,6 +193,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\AddQuickEventView.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AnotherCalendarView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

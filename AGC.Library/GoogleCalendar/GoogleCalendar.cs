@@ -62,7 +62,7 @@ namespace AGC.Library
                 // New event
                 Event newEvent = ConvertCalendarEventToGoogleEvent(ev, false);
 
-                service.Events.Insert(newEvent, calendarID).Execute();
+                service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
              
                 log.Debug("New event was successfully created");
 
@@ -86,7 +86,7 @@ namespace AGC.Library
                 Event newEvent = ConvertCalendarEventToGoogleEvent(ev, false);
                 newEvent.Status = "cancelled";
 
-                service.Events.Insert(newEvent, calendarID).Execute();
+                service.Events.Insert(newEvent, DEFAULT_CALENDAR).Execute();
 
                 log.Debug("New event was successfully created");
 
@@ -131,7 +131,7 @@ namespace AGC.Library
                 // Increate sequence number... I hate you Google API for your crazy things >_<
                 newEvent = UpdateSequenceNumber(newEvent);
 
-                service.Events.Update(newEvent, calendarID, newEvent.Id).Execute();
+                service.Events.Update(newEvent, DEFAULT_CALENDAR, newEvent.Id).Execute();
 
                 log.Debug("New event was successfully updated");
 
@@ -151,7 +151,7 @@ namespace AGC.Library
 
             try
             {
-                service.Events.QuickAdd(calendarID, eventText).Execute();
+                service.Events.QuickAdd(DEFAULT_CALENDAR, eventText).Execute();
                 log.Debug("Quick event was successfully added");
                 return true;
             }
@@ -171,13 +171,13 @@ namespace AGC.Library
                 {
                     case ActionType.single:
                         {
-                            service.Events.Delete(calendarID, ev.Id).Execute();
+                            service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
                             break;
                         }
                     case ActionType.all:
                         {
                             ev.Id = GetMainEventId(ev.Id);
-                            service.Events.Delete(calendarID, ev.Id).Execute();
+                            service.Events.Delete(DEFAULT_CALENDAR, ev.Id).Execute();
                             break;
                         }
                     case ActionType.following:
@@ -424,7 +424,7 @@ namespace AGC.Library
 
         private Event GetGoogleEventById(string id)
         {
-            return service.Events.Get(calendarID, id).Execute();
+            return service.Events.Get(DEFAULT_CALENDAR, id).Execute();
         }
 
         private CalendarEvent GetMainEventData(CalendarEvent ev)
@@ -499,7 +499,7 @@ namespace AGC.Library
 
         private Event UpdateSequenceNumber(Event ev)
         {
-            int sequence = service.Events.Get(calendarID, ev.Id).Execute().Sequence ?? 0;
+            int sequence = service.Events.Get(DEFAULT_CALENDAR, ev.Id).Execute().Sequence ?? 0;
             sequence++;
             ev.Sequence = sequence;
             return ev;

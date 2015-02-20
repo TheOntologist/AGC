@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AGC.GUI.Views.EventsListView"
+﻿<UserControl x:Class="AGC.GUI.Views.AnotherCalendarView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,29 +7,38 @@
         xmlns:controls="clr-namespace:AGC.GUI.Controls"
         xmlns:ignore="http://www.ignore.com"          
         mc:Ignorable="d ignore"
-        DataContext="{Binding EventsList, Source={StaticResource Locator}}" Height="400" Width="700">
+        DataContext="{Binding AnotherCalendar, Source={StaticResource Locator}}" Height="400" Width="700">
 
     <Grid>
-        <ListView Height="151" Margin="10,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Events}" AutomationProperties.Name="Events list, select event and press return to update or delete to delete event. Press Ctrol + R to refresh events list" common:FocusExtension.IsFocused="{Binding IsEventsListFocused}" SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding FormatedStartDate}" />
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" />
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Content}" />
-                    <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location}" />
-                    <GridViewColumn Header="End" DisplayMemberBinding="{Binding FormatedEndDate}" />
-                </GridView>
-            </ListView.View>
-            <ListView.InputBindings>
-                <KeyBinding Key="Delete" Command="{Binding Path=DeleteEventCommand}" />
-                <KeyBinding Key="Enter"  Command="{Binding Path=UpdateEventCommand}" />
-                <KeyBinding Key="Space"  Command="{Binding Path=UpdateEventCommand}" />
-                <KeyBinding Key="C"  Command="{Binding Path=ConfirmEventCommand}" />
-                <KeyBinding Key="T"  Command="{Binding Path=MakeTentativeEventCommand}" />
-            </ListView.InputBindings>
-        </ListView>
-        <StackPanel Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowDefaultControls, Converter={StaticResource BoolToVis}}">
+        <StackPanel Orientation="Vertical" Margin="0,0,0,0" Visibility="{Binding ShowDefaultControls, Converter={StaticResource BoolToVis}}">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Another Email:"  Grid.Column="0" Grid.Row="0" Style="{StaticResource Label}"/>
+                <TextBox Width="200" Margin="10,5,10,5" AutomationProperties.Name="Insert another email and press return" Text="{Binding CalendarID, UpdateSourceTrigger=PropertyChanged}" common:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding Path=SetCalendarCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button Content="View" Style="{StaticResource Button}" Command="{Binding SetCalendarCommand}" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <ListView Height="151" Margin="10,10,10,0" VerticalAlignment="Top" ItemsSource="{Binding Events}" AutomationProperties.Name="Events list, select event and press return to update or delete to delete event. Press Ctrol + R to refresh events list" common:FocusExtension.IsFocused="{Binding IsEventsListFocused}" SelectedItem="{Binding Path=SelectedEvent, Mode=TwoWay}" IsSynchronizedWithCurrentItem="True">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Start" DisplayMemberBinding="{Binding FormatedStartDate}" />
+                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" />
+                        <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
+                        <GridViewColumn Header="Content" DisplayMemberBinding="{Binding Content}" />
+                        <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location}" />
+                        <GridViewColumn Header="End" DisplayMemberBinding="{Binding FormatedEndDate}" />
+                    </GridView>
+                </ListView.View>
+                <ListView.InputBindings>
+                    <KeyBinding Key="Delete" Command="{Binding Path=DeleteEventCommand}" />
+                    <KeyBinding Key="Enter"  Command="{Binding Path=UpdateEventCommand}" />
+                    <KeyBinding Key="Space"  Command="{Binding Path=UpdateEventCommand}" />
+                    <KeyBinding Key="C"  Command="{Binding Path=ConfirmEventCommand}" />
+                    <KeyBinding Key="T"  Command="{Binding Path=MakeTentativeEventCommand}" />
+                </ListView.InputBindings>
+            </ListView>
             <GroupBox Header="Select Views" Margin="10,0,10,0" VerticalAlignment="Top" Height="60">
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Today" Style="{StaticResource Button}" Command="{Binding GetTodayEventsCommand}" common:FocusExtension.IsFocused="{Binding IsDefaultControlsFocused}"/>
@@ -37,7 +46,7 @@
                     <Button Content="This Week" Style="{StaticResource Button}" Command="{Binding GetThisWeekEventsCommand}"/>
                     <Button Content="Next Week" Style="{StaticResource Button}" Command="{Binding GetNextWeekEventsCommand}"/>
                     <Button Content="This Month" Style="{StaticResource Button}" Command="{Binding GetThisMonthEventsCommand}"/>
-                    <Button Content="Next Month" Style="{StaticResource Button}" Command="{Binding GetNextMonthEventsCommand}"/>                  
+                    <Button Content="Next Month" Style="{StaticResource Button}" Command="{Binding GetNextMonthEventsCommand}"/>
                 </StackPanel>
             </GroupBox>
             <StackPanel Orientation="Horizontal">
@@ -45,19 +54,13 @@
                     <StackPanel Orientation="Horizontal">
                         <controls:MonthPicker Month="{Binding PeriodEndMonth }" />
                         <ComboBox Name="PeriodType" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding PeriodTypeList}" SelectedItem="{Binding SelectedPeriodType}" AutomationProperties.Name="Period Type"/>
-                        <Button Content="Select Period" Style="{StaticResource Button}" Command="{Binding GetPeriodEventsCommand}"/>                       
+                        <Button Content="Select Period" Style="{StaticResource Button}" Command="{Binding GetPeriodEventsCommand}"/>
                     </StackPanel>
                 </GroupBox>
                 <Button Content="Choose Date" Style="{StaticResource Button}" Command="{Binding ShowChooseDateEventsControlsCommand}" Margin="5,20,5,11" Click="ShowChooseDate" />
                 <CheckBox Content="Enable Sort and Filter" Grid.Row="0" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSortingAndFiltering}" Margin="5, 5, 5, 0" />
                 <Button Content="Sorting and Filtering" Style="{StaticResource Button}" Command="{Binding SetSortingAndFilteringPreferencesCommand}" IsEnabled="{Binding EnableSortingAndFiltering}" Margin="5,20,5,11"/>
             </StackPanel>
-            <!--<StackPanel Orientation="Horizontal">
-                <CheckBox Content="View Another Calendar" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableViewAnotherCalendar}" Margin="10, 5, 5, 0" />
-                <TextBox Width="200" Margin="50,5,50,5" AutomationProperties.Name="Insert another email" Text="{Binding CalendarID}" IsEnabled="{Binding EnableViewAnotherCalendar}"/>
-                <Button Content="View" Style="{StaticResource Button}" Command="{Binding SetCalendarCommand}"  IsEnabled="{Binding EnableViewAnotherCalendar}" HorizontalAlignment="Left"/>          
-            </StackPanel>-->
-            <Button Content="Log out" Style="{StaticResource Button}" Command="{Binding LogOutCommand}" Width="100" HorizontalAlignment="Right"/>
         </StackPanel>
 
         <StackPanel Name="ChooseDate" Orientation="Vertical" Margin="0,166,0,0" Visibility="{Binding ShowChooseDateControls, Converter={StaticResource BoolToVis}}">
@@ -74,8 +77,8 @@
                             <controls:DatePicker Date="{Binding EndDate}" />
                         </StackPanel>
                     </GroupBox>
-                </StackPanel>              
-            </GroupBox>            
+                </StackPanel>
+            </GroupBox>
             <GroupBox Header="Search" VerticalAlignment="Top" Height="60">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Content="Enable search" Style="{StaticResource SingleCheckBox}" IsChecked="{Binding EnableSearch}"/>

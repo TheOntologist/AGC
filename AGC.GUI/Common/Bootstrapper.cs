@@ -63,6 +63,9 @@ namespace AGC.GUI.Common
             Container.RegisterType<EventsListViewModel>();
             log.Debug("Registered type of EventsListViewModel");
 
+            Container.RegisterType<AnotherCalendarViewModel>();
+            log.Debug("Registered type of AnotherCalendarViewModel");
+
             Container.RegisterType<AddQuickEventViewModel>();
             log.Debug("Registered type of AddQuickEventViewModel");
 
