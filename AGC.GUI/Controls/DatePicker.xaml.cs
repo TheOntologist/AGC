@@ -196,6 +196,11 @@ namespace AGC.GUI.Controls
                 }
             }
 
+            if (e.Key == Key.Space)
+            {
+                MonthsList.SelectedIndex = MonthsList.Items.Count - 1;
+            }
+
             nextTimeSwitchToMinDay = false;
             nextTimeSwitchToMaxDay = false;
         }
@@ -231,6 +236,11 @@ namespace AGC.GUI.Controls
                     if (DaysList.SelectedIndex == 0)
                         nextTimeSwitchToMinDay = true;
                 }
+            }
+
+            if (e.Key == Key.Space)
+            {
+                DaysList.SelectedIndex = DaysList.Items.Count - 1;
             }
         }
     }

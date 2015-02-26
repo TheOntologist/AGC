@@ -99,6 +99,11 @@ namespace AGC.GUI.Controls
                         nextTimeSwitchToMinMonth = true;
                 }
             }
+
+            if (e.Key == Key.Space)
+            {
+                MonthsList.SelectedIndex = MonthsList.Items.Count - 1;
+            }
         }
     }
 }

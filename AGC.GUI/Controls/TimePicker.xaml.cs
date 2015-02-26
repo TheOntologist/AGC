@@ -120,6 +120,11 @@ namespace AGC.GUI.Controls
                         nextTimeSwitchToMinHour = true;
                 }
             }
+
+            if (e.Key == Key.Space)
+            {
+                HoursList.SelectedIndex = HoursList.Items.Count - 1;
+            }
         }
 
         private bool nextTimeSwitchToMinMinute = false;
@@ -153,6 +158,11 @@ namespace AGC.GUI.Controls
                     if (MinutesList.SelectedIndex == 0)
                         nextTimeSwitchToMinMinute = true;
                 }
+            }
+
+            if (e.Key == Key.Space)
+            {
+                MinutesList.SelectedIndex = MinutesList.Items.Count - 1;
             }
         }
     }
