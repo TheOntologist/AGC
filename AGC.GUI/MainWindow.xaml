@@ -17,13 +17,10 @@
             <TabItem Header="Events" IsSelected="{Binding EventsTabSelected}">
                 <views:EventsListView />
             </TabItem>
-            <TabItem Header="Another Calendar">
-                <views:AnotherCalendarView />
-            </TabItem>
-            <TabItem Header="Create Events">
+            <TabItem Header="Create Events" IsSelected="{Binding CreateEventsTabSelected}">
                 <views:EventsCreateView />
             </TabItem>
-            <TabItem Header="Quick Events">
+            <TabItem Header="Quick Events" IsSelected="{Binding QuickEventsTabSelected}">
                 <views:AddQuickEventView />
             </TabItem>
             <TabItem Header="Settings">
@@ -32,9 +29,16 @@
             <TabItem Header="Sounds">
                 <views:SoundsView />
             </TabItem>
+            <TabItem Header="Another Calendar" IsSelected="{Binding AnotherCalendarTabSelected}">
+                <views:AnotherCalendarView />
+            </TabItem>
         </TabControl>
         <Grid.InputBindings>
             <KeyBinding Key="Escape"  Command="{Binding SelectEventsTabCommand}" />
+            <KeyBinding Key="E" Modifiers="Alt"  Command="{Binding SelectEventsTabCommand}" />
+            <KeyBinding Key="C" Modifiers="Alt"  Command="{Binding SelectCreateEventsTabCommand}" />
+            <KeyBinding Key="Q" Modifiers="Alt"  Command="{Binding SelectQuickEventsTabCommand}" />
+            <KeyBinding Key="A" Modifiers="Alt"  Command="{Binding SelectAnotherCalendarTabCommand}" />
         </Grid.InputBindings>
     </Grid>
 </Window>
