@@ -14,6 +14,7 @@ namespace AGC.GUI.Common
         private DateTimePreferences dateTimePreferences = new DateTimePreferences().Load();
         private SortFilterPreferences sortFilterPreferences = new SortFilterPreferences().Load();
         private QuickEventsTemplates quickEventsTemplates = new QuickEventsTemplates().Load();
+        private UserCalendarsPreferences userCalendarsPreferences = new UserCalendarsPreferences().Load();
 
         public CalendarEvent GetCurrentEvent()
         {
@@ -63,6 +64,16 @@ namespace AGC.GUI.Common
         public void SetQuickEventsTemplates(QuickEventsTemplates templates)
         {
             quickEventsTemplates = templates;
+        }
+
+        public UserCalendarsPreferences GetUserCalendarsPreferences()
+        {
+            return userCalendarsPreferences;
+        }
+
+        public void SetUserCalendarsPreferences(UserCalendarsPreferences userCalendars)
+        {
+            userCalendarsPreferences = userCalendars;
         }
     }
 }

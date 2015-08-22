@@ -25,5 +25,7 @@ namespace AGC.Library
         void LogOut();
 
         void SetCalendar(string calendar);
+
+        List<UserCalendar> GetCalendars();
     }
 }

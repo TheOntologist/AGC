@@ -106,11 +106,14 @@
     <Compile Include="Settings\IQuickEventsTemplates.cs" />
     <Compile Include="Settings\ISortFilterPreferences.cs" />
     <Compile Include="Settings\ISoundPreferences.cs" />
+    <Compile Include="Settings\IUserCalendarsPreferences.cs" />
     <Compile Include="Settings\QuickEventsTemplates.cs" />
     <Compile Include="Settings\SortFilterPreferences.cs" />
     <Compile Include="Settings\SoundPreferences.cs" />
+    <Compile Include="Settings\UserCalendarsPreferences.cs" />
     <Compile Include="TimeIntervals\ITimeIntervals.cs" />
     <Compile Include="TimeIntervals\TimeIntervals.cs" />
+    <Compile Include="UserCalendar\UserCalendar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

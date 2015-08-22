@@ -28,12 +28,14 @@ namespace AGC.Library
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static string accessToken = string.Empty;
         private string calendarID = DEFAULT_CALENDAR;
+        private List<UserCalendar> userCalendars = new List<UserCalendar>();
 
         #region Constructor
 
         public GoogleCalendar()
         {
             Authorization();
+            GetUserCalendarsFromGoogle();
         }
 
         #endregion
@@ -51,6 +53,11 @@ namespace AGC.Library
         public void SetCalendar(string calendar)
         {
             calendarID = calendar;
+        }
+
+        public List<UserCalendar> GetCalendars()
+        {
+            return userCalendars;
         }
 
         public bool CreateEvent(CalendarEvent ev)
@@ -312,6 +319,17 @@ namespace AGC.Library
             log.Debug("Finish Log out");
 
             //System.Diagnostics.Process.Start("https://accounts.google.com/o/oauth2/revoke?token=" + accessToken);
+        }
+
+        private void GetUserCalendarsFromGoogle()
+        {
+            CalendarList calendarList = service.CalendarList.List().Execute();
+            foreach (var calendar in calendarList.Items)
+            {
+                bool isPrimary = calendar.Primary == false || calendar.Primary == null ? false : true;
+                var userCalendar = new UserCalendar(calendar.Id, calendar.Summary, isPrimary);
+                userCalendars.Add(userCalendar);
+            }
         }
 
         private static EventDateTime ConvertToEventDateTime(DateTime? dateTime, bool isFullDateEvent)

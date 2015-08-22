@@ -23,5 +23,8 @@ namespace AGC.GUI.Common
 
         QuickEventsTemplates GetQuickEventsTemplates();
         void SetQuickEventsTemplates(QuickEventsTemplates templates);
+
+        UserCalendarsPreferences GetUserCalendarsPreferences();
+        void SetUserCalendarsPreferences(UserCalendarsPreferences userCalendars);
     }
 }

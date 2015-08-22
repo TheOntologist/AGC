@@ -12,6 +12,7 @@ namespace AGC.Library
 
         private const string CONFIRMED = "";
         private const string TENTATIVE = "*";
+        private const string DEFAULT_CALENDAR = "primary";
 
         #endregion
 
@@ -58,6 +59,41 @@ namespace AGC.Library
                 }
             }
             log.Debug("Successfully selected events for a specified period");
+            return selectedEvents;
+        }
+
+
+        public CalendarEventList GetEventsMultipleCalendars(IGoogleCalendar calendar, TimeIntervals period, UserCalendarsPreferences preferences)
+        {
+            return GetEventsMultipleCalendars(calendar, period.Start, period.End, preferences);
+        }
+
+        public CalendarEventList GetEventsMultipleCalendars(IGoogleCalendar calendar, DateTime start, DateTime end, UserCalendarsPreferences preferences)
+        {
+            CalendarEventList selectedEvents = new CalendarEventList();
+
+            var userCalendars = preferences.UserCalendars;
+
+            foreach (var userCalendar in userCalendars)
+            {
+                CalendarEventList events = new CalendarEventList(); 
+                if (userCalendar.IsVisible == true)
+                {
+                    calendar.SetCalendar(userCalendar.Id);
+                    events = GetEvents(calendar, start, end);
+                    calendar.SetCalendar(DEFAULT_CALENDAR);
+                }
+                // Mark events from not default calendar as fake
+                if (userCalendar.IsPrimary == false)
+                {
+                    foreach (var ev in events)
+                    {
+                        ev.IsFake = true;
+                    }
+                }
+                selectedEvents.AddRange(events);
+            }
+
             return selectedEvents;
         }
 

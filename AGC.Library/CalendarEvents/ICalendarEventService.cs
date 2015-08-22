@@ -12,6 +12,10 @@ namespace AGC.Library
 
         CalendarEventList GetEvents(IGoogleCalendar calendar, DateTime start, DateTime end);
 
+        CalendarEventList GetEventsMultipleCalendars(IGoogleCalendar calendar, TimeIntervals period, UserCalendarsPreferences preferences);
+
+        CalendarEventList GetEventsMultipleCalendars(IGoogleCalendar calendar, DateTime start, DateTime end, UserCalendarsPreferences preferences);
+
         CalendarEventList SearchEvents(CalendarEventList events, String keyword);
 
         CalendarEventList FormatEventsDatesStringRepresentation(CalendarEventList allEvents, DateTimePreferences preferences);
