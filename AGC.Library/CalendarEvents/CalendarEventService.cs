@@ -62,7 +62,6 @@ namespace AGC.Library
             return selectedEvents;
         }
 
-
         public CalendarEventList GetEventsMultipleCalendars(IGoogleCalendar calendar, TimeIntervals period, UserCalendarsPreferences preferences)
         {
             return GetEventsMultipleCalendars(calendar, period.Start, period.End, preferences);
@@ -94,6 +93,7 @@ namespace AGC.Library
                 selectedEvents.AddRange(events);
             }
 
+            selectedEvents = AddEmptyDaysFakeEvents(selectedEvents, start, end, preferences);
             return selectedEvents;
         }
 
@@ -265,7 +265,7 @@ namespace AGC.Library
                 }
             }
             return filteredEvents;
-        }
+        } 
 
         #endregion
 
@@ -307,6 +307,69 @@ namespace AGC.Library
                 else
                     return false;
             }
+        }
+
+        private CalendarEventList AddEmptyDaysFakeEvents(CalendarEventList events, DateTime start, DateTime end, UserCalendarsPreferences preferences)
+        {
+            if (preferences.ShowEmptyDays || preferences.ShowEmptyWeekends)
+            {
+                HashSet<DateTime> emptyDays = new HashSet<DateTime>();
+
+                // Add all days in the period to empty days list
+                foreach (DateTime day in EachDay(start, end))
+                {
+                    emptyDays.Add(new DateTime(day.Year, day.Month, day.Day));
+                }
+
+                // Remove days from empty day list if there is an event in this day
+                foreach (var ev in events)
+                {
+                    emptyDays.Remove(new DateTime(ev.Start.Year, ev.Start.Month, ev.Start.Day));
+                    DateTime stop = ev.End ?? ev.Start;
+                    emptyDays.Remove(new DateTime(stop.Year, stop.Month, stop.Day));
+                }
+
+                // Add Fake Events for empty days
+                foreach (var emptyDay in emptyDays)
+                {
+                    if (preferences.ShowEmptyDays == true && preferences.ShowEmptyWeekends == false)
+                    {
+                        events.Add(new CalendarEvent("Empty", emptyDay));
+                    }
+                    else if (preferences.ShowEmptyDays == false && preferences.ShowEmptyWeekends == true)
+                    {
+                        if (IsWeekend(emptyDay))
+                        {
+                            events.Add(new CalendarEvent("Weekend", emptyDay));
+                        }
+                    }
+                    else if (preferences.ShowEmptyDays == true && preferences.ShowEmptyWeekends == true)
+                    {
+                        if (IsWeekend(emptyDay))
+                        {
+                            events.Add(new CalendarEvent("Weekend", emptyDay));
+                        }
+                        else
+                        {
+                            events.Add(new CalendarEvent("Empty", emptyDay));
+                        }
+                    }
+                }
+                events.Sort((ev1, ev2) => DateTime.Compare(ev1.Start, ev2.Start));
+            }
+
+            return events;
+        }
+
+        private IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
+        }
+
+        private bool IsWeekend(DateTime date)
+        {
+            return (int)date.DayOfWeek == 0 || (int)date.DayOfWeek == 6 ? true : false;
         }
 
         #endregion

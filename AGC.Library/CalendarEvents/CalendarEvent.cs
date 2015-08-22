@@ -55,6 +55,25 @@ namespace AGC.Library
         }
 
         /// <summary>
+        /// Fake event constructor Empty Day
+        /// </summary>
+        public CalendarEvent(String title, DateTime date)
+        {
+            this.Title = title;
+            this.Content = String.Empty;
+            this.Location = String.Empty;
+            this.Start = date;
+            this.End = null;
+            this.IsFullDateEvent = true;
+            this.FormatedStartDate = string.Empty;
+            this.FormatedEndDate = string.Empty;
+            this.RRule = String.Empty;
+            this.Confirmed = true;
+            this.Status = this.Confirmed ? string.Empty : TENTATIVE;
+            this.IsFake = true;
+        }
+
+        /// <summary>
         /// Create New Event from User data (no ID)
         /// </summary>
         /// <param name="calTitle"></param>

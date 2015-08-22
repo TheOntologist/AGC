@@ -51,6 +51,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
@@ -62,6 +63,8 @@
                     <ComboBox AutomationProperties.Name="Calendars" Grid.Column="1" Grid.Row="0" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding CalendarsList}" SelectedItem="{Binding SelectedCalendar}"/>
                     <CheckBox Content="Set events from calendar visible on events tab" Grid.Column="2" Grid.Row="0" Style="{StaticResource ListCheckBox}" IsChecked="{Binding SelectedCalendarIsVisible}"/>
 
+                    <CheckBox Content="Show empty days" Grid.ColumnSpan="2" Grid.Row="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowEmptyDays}"/>
+                    <CheckBox Content="Show empty weekends" Grid.Column="2" Grid.Row="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowEmptyWeekends}"/>
                 </Grid>
             </GroupBox>
             <Button Content="Save" Grid.Column="2" Grid.Row="6" Command="{Binding SaveSettingsCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}" />

@@ -463,6 +463,50 @@ namespace AGC.GUI.ViewModel
             }
         }
 
+        public const string ShowEmptyDaysPropertyName = "ShowEmptyDays";
+        private bool _showEmptyDays = true;
+        public bool ShowEmptyDays
+        {
+            get
+            {
+                return _showEmptyDays;
+            }
+
+            set
+            {
+                if (_showEmptyDays == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(ShowEmptyDaysPropertyName);
+                _showEmptyDays = value;
+                RaisePropertyChanged(ShowEmptyDaysPropertyName);
+            }
+        }
+
+        public const string ShowEmptyWeekendsPropertyName = "ShowEmptyWeekends";
+        private bool _showEmptyWeekends = true;
+        public bool ShowEmptyWeekends
+        {
+            get
+            {
+                return _showEmptyWeekends;
+            }
+
+            set
+            {
+                if (_showEmptyWeekends == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(ShowEmptyWeekendsPropertyName);
+                _showEmptyWeekends = value;
+                RaisePropertyChanged(ShowEmptyWeekendsPropertyName);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -626,6 +670,8 @@ namespace AGC.GUI.ViewModel
             }
             CalendarsList = new List<string>(userCalendars.Keys);
             SelectedCalendar = userCalendarPreferences.UserCalendars[0].Name;
+            ShowEmptyDays = userCalendarPreferences.ShowEmptyDays;
+            ShowEmptyWeekends = userCalendarPreferences.ShowEmptyWeekends;
         }
 
         private void SaveUserCalendarPreferences()
@@ -634,6 +680,9 @@ namespace AGC.GUI.ViewModel
             {
                 userCalendar.IsVisible = userCalendars[userCalendar.Name];
             }
+            
+            userCalendarPreferences.ShowEmptyDays = ShowEmptyDays;
+            userCalendarPreferences.ShowEmptyWeekends = ShowEmptyWeekends;
 
             if (userCalendarPreferences.Save())
             {

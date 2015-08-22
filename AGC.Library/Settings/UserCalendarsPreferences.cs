@@ -19,9 +19,15 @@ namespace AGC.Library
 
         public List<UserCalendar> UserCalendars { get; set; }
 
+        public bool ShowEmptyDays { get; set; }
+
+        public bool ShowEmptyWeekends { get; set; }
+
         public UserCalendarsPreferences()
         {
             this.UserCalendars = new List<UserCalendar>();
+            this.ShowEmptyDays = true;
+            this.ShowEmptyWeekends = true;
         }
 
         //Deserialization constructor
@@ -32,6 +38,8 @@ namespace AGC.Library
             {
                 // Restore properties for version 0
                 UserCalendars = (List<UserCalendar>)info.GetValue("UserCalendars", typeof(List<UserCalendar>));
+                ShowEmptyDays = (bool)info.GetValue("ShowEmptyDays", typeof(bool));
+                ShowEmptyWeekends = (bool)info.GetValue("ShowEmptyWeekends", typeof(bool));
             }
         }
 
@@ -40,6 +48,8 @@ namespace AGC.Library
         {
             info.AddValue("Version", VERSION);
             info.AddValue("UserCalendars", UserCalendars);
+            info.AddValue("ShowEmptyDays", ShowEmptyDays);
+            info.AddValue("ShowEmptyWeekends", ShowEmptyWeekends);
         }
 
         public bool Save()
