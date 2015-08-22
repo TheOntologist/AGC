@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AGC.Library
 {
+    [Serializable()]
     public class UserCalendar
     {
         public UserCalendar(string id, string name, bool primary)

@@ -7,42 +7,64 @@
         mc:Ignorable="d ignore"
         DataContext="{Binding Settings, Source={StaticResource Locator}}" Height="400" Width="700">
     <Grid>
-        <GroupBox Header="Date-Time Preferences">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="40" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="Date-Time Preferences">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Label Content="Date Format:" Grid.Column="0" Grid.Row="0" Style="{StaticResource Label}"/>
-                <Label Content="Month Format:" Grid.Column="0" Grid.Row="2" Style="{StaticResource Label}"/>
-                <Label Content="Time Format:" Grid.Column="0" Grid.Row="3" Style="{StaticResource Label}"/>
-                <Label Content="Field Separator:" Grid.Column="0" Grid.Row="4" Style="{StaticResource Label}"/>
+                    <Label Content="Date Format:" Grid.Column="0" Grid.Row="0" Style="{StaticResource Label}"/>
+                    <Label Content="Month Format:" Grid.Column="0" Grid.Row="2" Style="{StaticResource Label}"/>
+                    <Label Content="Time Format:" Grid.Column="0" Grid.Row="3" Style="{StaticResource Label}"/>
+                    <Label Content="Field Separator:" Grid.Column="0" Grid.Row="4" Style="{StaticResource Label}"/>
 
-                <ComboBox AutomationProperties.Name="Date Format" Grid.Column="1" Grid.Row="0" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding DateFormatList}" SelectedItem="{Binding SelectedDateFormat}"/>
-                <CheckBox Content="Show month" Grid.Column="1" Grid.Row="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowMonth}"/>
-                <ComboBox AutomationProperties.Name="Month Format" Grid.Column="1" Grid.Row="2" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding MonthFormatList}" SelectedItem="{Binding SelectedMonthFormat}" IsEnabled="{Binding ShowMonth}"/>
-                <ComboBox AutomationProperties.Name="Time Format" Grid.Column="1" Grid.Row="3" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding TimeFormatList}" SelectedItem="{Binding SelectedTimeFormat}"/>
-                <ComboBox AutomationProperties.Name="Field Separator" Grid.Column="1" Grid.Row="4" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding FieldSeparatorList}" SelectedItem="{Binding SelectedFieldSeparator}"/>
+
+                    <ComboBox AutomationProperties.Name="Date Format" Grid.Column="1" Grid.Row="0" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding DateFormatList}" SelectedItem="{Binding SelectedDateFormat}"/>
+                    <CheckBox Content="Show month" Grid.Column="1" Grid.Row="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowMonth}"/>
+                    <ComboBox AutomationProperties.Name="Month Format" Grid.Column="1" Grid.Row="2" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding MonthFormatList}" SelectedItem="{Binding SelectedMonthFormat}" IsEnabled="{Binding ShowMonth}"/>
+                    <ComboBox AutomationProperties.Name="Time Format" Grid.Column="1" Grid.Row="3" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding TimeFormatList}" SelectedItem="{Binding SelectedTimeFormat}"/>
+                    <ComboBox AutomationProperties.Name="Field Separator" Grid.Column="1" Grid.Row="4" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding FieldSeparatorList}" SelectedItem="{Binding SelectedFieldSeparator}"/>
+
+                    <CheckBox Content="Show end time" Grid.Column="2" Grid.Row="0" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowEndTime}"/>
+                    <CheckBox Content="Show year" Grid.Column="2" Grid.Row="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowYear}"/>
+
+                    <CheckBox Content="Do not show month for current month events" Grid.Column="2" Grid.Row="2" Style="{StaticResource ListCheckBox}" IsChecked="{Binding DoNotShowMonthForCurrentMonthEvents}" IsEnabled="{Binding ShowMonth}"/>
+                    <CheckBox Content="Do not show time and end date for full day events" Grid.Column="2" Grid.Row="3" Style="{StaticResource ListCheckBox}" IsChecked="{Binding DoNotShowTimeAndForFullDayEvents}"/>
+                    <CheckBox Content="Group events by month using month name as title" Grid.Column="2" Grid.Row="4" Style="{StaticResource ListCheckBox}" IsChecked="{Binding GroupByMonth}"/>
+
+
+
+                    
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Calendars Preferences" Grid.ColumnSpan="3" Grid.Row="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
                 
-                <CheckBox Content="Show end time" Grid.Column="2" Grid.Row="0" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowEndTime}"/>
-                <CheckBox Content="Show year" Grid.Column="2" Grid.Row="1" Style="{StaticResource ListCheckBox}" IsChecked="{Binding ShowYear}"/>
+                    <Label Content="Calendars:" Grid.Column="0" Grid.Row="0" Style="{StaticResource Label}"/>
+                    <ComboBox AutomationProperties.Name="Calendars" Grid.Column="1" Grid.Row="0" Style="{StaticResource DropDownMenu}" ItemsSource="{Binding CalendarsList}" SelectedItem="{Binding SelectedCalendar}"/>
+                    <CheckBox Content="Set events from calendar visible on events tab" Grid.Column="2" Grid.Row="0" Style="{StaticResource ListCheckBox}" IsChecked="{Binding SelectedCalendarIsVisible}"/>
 
-                <CheckBox Content="Do not show month for current month events" Grid.Column="2" Grid.Row="2" Style="{StaticResource ListCheckBox}" IsChecked="{Binding DoNotShowMonthForCurrentMonthEvents}" IsEnabled="{Binding ShowMonth}"/>
-                <CheckBox Content="Do not show time and end date for full day events" Grid.Column="2" Grid.Row="3" Style="{StaticResource ListCheckBox}" IsChecked="{Binding DoNotShowTimeAndForFullDayEvents}"/>                
-                <CheckBox Content="Group events by month using month name as title" Grid.Column="2" Grid.Row="4" Style="{StaticResource ListCheckBox}" IsChecked="{Binding GroupByMonth}"/>
-
-                <Button Content="Save" Grid.Column="2" Grid.Row="5" Command="{Binding SaveDateTimePreferencesCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}" />
-            </Grid>           
-        </GroupBox>
+                </Grid>
+            </GroupBox>
+            <Button Content="Save" Grid.Column="2" Grid.Row="6" Command="{Binding SaveSettingsCommand}" HorizontalAlignment="Right" Width="75" AutomationProperties.Name="Save" Style="{StaticResource Button}" />
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -46,18 +46,21 @@ namespace AGC.GUI.ViewModel
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly IRepository repository;
         private readonly IMessanger messanger;
-        private DateTimePreferences dateTimePreferences;       
+        private DateTimePreferences dateTimePreferences;
+        private UserCalendarsPreferences userCalendarPreferences;
 
         private static List<string> DATE_FORMAT_LIST = new List<string>(new string[] { DATE_FORMAT_DAY_FIRST, DATE_FORMAT_MONTH_FIRST });
         private static List<string> MONTH_FORMAT_LIST = new List<string>(new string[] { MONTH_FORMAT_SHORT_NAME, MONTH_FORMAT_NAME, MONTH_FORMAT_NUMBER });
         private static List<string> HOUR_FORMAT_LIST = new List<string>(new string[] { HOUR_FORMAT_24, HOUR_FORMAT_AM_PM });
         private static List<string> FIELD_SEPARATOR_LIST = new List<string>(new string[] { FIELD_SEPARATOR_SPACE, FIELD_SEPARATOR_UNDERSCORE, FIELD_SEPARATOR_SLASH, FIELD_SEPARATOR_POINT });
 
+        private Dictionary<string, bool> userCalendars = new Dictionary<string, bool>();
+
         #endregion
 
         #region Commands
 
-        public RelayCommand SaveDateTimePreferencesCommand { get; private set; }
+        public RelayCommand SaveSettingsCommand { get; private set; }
 
         #endregion
 
@@ -67,9 +70,11 @@ namespace AGC.GUI.ViewModel
         {
             repository = commonRepository;            
             dateTimePreferences = repository.GetDateTimePreferences();
+            userCalendarPreferences = repository.GetUserCalendarsPreferences();
             messanger = commonMessanger;
-            LoadDateTimePreferences();            
-            SaveDateTimePreferencesCommand = new RelayCommand(SaveDateTimePreferences);
+            LoadDateTimePreferences();
+            LoadUserCalendarPreferences();
+            SaveSettingsCommand = new RelayCommand(SaveSettings);
         }
 
         #endregion
@@ -388,6 +393,78 @@ namespace AGC.GUI.ViewModel
 
         #endregion
 
+        #region Calendar Preferences
+
+        public const string CalendarsListPropertyName = "CalendarsList";
+        private List<string> _calendarsList = new List<string>();
+        public List<string> CalendarsList
+        {
+            get
+            {
+                return _calendarsList;
+            }
+
+            set
+            {
+                if (_calendarsList == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(CalendarsListPropertyName);
+                _calendarsList = value;
+                RaisePropertyChanged(CalendarsListPropertyName);
+            }
+        }
+
+        public const string SelectedCalendarPropertyName = "SelectedCalendar";
+        private string _selectedCalendar = "";
+        public string SelectedCalendar
+        {
+            get
+            {
+                return _selectedCalendar;
+            }
+
+            set
+            {
+                if (_selectedCalendar == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SelectedCalendarPropertyName);
+                _selectedCalendar = value;
+                SelectedCalendarIsVisible = userCalendars[SelectedCalendar];
+                RaisePropertyChanged(SelectedCalendarPropertyName);
+            }
+        }
+
+        public const string SelectedCalendarIsVisiblePropertyName = "SelectedCalendarIsVisible";
+        private bool _selectedCalendarIsVisible = true;
+        public bool SelectedCalendarIsVisible
+        {
+            get
+            {
+                return _selectedCalendarIsVisible;
+            }
+
+            set
+            {
+                if (_selectedCalendarIsVisible == value)
+                {
+                    return;
+                }
+
+                RaisePropertyChanging(SelectedCalendarIsVisiblePropertyName);
+                _selectedCalendarIsVisible = value;
+                userCalendars[SelectedCalendar] = SelectedCalendarIsVisible;
+                RaisePropertyChanged(SelectedCalendarIsVisiblePropertyName);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
@@ -538,6 +615,41 @@ namespace AGC.GUI.ViewModel
             {
                 messanger.Error("Failed to save Date-Time preferences. Please check log file for a detailed information about the error.", false);
             }
+            SaveUserCalendarPreferences();
+        }
+
+        private void LoadUserCalendarPreferences()
+        {
+            foreach (var userCalendar in userCalendarPreferences.UserCalendars)
+            {
+                userCalendars.Add(userCalendar.Name, userCalendar.IsVisible);
+            }
+            CalendarsList = new List<string>(userCalendars.Keys);
+            SelectedCalendar = userCalendarPreferences.UserCalendars[0].Name;
+        }
+
+        private void SaveUserCalendarPreferences()
+        {
+            foreach (var userCalendar in userCalendarPreferences.UserCalendars)
+            {
+                userCalendar.IsVisible = userCalendars[userCalendar.Name];
+            }
+
+            if (userCalendarPreferences.Save())
+            {
+                messanger.Success("Saved", false);
+                repository.SetUserCalendarsPreferences(userCalendarPreferences);
+            }
+            else
+            {
+                messanger.Error("Failed to save User Calendars preferences. Please check log file for a detailed information about the error.", false);
+            }
+        }
+
+        private void SaveSettings()
+        {
+            SaveDateTimePreferences();
+            SaveUserCalendarPreferences();
         }
 
         #endregion
